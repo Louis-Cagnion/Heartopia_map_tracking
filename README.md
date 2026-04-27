@@ -1,18 +1,18 @@
 # 🗺️ Interactive Collectibles Wiki
 
 ## 📋 Table of Contents
-- Description
-- Overview
-- Installation
-- Usage
-- Project Structure
-- Features
-- Technical Stack
-- Author
+- [Description](#description)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Technical Stack](#technical-stack)
+- [Author](#author)
 
 ---
 
-# 🗺️ Description
+# 🗺️ Description <a id="description"></a>
 
 This project is an interactive map-based wiki designed to help users explore and locate collectibles in **Heartopia**.
 
@@ -20,7 +20,7 @@ It provides a visual map interface where users can navigate through points of in
 
 ---
 
-# 👀 Overview
+# 👀 Overview <a id="overview"></a>
 
 This is a single-developer project focused on building a lightweight interactive web application based on a map-driven interface.
 
@@ -33,7 +33,7 @@ It focuses on:
 
 ---
 
-# 🛠️ Installation
+# 🛠️ Installation <a id="installation"></a>
 
 ## Prerequisites
 
@@ -45,18 +45,18 @@ No external dependencies are required.
 
 ## Clone the repository
 
-```
+```bash
 git clone https://github.com/Louis-Cagnion/heartopia.git
 cd heartopia
 ```
 
 ---
 
-# ▶️ Usage
+# ▶️ Usage <a id="usage"></a>
 
 Start a local server:
 
-```
+```bash
 python -m http.server 8000
 ```
 
@@ -66,9 +66,9 @@ http://localhost:8000
 
 ---
 
-# 📁 Project Structure
+# 📁 Project Structure <a id="project-structure"></a>
 
-```
+```text
 Heartopia/
 ├── database/
 │   ├── collectibles.json
@@ -88,7 +88,7 @@ Heartopia/
 
 ---
 
-# ✨ Features
+# ✨ Features <a id="features"></a>
 
 - Interactive map-based navigation
 - Collectible markers and locations
@@ -99,7 +99,7 @@ Heartopia/
 
 ---
 
-# 🧰 Technical Stack
+# 🧰 Technical Stack <a id="technical-stack"></a>
 
 - HTML5
 - CSS3
@@ -108,7 +108,7 @@ Heartopia/
 
 ---
 
-# 👤 Author
+# 👤 Author <a id="author"></a>
 
 Created by **Louis-Cagnion**  
 GitHub: https://github.com/Louis-Cagnion
