@@ -1,0 +1,326 @@
+[
+  {
+    "name": [
+      "Centre-ville",
+      "Central Area"
+    ],
+    "x": 49,
+    "y": 49,
+    "level": 1
+  },
+  {
+    "name": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "x": 49,
+    "y": 59,
+    "level": 1
+  },
+  {
+    "name": [
+      "Village de pêcheurs",
+      "Fishing Village"
+    ],
+    "x": 49,
+    "y": 68,
+    "level": 1
+  },
+  {
+    "name": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "x": 44,
+    "y": 75,
+    "level": 2
+  },
+  {
+    "name": [
+      "Forêt",
+      "Forest"
+    ],
+    "x": 82,
+    "y": 43,
+    "level": 1
+  },
+  {
+    "name": [
+      "Forêt de chênes spirituels",
+      "Spirit-Oak Pine Forest"
+    ],
+    "x": 82,
+    "y": 54,
+    "level": 2
+  },
+  {
+    "name": [
+      "Tremplin",
+      "Jump Puzzle"
+    ],
+    "x": 78,
+    "y": 68,
+    "level": 2
+  },
+  {
+    "name": [
+      "Île de la forêt",
+      "Forest Island"
+    ],
+    "x": 95,
+    "y": 34,
+    "level": 2
+  },
+  {
+    "name": [
+      "Ruines",
+      "Ruins"
+    ],
+    "x": 31,
+    "y": 21,
+    "level": 2
+  },
+  {
+    "name": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "x": 50,
+    "y": 22,
+    "level": 2
+  },
+  {
+    "name": [
+      "Falaise rocheuse",
+      "Stone Cliff"
+    ],
+    "x": 64,
+    "y": 22,
+    "level": 2
+  },
+  {
+    "name": [
+      "Montagne thermale",
+      "Onsen Mountain"
+    ],
+    "x": 44,
+    "y": 19,
+    "level": 1
+  },
+  {
+    "name": [
+      "Montagne de baleine",
+      "Whale Mountain"
+    ],
+    "x": 17,
+    "y": 42,
+    "level": 2
+  },
+  {
+    "name": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "x": 8,
+    "y": 44,
+    "level": 1
+  },
+  {
+    "name": [
+      "Plage violette",
+      "Amethyst Beach"
+    ],
+    "x": 20,
+    "y": 72,
+    "level": 2
+  },
+  {
+    "name": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "x": 49,
+    "y": 6,
+    "level": 1
+  },
+  {
+    "name": [
+      "Événement : retour des oiseaux au nid",
+      "Event: Nest of Hundreds"
+    ],
+    "x": 45,
+    "y": 71,
+    "level": 2
+  },
+  {
+    "name": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "x": 92,
+    "y": 56,
+    "level": 1
+  },
+  {
+    "name": [
+      "Mer calme",
+      "Zephyr Sea"
+    ],
+    "x": 47,
+    "y": 81,
+    "level": 1
+  },
+  {
+    "name": [
+      "Champ de fleurs",
+      "Flower Field"
+    ],
+    "x": 20,
+    "y": 60,
+    "level": 1
+  },
+  {
+    "name": [
+      "Tour du faon",
+      "Deer Tower"
+    ],
+    "x": 82,
+    "y": 35,
+    "level": 2
+  },
+  {
+    "name": [
+      "Source thermale",
+      "Hot Spring"
+    ],
+    "x": 54,
+    "y": 24,
+    "level": 2
+  },
+  {
+    "name": [
+      "Lac volcanique",
+      "Onsen"
+    ],
+    "x": 38,
+    "y": 17,
+    "level": 2
+  },
+  {
+    "name": [
+      "Rivière aurore",
+      "Rosy River"
+    ],
+    "x": 28,
+    "y": 33,
+    "level": 2
+  },
+  {
+    "name": [
+      "Rivière peu profonde",
+      "Shallow River"
+    ],
+    "x": 68,
+    "y": 33,
+    "level": 2
+  },
+  {
+    "name": [
+      "Fleuve d'arbres géants",
+      "Giantwood River"
+    ],
+    "x": 61,
+    "y": 67,
+    "level": 2
+  },
+  {
+    "name": [
+      "Rivière calme",
+      "Tranquil River"
+    ],
+    "x": 34,
+    "y": 70,
+    "level": 2
+  },
+  {
+    "name": [
+      "Champ de fleurs des moulins à vent",
+      "Windmill Flower Field"
+    ],
+    "x": 18,
+    "y": 64,
+    "level": 2
+  },
+  {
+    "name": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "x": 78,
+    "y": 44,
+    "level": 2
+  },
+  {
+    "name": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "x": 48,
+    "y": 61,
+    "level": 2
+  },
+  {
+    "name": [
+      "Lac de la prairie",
+      "Meadow Lake"
+    ],
+    "x": 22,
+    "y": 54,
+    "level": 2
+  },
+  {
+    "name": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "x": 39,
+    "y": 21,
+    "level": 2
+  },
+  {
+    "name": [
+      "Phare",
+      "Lighthouse"
+    ],
+    "x": 36,
+    "y": 78,
+    "level": 2
+  },
+  {
+    "name": [
+      "Quai",
+      "Wharf"
+    ],
+    "x": 40,
+    "y": 68,
+    "level": 2
+  },
+  {
+    "name": [
+      "Place du village de pêcheurs",
+      "Fishing Village Square"
+    ],
+    "x": 53,
+    "y": 69,
+    "level": 2
+  },
+  {
+    "name": [
+      "Quai oriental du village de pêcheurs",
+      "East Pier of Fishing Village"
+    ],
+    "x": 58,
+    "y": 74,
+    "level": 2
+  }
+]

@@ -1,0 +1,1248 @@
+[
+  {
+    "name": [
+      "Papillon doré",
+      "Old world swallowtail"
+    ],
+    "lieu": [
+      "Forêt",
+      "Forest"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Piéride du cresson",
+      "Orange-tip"
+    ],
+    "lieu": [
+      "Centre-ville",
+      "Central Area"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Citron aspasia",
+      "Common brimstone"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Papillon blanc",
+      "Cabbage white"
+    ],
+    "lieu": [
+      "Village de pêcheurs",
+      "Fishing Village"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Parnassien",
+      "Apollo"
+    ],
+    "lieu": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Papillon à anneaux rouges",
+      "Postman butterfly"
+    ],
+    "lieu": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Papillon de nuit luminescent",
+      "Sulkowsky's morpho"
+    ],
+    "lieu": [
+      "Attracteur d'insectes",
+      "Insect Lure"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Criocère de l'asperge",
+      "Asparagus beetle"
+    ],
+    "lieu": [
+      "Champ de fleurs",
+      "Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Sauterelle de l'oasis",
+      "Gold grasshopper"
+    ],
+    "lieu": [
+      "Montagne thermale",
+      "Onsen Mountain"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Pyrrhocoris apterus",
+      "European firebug"
+    ],
+    "lieu": [
+      "Foyer",
+      "Home"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Grand agrion",
+      "Large red damselfly"
+    ],
+    "lieu": [
+      "Bord de l'eau",
+      "Waterside"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Azuré de Porcelaine",
+      "Common blue butterfly"
+    ],
+    "lieu": [
+      "Centre-ville",
+      "Central Area"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Cicindèle verte",
+      "Green tiger beetle"
+    ],
+    "lieu": [
+      "Montagne thermale",
+      "Onsen Mountain"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Capricorne tigré",
+      "Wasp beetle"
+    ],
+    "lieu": [
+      "Forêt",
+      "Forest"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Cétoine étoilée bleue",
+      "Amethyst flower beetle"
+    ],
+    "lieu": [
+      "Foyer",
+      "Home"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Criquet aux pattes massives",
+      "Siberian grasshopper"
+    ],
+    "lieu": [
+      "Village de pêcheurs",
+      "Fishing Village"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Coccinelle à sept points",
+      "Seven-spotted ladybug"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Libellule tachetée",
+      "Four-spotted skimmer"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Bourdon",
+      "Bumblebee"
+    ],
+    "lieu": [
+      "Champ de fleurs",
+      "Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Vanesse violette",
+      "Purple Emperor"
+    ],
+    "lieu": [
+      "Montagne de baleine",
+      "Whale Mountain"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Papillon à col rouge",
+      "Rajah brooke's birdwing"
+    ],
+    "lieu": [
+      "Foyer",
+      "Home"
+    ],
+    "heures": [
+      "matin",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Actias neidhoederi",
+      "Mini moon moth"
+    ],
+    "lieu": [
+      "Foyer",
+      "Home"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Pyrochroa",
+      "Fire-colored beetle"
+    ],
+    "lieu": [
+      "Source thermale",
+      "Hot Spring"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Sauterelle rose",
+      "Pink katydid"
+    ],
+    "lieu": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Grillon",
+      "Katydid"
+    ],
+    "lieu": [
+      "Plage violette",
+      "Amethyst Beach"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Abeille à queue blanche",
+      "Waroona cuckoo bee"
+    ],
+    "lieu": [
+      "Tour du faon",
+      "Deer Tower"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Fourmi",
+      "Ant"
+    ],
+    "lieu": [
+      "Place du village de pêcheurs",
+      "Fishing Village Square"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Mélitée léopard",
+      "Beautiful leopard"
+    ],
+    "lieu": [
+      "Quai",
+      "Wharf"
+    ],
+    "heures": [
+      "matin",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Criquet à ailes réticulées",
+      "Large banded grasshopper"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Coccinelle à quatre étoiles",
+      "Four-spotted ladybug"
+    ],
+    "lieu": [
+      "Lac volcanique",
+      "Onsen"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Cigale",
+      "Cicada"
+    ],
+    "lieu": [
+      "Forêt de chênes spirituels",
+      "Spirit-Oak Pine Forest"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Libellule à queue blanche",
+      "Common whitetail"
+    ],
+    "lieu": [
+      "Rivières",
+      "Rivers"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Mante arc-en-ciel",
+      "Mediterranean mantis"
+    ],
+    "lieu": [
+      "Falaise rocheuse",
+      "Stone Cliff"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Paon-de-jour",
+      "Peacock butterfly"
+    ],
+    "lieu": [
+      "Champ de fleurs des moulins à vent",
+      "Windmill Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Charaxes jasius",
+      "Mourning cloak"
+    ],
+    "lieu": [
+      "Source thermale",
+      "Hot Spring"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Papillon sorcière blanche",
+      "White witch"
+    ],
+    "lieu": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Capricorne des montagnes",
+      "Alpine longhorn beetle"
+    ],
+    "lieu": [
+      "Île de la forêt",
+      "Forest Island"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Coccinelle asiatique",
+      "Asian lady beetle"
+    ],
+    "lieu": [
+      "Tour du faon",
+      "Deer Tower"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Mante papoue",
+      "Giant asian mantis"
+    ],
+    "lieu": [
+      "Ruines",
+      "Ruins"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Abeille charpentière violette",
+      "Splay-footed carpenter"
+    ],
+    "lieu": [
+      "Montagne de baleine",
+      "Whale Mountain"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Ornithoptère vert",
+      "Green birdwing"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Lucanus",
+      "Stag beetle"
+    ],
+    "lieu": [
+      "Tremplin",
+      "Jump Puzzle"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Scarabée argenté aux gemmes",
+      "Silver jewel scarab"
+    ],
+    "lieu": [
+      "Falaise rocheuse",
+      "Stone Cliff"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Punaise bleue",
+      "Blue shieldbug"
+    ],
+    "lieu": [
+      "Phare",
+      "Lighthouse"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Agrion de virginie",
+      "Beautiful demoiselle"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Morpho bleu",
+      "Blue morpho"
+    ],
+    "lieu": [
+      "Forêt de chênes spirituels",
+      "Spirit-Oak Pine Forest"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Grand paon de nuit",
+      "Chestnut tiger"
+    ],
+    "lieu": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Scarabée sacré",
+      "Minotaur beetle"
+    ],
+    "lieu": [
+      "Ruines",
+      "Ruins"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Cétoine étoilée",
+      "Elegant flower beetle"
+    ],
+    "lieu": [
+      "Montagne de baleine",
+      "Whale Mountain"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Scarabée doré aux gemmes",
+      "Golden jewel scarab"
+    ],
+    "lieu": [
+      "Tremplin",
+      "Jump Puzzle"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Libellule rose",
+      "Crimson marsh glider"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Isabelle",
+      "Spanish moon moth"
+    ],
+    "lieu": [
+      "Forêt de chênes spirituels",
+      "Spirit-Oak Pine Forest"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Comète papillon de nuit",
+      "Comet moth"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Scarabée unicorne",
+      "Horned beetle"
+    ],
+    "lieu": [
+      "Quai oriental du village de pêcheurs",
+      "East Pier of Fishing Village"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Punaise Picasso",
+      "Picasso bug"
+    ],
+    "lieu": [
+      "Plage violette",
+      "Amethyst Beach"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Pioche arc-en-ciel",
+      "Rainbow stag beetle"
+    ],
+    "lieu": [
+      "Événement : attirer les insectes hors de leur trou",
+      "Event: Bait The Insects"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Mante à tête conique",
+      "Conehead mantis"
+    ],
+    "lieu": [
+      "Ruines",
+      "Ruins"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Papillon bleu céleste",
+      "Morpho Helena"
+    ],
+    "lieu": [
+      "Plage violette",
+      "Amethyst Beach"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Scarabée Hercule",
+      "Hercules beetle"
+    ],
+    "lieu": [
+      "Lac volcanique",
+      "Onsen"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Lucane dorée spectral",
+      "Golden stag beetle"
+    ],
+    "lieu": [
+      "Forêt de chênes spirituels",
+      "Spirit-Oak Pine Forest"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  }
+]

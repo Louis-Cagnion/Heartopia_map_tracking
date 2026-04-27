@@ -1,0 +1,1734 @@
+[
+  {
+    "name": [
+      "Perche de rivière",
+      "European perch"
+    ],
+    "lieu": [
+      "Rivières",
+      "Rivers"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Grenouille européenne",
+      "Edible frog"
+    ],
+    "lieu": [
+      "Lacs",
+      "Lakes"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Carpe argentée",
+      "Common chub"
+    ],
+    "lieu": [
+      "Lacs",
+      "Lakes"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Loche des fleurs",
+      "Spined loach"
+    ],
+    "lieu": [
+      "Fleuve d'arbres géants",
+      "Giantwood River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Barbillon",
+      "Barbel"
+    ],
+    "lieu": [
+      "Rivière peu profonde",
+      "Shallow River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Zingel streber",
+      "Streber"
+    ],
+    "lieu": [
+      "Rivière aurore",
+      "Rosy River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Vairon",
+      "Minnow"
+    ],
+    "lieu": [
+      "Rivière calme",
+      "Tranquil River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Tilapia",
+      "Tilapia"
+    ],
+    "lieu": [
+      "Rivières",
+      "Rivers"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Tanche dorée",
+      "Tench"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Féra",
+      "Common whitefish"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Carpe noire",
+      "Crucian carp"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Ablette",
+      "Common bleak"
+    ],
+    "lieu": [
+      "Lacs",
+      "Lakes"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Barbeau",
+      "Shneider"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Crevette verte",
+      "Oriental shrimp"
+    ],
+    "lieu": [
+      "Rivières",
+      "Rivers"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Sardine",
+      "Sardine"
+    ],
+    "lieu": [
+      "Mers",
+      "Seas"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Perche de mer",
+      "Sea bass"
+    ],
+    "lieu": [
+      "Mers",
+      "Seas"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Bonite",
+      "Skipjack tuna"
+    ],
+    "lieu": [
+      "Mers",
+      "Seas"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Poisson sabre",
+      "Beltfish"
+    ],
+    "lieu": [
+      "Mer calme",
+      "Zephyr Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Crevette de mer",
+      "Common prawn"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Saurel",
+      "Scad"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Chimère argentée",
+      "Rabbit fish"
+    ],
+    "lieu": [
+      "Mers",
+      "Seas"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Épinoche de mer",
+      "Sea stickleback"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Rouget barbet",
+      "Striped red mullet"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Loche des rochers",
+      "Stone loach"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Acantharchus pomotis",
+      "Mud sunfish"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Éperlan",
+      "European smelt"
+    ],
+    "lieu": [
+      "Lac de la prairie",
+      "Meadow Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Grémille",
+      "Ruffe"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Comète coussut",
+      "False scad"
+    ],
+    "lieu": [
+      "Mer calme",
+      "Zephyr Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Hippocampe",
+      "Seahorse"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Baudroie",
+      "Anglerfish"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Moule",
+      "Mussel"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Sandre blanc",
+      "Zander"
+    ],
+    "lieu": [
+      "Fleuve d'arbres géants",
+      "Giantwood River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Têtard",
+      "Tadpole"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Écrevisse noble",
+      "European crayfish"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "matin",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Pieuvre",
+      "Common octopus"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Saumon atlantique",
+      "Atlantic salmon"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Pieuvre naine d'Atlantique",
+      "Atlantic pygmy octopus"
+    ],
+    "lieu": [
+      "Mer calme",
+      "Zephyr Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Bernard-l'ermite",
+      "Hermit crab"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Poisson-clown",
+      "Clownfish"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Grand black-bass",
+      "Largemouth bass"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Carpe commune",
+      "Common carp"
+    ],
+    "lieu": [
+      "Rivière aurore",
+      "Rosy River"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Lotte",
+      "Burbot"
+    ],
+    "lieu": [
+      "Rivière calme",
+      "Tranquil River"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Gobie",
+      "Goby"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Crabe de ruisseau",
+      "River crab"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Turbot",
+      "Turbot"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Plie commune",
+      "European plaice"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Piranha à ventre rouge",
+      "Red-bellied piranha"
+    ],
+    "lieu": [
+      "Fleuve d'arbres géants",
+      "Giantwood River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Koï papillon",
+      "Butterfly koi"
+    ],
+    "lieu": [
+      "Lac de la prairie",
+      "Meadow Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Blennie fluviatile",
+      "Freshwater blenny"
+    ],
+    "lieu": [
+      "Rivière aurore",
+      "Rosy River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Truite",
+      "Trout"
+    ],
+    "lieu": [
+      "Lac de la prairie",
+      "Meadow Lake"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Rotengle",
+      "Common rudd"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Maquereau commun",
+      "Atlantic mackerel"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Homard européen",
+      "European lobster"
+    ],
+    "lieu": [
+      "Mer calme",
+      "Zephyr Sea"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Calmar volant",
+      "European flying squid"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Grande huître perlière",
+      "Large pearl mussel"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Tétraodon",
+      "Puffer fish"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Saumon kéta",
+      "Chum salmon"
+    ],
+    "lieu": [
+      "Rivière calme",
+      "Tranquil River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Omble commun",
+      "Grayling"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Grondin perlon",
+      "Tub gurnard"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Roussette",
+      "Nursehound"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Épinoche",
+      "Three-spined stickleback"
+    ],
+    "lieu": [
+      "Rivière peu profonde",
+      "Shallow River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Aphanius de Corse",
+      "Mediterranean killifish"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Chabot",
+      "Mottled sculpin"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Régalec",
+      "Giant oarfish"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Pagellus bogaraveo",
+      "Blackspot seabream"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Anguille d'Europe",
+      "European eel"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Crabe royal doré",
+      "Golden king crab"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Poisson-chien",
+      "European mudminnow"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Écrevisse noble bleue",
+      "Blue european crayfish"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Poisson rouge",
+      "Goldfish"
+    ],
+    "lieu": [
+      "Lac de la prairie",
+      "Meadow Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Crabe royal",
+      "King crab"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Églefin",
+      "HadWharf"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 8
+  },
+  {
+    "name": [
+      "Brochet tacheté",
+      "Northern pike"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Crapet-soleil",
+      "Pumpkinseed"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Huchon",
+      "Huchen"
+    ],
+    "lieu": [
+      "Fleuve d'arbres géants",
+      "Giantwood River"
+    ],
+    "heures": [
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Thon rouge",
+      "Bluefin tuna"
+    ],
+    "lieu": [
+      "Fleuve d'arbres géants",
+      "Giantwood River"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Poisson-lune",
+      "Ocean sunfish"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "matin",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Lampris-lune",
+      "Moonfish"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Silure glane",
+      "Wels catfish"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Crapet arlequin",
+      "Bluegill"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Omble chevalier",
+      "Arctic char"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Espadon",
+      "Swordfish"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Requin mako",
+      "Shortfin mako shark"
+    ],
+    "lieu": [
+      "Événement : pêche en mer",
+      "Event: Sea Fishing"
+    ],
+    "heures": [
+      "après-midi",
+      "soir"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  }
+]

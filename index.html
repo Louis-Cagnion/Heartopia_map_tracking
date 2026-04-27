@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Carte Heartopia</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1 id="titrePage">🗺️ Carte Heartopia</h1>
+
+<div id="modeSelector">
+    <button id="btnUser" onclick="setMode('user')">👀 Mode utilisateur</button>
+    <button id="btnAdmin" onclick="setMode('admin')">🔐 Mode admin</button>
+</div>
+
+<div id="userPreferences">
+    <button id="btnLangue" onclick="toggleLangue()">🇫🇷 FR</button>
+    <div id="hobbyPanel">
+        <div id="labelNiveauPassion">Niveau de passion</div>
+        <hr class="hobby-separator">
+        <div class="hobby-row">
+            <label id="labelPeche">🐟 Pêche</label>
+            <input type="number" id="hobbyPoisson" min="1" max="10" placeholder="—">
+        </div>
+        <div class="hobby-row">
+            <label id="labelObservation">🪶 Observation des oiseaux</label>
+            <input type="number" id="hobbyOiseau" min="1" max="10" placeholder="—">
+        </div>
+        <div class="hobby-row">
+            <label id="labelAttrapage">🐛 Attrapage d'insectes</label>
+            <input type="number" id="hobbyInsecte" min="1" max="10" placeholder="—">
+        </div>
+        <hr class="hobby-separator">
+        <div class="hobby-row">
+            <label><input type="checkbox" id="afficherNonDebloques"> <span id="labelAfficherNonDebloques">Afficher non débloqués</span></label>
+        </div>
+    </div>
+</div>
+
+<div id="legendeCollectibles">
+    <h3 id="legendeCollectiblesTitre">🍄 Collectibles</h3>
+    <div id="legendeList"></div>
+</div>
+
+<!-- 🗑️ PANNEAU SUPPRESSION -->
+<div id="panelSuppression" class="hidden element-panel">
+    <h3>🗑️ Supprimer un élément</h3>
+    <label>Type :
+        <select id="suppressionType" onchange="updateSuppressionList()">
+            <option value="poisson">🐟 Poisson</option>
+            <option value="insecte">🐛 Insecte</option>
+            <option value="oiseau">🪶 Oiseau</option>
+            <option value="collectible">🍄 Collectible</option>
+        </select>
+    </label>
+    <label>Élément :
+        <select id="suppressionElement"></select>
+    </label>
+    <button onclick="supprimerElement()">🗑️ Supprimer</button>
+    <button onclick="closePanel('panelSuppression')">✖ Fermer</button>
+</div>
+<div id="adminPanel" class="hidden">
+    <button onclick="openPanel('panelPoisson')">🐟 Poisson</button>
+    <button onclick="openPanel('panelInsecte')">🐛 Insecte</button>
+    <button onclick="openPanel('panelOiseau')">🪶 Oiseau</button>
+    <button onclick="openCollectiblePanel()">🍄 Collectible</button>
+    <button id="btnSuppressionCollectible" onclick="toggleSuppressionCollectible()">🗑️ Supprimer position collectible</button>
+    <button onclick="openSuppressionPanel()">🗑️ Supprimer élément</button>
+    <button onclick="exportTout()">📤 Tout exporter</button>
+    <button onclick="triggerImportElements()">📥 Importer éléments</button>
+    <input type="file" id="importElementsFile" class="hidden" multiple onchange="importElements(event)">
+    <button onclick="exportPlacesToJSON()">📤 Exporter lieux</button>
+    <button onclick="triggerImport()">📥 Importer lieux</button>
+    <input type="file" id="importFile" class="hidden" onchange="importPlacesFromJSON(event)">
+</div>
+
+<div class="filters">
+    <label><input type="checkbox" value="poisson" checked> <span id="labelFiltrePoissons">Poissons</span></label>
+    <label><input type="checkbox" value="oiseau" checked> <span id="labelFiltreOiseaux">Oiseaux</span></label>
+    <label><input type="checkbox" value="insecte" checked> <span id="labelFiltreInsectes">Insectes</span></label>
+    <label><input type="checkbox" value="collectible" checked> <span id="labelFiltreCollectibles">Collectibles</span></label>
+</div>
+
+<div id="map-container">
+    <div id="map-inner">
+        <img src="./map/map.jpg" id="map">
+    </div>
+</div>
+
+<div id="panel">
+    <h3 id="placeTitle" onclick="toggleElementsPanel()">Aucun lieu sélectionné</h3>
+    <div id="elementsPanel" class="hidden">
+        <div id="elementsList"></div>
+    </div>
+</div>
+
+<div id="panelSpeciaux" class="hidden">
+    <h3><span id="panelSpeciauxTitre">⭐ Éléments spéciaux</span> <button onclick="toggleSpeciaux()">✖</button></h3>
+    <div id="speciauxList"></div>
+</div>
+
+<button id="btnSpeciaux" class="hidden" onclick="toggleSpeciaux()">⭐ Spéciaux</button>
+
+<!-- 🐟 PANNEAU POISSONS -->
+<div id="panelPoisson" class="hidden element-panel">
+    <h3>🐟 Ajouter un poisson</h3>
+    <label>Nom FR :<input type="text" id="poissonNom"></label>
+    <label>Nom EN :<input type="text" id="poissonNomEn"></label>
+    <label>Lieu :
+        <select id="poissonLieu"></select>
+    </label>
+    <label>Heures :
+        <div class="checkbox-group">
+            <label><input type="checkbox" value="matin"> Matin</label>
+            <label><input type="checkbox" value="après-midi"> Après-midi</label>
+            <label><input type="checkbox" value="soir"> Soir</label>
+            <label><input type="checkbox" value="nuit"> Nuit</label>
+        </div>
+    </label>
+    <label>Météo :
+        <div class="checkbox-group">
+            <label><input type="checkbox" value="soleil"> ☀️ Soleil</label>
+            <label><input type="checkbox" value="pluie"> 🌧️ Pluie</label>
+            <label><input type="checkbox" value="arc-en-ciel"> 🌈 Arc-en-ciel</label>
+        </div>
+    </label>
+    <label>Niveau hobby :
+        <input type="number" id="poissonNiveau" min="1" max="10" value="1">
+    </label>
+    <button onclick="saveElement('poisson')">💾 Sauvegarder</button>
+    <button onclick="closePanel('panelPoisson')">✖ Fermer</button>
+</div>
+
+<!-- 🐛 PANNEAU INSECTES -->
+<div id="panelInsecte" class="hidden element-panel">
+    <h3>🐛 Ajouter un insecte</h3>
+    <label>Nom FR :<input type="text" id="insecteNom"></label>
+    <label>Nom EN :<input type="text" id="insecteNomEn"></label>
+    <label>Lieu :
+        <select id="insecteLieu"></select>
+    </label>
+    <label>Heures :
+        <div class="checkbox-group">
+            <label><input type="checkbox" value="matin"> Matin</label>
+            <label><input type="checkbox" value="après-midi"> Après-midi</label>
+            <label><input type="checkbox" value="soir"> Soir</label>
+            <label><input type="checkbox" value="nuit"> Nuit</label>
+        </div>
+    </label>
+    <label>Météo :
+        <div class="checkbox-group">
+            <label><input type="checkbox" value="soleil"> ☀️ Soleil</label>
+            <label><input type="checkbox" value="pluie"> 🌧️ Pluie</label>
+            <label><input type="checkbox" value="arc-en-ciel"> 🌈 Arc-en-ciel</label>
+        </div>
+    </label>
+    <label>Niveau hobby :
+        <input type="number" id="insecteNiveau" min="1" max="10" value="1">
+    </label>
+    <button onclick="saveElement('insecte')">💾 Sauvegarder</button>
+    <button onclick="closePanel('panelInsecte')">✖ Fermer</button>
+</div>
+
+<!-- 🪶 PANNEAU OISEAUX -->
+<div id="panelOiseau" class="hidden element-panel">
+    <h3>🪶 Ajouter un oiseau</h3>
+    <label>Nom FR :<input type="text" id="oisseauNom"></label>
+    <label>Nom EN :<input type="text" id="oisseauNomEn"></label>
+    <label>Lieu :
+        <select id="oisseauLieu"></select>
+    </label>
+    <label>Heures :
+        <div class="checkbox-group">
+            <label><input type="checkbox" value="matin"> Matin</label>
+            <label><input type="checkbox" value="après-midi"> Après-midi</label>
+            <label><input type="checkbox" value="soir"> Soir</label>
+            <label><input type="checkbox" value="nuit"> Nuit</label>
+        </div>
+    </label>
+    <label>Météo :
+        <div class="checkbox-group">
+            <label><input type="checkbox" value="soleil"> ☀️ Soleil</label>
+            <label><input type="checkbox" value="pluie"> 🌧️ Pluie</label>
+            <label><input type="checkbox" value="arc-en-ciel"> 🌈 Arc-en-ciel</label>
+        </div>
+    </label>
+    <label>Niveau hobby :
+        <input type="number" id="oisseauNiveau" min="1" max="10" value="1">
+    </label>
+    <button onclick="saveElement('oiseau')">💾 Sauvegarder</button>
+    <button onclick="closePanel('panelOiseau')">✖ Fermer</button>
+</div>
+
+<!-- 🍄 PANNEAU COLLECTIBLES -->
+<div id="panelCollectible" class="hidden element-panel">
+    <h3>🍄 Collectibles</h3>
+
+    <!-- Partie 1 : Nouvel élément -->
+    <div class="collectible-section">
+        <strong>➕ Nouvel élément</strong>
+        <label>Nom FR :<input type="text" id="collectibleNom"></label>
+        <label>Nom EN :<input type="text" id="collectibleNomEn"></label>
+        <label>Catégorie :
+            <select id="collectibleCategorieSelect" onchange="onCategorieSelect()">
+                <option value="__new__">➕ Nouvelle catégorie</option>
+            </select>
+        </label>
+        <label id="collectibleTypeLabel" class="hidden">Nouvelle catégorie :
+            <input type="text" id="collectibleType" placeholder="champignon, fleur...">
+        </label>
+        <label>Couleur :
+            <input type="color" id="collectibleColor" value="#e67e22">
+        </label>
+        <button onclick="creerCollectible()">✅ Créer et placer</button>
+    </div>
+
+    <hr style="border-color: #444; margin: 10px 0;">
+
+    <!-- Partie 2 : Élément existant -->
+    <div class="collectible-section">
+        <strong>📍 Ajouter des positions</strong>
+        <label>Élément :
+            <select id="collectibleExistantSelect"></select>
+        </label>
+        <button onclick="placerCollectibleExistant()">📍 Placer sur la carte</button>
+    </div>
+
+    <button onclick="closePanel('panelCollectible')">✖ Fermer</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

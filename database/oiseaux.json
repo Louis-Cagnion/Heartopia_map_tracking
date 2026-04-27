@@ -1,0 +1,1093 @@
+[
+  {
+    "name": [
+      "Rouge-gorge",
+      "European robin"
+    ],
+    "lieu": [
+      "Centre-ville",
+      "Central Area"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Grand pic",
+      "Great tit"
+    ],
+    "lieu": [
+      "Montagne thermale",
+      "Onsen Mountain"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Troglodyte",
+      "Eurasian wren"
+    ],
+    "lieu": [
+      "Forêt",
+      "Forest"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Bouvreuil à ventre rouge",
+      "Eurasian bullfinch"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Fringilla coelebs",
+      "Eurasian chaffinch"
+    ],
+    "lieu": [
+      "Champ de fleurs",
+      "Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Ara bleu et jaune",
+      "Blue-and-yellow macaw"
+    ],
+    "lieu": [
+      "Événement : retour des oiseaux au nid",
+      "Event: Nest of Hundreds"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Pigeon colombin",
+      "Stock dove"
+    ],
+    "lieu": [
+      "Centre-ville",
+      "Central Area"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Tourterelle grise",
+      "Eurasian collared dove"
+    ],
+    "lieu": [
+      "Foyer",
+      "Home"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Tourterelle tigrine",
+      "Pied imperial pigeon"
+    ],
+    "lieu": [
+      "Village de pêcheurs",
+      "Fishing Village"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Flamant rose",
+      "Greater flamingo"
+    ],
+    "lieu": [
+      "Bord de l'eau",
+      "Waterside"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Paon bleu",
+      "Blue peafowl"
+    ],
+    "lieu": [
+      "Événement : retour des oiseaux au nid",
+      "Event: Nest of Hundreds"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Canard colvert",
+      "Mallard"
+    ],
+    "lieu": [
+      "Lacs",
+      "Lakes"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Aegithalos caudatus",
+      "Long-tailed tit"
+    ],
+    "lieu": [
+      "Au sommet de la tête de Blanc",
+      "At the Top of Blanc's Head"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Sittelle",
+      "Eurasian nuthatch"
+    ],
+    "lieu": [
+      "Village de pêcheurs",
+      "Fishing Village"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Panure à moustaches",
+      "Bearded reedling"
+    ],
+    "lieu": [
+      "Montagne thermale",
+      "Onsen Mountain"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Pie-grièche à tête rousse",
+      "Woodchat shrike"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Pigeon de Wonga",
+      "Wonga pigeon"
+    ],
+    "lieu": [
+      "Forêt",
+      "Forest"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Colombar à cou rose",
+      "Pink-necked green pigeon"
+    ],
+    "lieu": [
+      "Champ de fleurs",
+      "Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 1
+  },
+  {
+    "name": [
+      "Canard siffleur",
+      "Eurasian wigeon"
+    ],
+    "lieu": [
+      "Rivières",
+      "Rivers"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Mouette",
+      "Seagull"
+    ],
+    "lieu": [
+      "Mers",
+      "Seas"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 2
+  },
+  {
+    "name": [
+      "Loriot d'Europe",
+      "Eurasian golden oriole"
+    ],
+    "lieu": [
+      "Foyer",
+      "Home"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Diamant mandarin",
+      "Double-barred finch"
+    ],
+    "lieu": [
+      "Phare",
+      "Lighthouse"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Orite à gorge d'argent",
+      "Silver-throated tit"
+    ],
+    "lieu": [
+      "Tremplin",
+      "Jump Puzzle"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Ara rouge et vert",
+      "Red-and-green macaw"
+    ],
+    "lieu": [
+      "Événement : retour des oiseaux au nid",
+      "Event: Nest of Hundreds"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Tadorne casarca",
+      "Ruddy shelduck"
+    ],
+    "lieu": [
+      "Lac de banlieue",
+      "Suburban Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Eider royal",
+      "King eider"
+    ],
+    "lieu": [
+      "Rivières",
+      "Rivers"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Goéland d'Audouin",
+      "Audouin's gull"
+    ],
+    "lieu": [
+      "Mer de baleine",
+      "Whale Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Cormoran vert européen",
+      "European shag"
+    ],
+    "lieu": [
+      "Mers",
+      "Seas"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 3
+  },
+  {
+    "name": [
+      "Bergeronnette grise",
+      "White wagtail"
+    ],
+    "lieu": [
+      "Plage violette",
+      "Amethyst Beach"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Cardinal à couronne grise",
+      "Przevalski's parrotbill"
+    ],
+    "lieu": [
+      "Place du village de pêcheurs",
+      "Fishing Village Square"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Pinson",
+      "Pine grosbeak"
+    ],
+    "lieu": [
+      "Île de la forêt",
+      "Forest Island"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Jardinier à tête jaune",
+      "Regent bowerbird"
+    ],
+    "lieu": [
+      "Forêt de chênes spirituels",
+      "Spirit-Oak Pine Forest"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Pigeon aux fruits d'or",
+      "Wallace's fruit dove"
+    ],
+    "lieu": [
+      "Champ de fleurs des moulins à vent",
+      "Windmill Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Faisan à ventre blanc",
+      "Lady amherst pheasant"
+    ],
+    "lieu": [
+      "Ruines",
+      "Ruins"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Harle piette",
+      "Smew"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 4
+  },
+  {
+    "name": [
+      "Moucherolle à ventre jaune",
+      "Yellow bellied flycatcher"
+    ],
+    "lieu": [
+      "Quai",
+      "Wharf"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Guêpier d'Europe",
+      "European bee-eater"
+    ],
+    "lieu": [
+      "Lac de la montagne thermale",
+      "Onsen Mountain Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Grand ara vert",
+      "Great green macaw"
+    ],
+    "lieu": [
+      "Événement : retour des oiseaux au nid",
+      "Event: Nest of Hundreds"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Pigeon à yeux jaunes",
+      "African olive pigeon"
+    ],
+    "lieu": [
+      "Source thermale",
+      "Hot Spring"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Petit flamant",
+      "Lesser flamingo"
+    ],
+    "lieu": [
+      "Lac de la forêt",
+      "Forest Lake"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Sterne blanche",
+      "Brown noddy"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 5
+  },
+  {
+    "name": [
+      "Gros-bec",
+      "Hawfinch"
+    ],
+    "lieu": [
+      "Lac volcanique",
+      "Onsen"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Tourterelle à tête grise",
+      "Cinnamon ground Dove"
+    ],
+    "lieu": [
+      "Quai oriental du village de pêcheurs",
+      "East Pier of Fishing Village"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Cormoran à face rouge",
+      "Red faced cormorant"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Hibou moyen-duc",
+      "Long eared owl"
+    ],
+    "lieu": [
+      "Falaise rocheuse",
+      "Stone Cliff"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 6
+  },
+  {
+    "name": [
+      "Mésange bleue",
+      "Azure Tit"
+    ],
+    "lieu": [
+      "Champ de fleurs des moulins à vent",
+      "Windmill Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Ara indigo",
+      "Lear's macaw"
+    ],
+    "lieu": [
+      "Événement : retour des oiseaux au nid",
+      "Event: Nest of Hundreds"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Colombe jambu",
+      "Jambu fruit dove"
+    ],
+    "lieu": [
+      "Banlieue",
+      "Suburbs"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Sterne",
+      "Tern"
+    ],
+    "lieu": [
+      "Mer de l'Est",
+      "East Sea"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  },
+  {
+    "name": [
+      "Faucon rouge",
+      "Common kestrel"
+    ],
+    "lieu": [
+      "Tour du faon",
+      "Deer Tower"
+    ],
+    "heures": [
+      "matin",
+      "après-midi",
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 7
+  }
+]
