@@ -406,6 +406,7 @@ button {
     color: white;
     z-index: 100;
     font-size: var(--ui-font-size);
+    min-width: 280px;
 }
 
 #btnLangue {
@@ -447,8 +448,9 @@ button {
 }
 
 .hobby-row label {
-    min-width: 140px;
+    white-space: nowrap;
     font-size: var(--ui-font-size);
+    flex: 1;
 }
 
 #userPreferences {
@@ -468,8 +470,6 @@ button {
     font-size: var(--ui-font-size);
     font-weight: bold;
     margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #333;
 }
 
 #hobbyPanel {
@@ -507,4 +507,22 @@ button {
     border: none;
     border-top: 1px solid #333;
     margin: 6px 0;
+}
+
+#selectServeur {
+    width: 100%;
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: var(--ui-font-size);
+    text-align: center;
+}
+
+.hobby-section-title {
+    font-size: var(--ui-font-size);
+    font-weight: bold;
+    margin-bottom: 4px;
+    margin-top: 4px;
 }

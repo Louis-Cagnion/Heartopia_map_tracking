@@ -49,7 +49,17 @@ const UI = {
         filtreOiseaux: "Oiseaux",
         filtreInsectes: "Insectes",
         filtreCollectibles: "Collectibles",
-        legendeTitre: "🍄 Collectibles"
+        legendeTitre: "🍄 Collectibles",
+        meteoActuelle: "☁️ Météo actuelle",
+        serveur: "🌍 Serveur",
+        meteoSoleil: "Soleil",
+        meteoPluie: "Pluie",
+        meteoArc: "Arc-en-ciel",
+        horaires: "🕐 Horaires",
+        matin: "🌅 Matin",
+        apresMidi: "☀️ Après-midi",
+        soir: "🌆 Soir",
+        nuit: "🌙 Nuit"
     },
     en: {
         modeUser: "👀 User mode",
@@ -67,7 +77,17 @@ const UI = {
         filtreOiseaux: "Birds",
         filtreInsectes: "Insects",
         filtreCollectibles: "Collectibles",
-        legendeTitre: "🍄 Collectibles"
+        legendeTitre: "🍄 Collectibles",
+        meteoActuelle: "☁️ Current weather",
+        serveur: "🌍 Server",
+        meteoSoleil: "Sunny",
+        meteoPluie: "Rainy",
+        meteoArc: "Rainbow",
+        horaires: "🕐 Schedule",
+        matin: "🌅 Dawn",
+        apresMidi: "☀️ Day",
+        soir: "🌆 Dusk",
+        nuit: "🌙 Night",
     }
 };
 
@@ -186,6 +206,16 @@ function mettreAJourUI() {
     document.getElementById("labelFiltreInsectes").textContent = t("filtreInsectes");
     document.getElementById("labelFiltreCollectibles").textContent = t("filtreCollectibles");
     document.getElementById("titrePage").textContent = langue === "fr" ? "🗺️ Carte Heartopia" : "🗺️ Heartopia Map";
+    document.getElementById("labelMeteo").textContent = t("meteoActuelle");
+    document.getElementById("labelServeur").textContent = langue === "fr" ? "🌍 Serveur" : "🌍 Server";
+    document.querySelectorAll(".meteo-label-soleil").forEach(el => el.textContent = t("meteoSoleil"));
+    document.querySelectorAll(".meteo-label-pluie").forEach(el => el.textContent = t("meteoPluie"));
+    document.querySelectorAll(".meteo-label-arc").forEach(el => el.textContent = t("meteoArc"));
+    document.getElementById("labelHoraires").textContent = t("horaires");
+    document.getElementById("labelMatin").textContent = t("matin");
+    document.getElementById("labelApresMidi").textContent = t("apresMidi");
+    document.getElementById("labelSoir").textContent = t("soir");
+    document.getElementById("labelNuit").textContent = t("nuit");
     if (!selectedPlace) {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }
@@ -241,6 +271,54 @@ function rafraichirAffichage() {
     if (!panelSpeciaux.classList.contains("hidden")) {
         toggleSpeciaux();
         toggleSpeciaux();
+    }
+}
+
+function afficherElementsLieu(nomLieu) {
+    const { estZoneNiv1, sousZones, resultats } = getElementsPourLieu(nomLieu);
+    const list = document.getElementById("elementsList");
+    list.innerHTML = "";
+
+    if (Object.keys(resultats).length === 0) {
+        list.innerHTML = `<div style='color:#666;font-size:14px'>${langue === "fr" ? "Aucun élément répertorié" : "No elements found"}</div>`;
+        return;
+    }
+
+    const lieuxPropres = getLieuxPourRecherche(nomLieu);
+    let premierLieu = true;
+    lieuxPropres.forEach(lieu => {
+        if (resultats[lieu]) {
+            const div = document.createElement("div");
+            div.className = "elements-lieu";
+            if (!premierLieu) {
+                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
+            }
+            premierLieu = false;
+            afficherGroupeElements(resultats[lieu], div);
+            list.appendChild(div);
+        }
+    });
+
+    if (estZoneNiv1) {
+        sousZones.forEach(sz => {
+            if (resultats[sz]) {
+                const div = document.createElement("div");
+                div.className = "elements-lieu";
+                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} :</div>`;
+                afficherGroupeElements(resultats[sz], div);
+                list.appendChild(div);
+            }
+            const lieuxSZ = getLieuxPourRecherche(sz);
+            lieuxSZ.forEach(lieu => {
+                if (lieu !== sz && resultats[lieu]) {
+                    const div = document.createElement("div");
+                    div.className = "elements-lieu";
+                    div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} (${getNomLieu(lieu)}) :</div>`;
+                    afficherGroupeElements(resultats[lieu], div);
+                    list.appendChild(div);
+                }
+            });
+        });
     }
 }
 
@@ -1093,6 +1171,20 @@ function afficherGroupeElements(elements, container) {
     const hobbyInsecte = parseInt(document.getElementById("hobbyInsecte").value) || null;
     const afficherNonDebloques = document.getElementById("afficherNonDebloques").checked;
 
+    const decalage = parseInt(document.getElementById("selectServeur").value) || 0;
+    const meteosCochees = new Set(
+        [...document.querySelectorAll(".meteo-cb")].filter(cb => cb.checked).map(cb => cb.value)
+    );
+
+    const tranchesOrdre = ["matin", "apres-midi", "soir", "nuit"];
+
+    function decalerHeure(h) {
+        const idx = tranchesOrdre.indexOf(h);
+        if (idx === -1) return h;
+        const decalageTranches = decalage / 6;
+        return tranchesOrdre[(idx + decalageTranches) % 4];
+    }
+
     const ul = document.createElement("ul");
     ul.className = "elements-lieu-liste";
 
@@ -1101,88 +1193,52 @@ function afficherGroupeElements(elements, container) {
             name: getNom(p),
             emoji: "🐟",
             niveau: p.niveau_hobby,
-            hobbyUser: hobbyPoisson
+            hobbyUser: hobbyPoisson,
+            heures: p.heures || [],
+            meteos: p.meteos || []
         })) : []),
         ...(filtres["oiseau"] ? oiseaux.filter(o => elements.includes(Array.isArray(o.name) ? o.name[0] : o.name)).map(o => ({
             name: getNom(o),
             emoji: "🪶",
             niveau: o.niveau_hobby,
-            hobbyUser: hobbyOiseau
+            hobbyUser: hobbyOiseau,
+            heures: o.heures || [],
+            meteos: o.meteos || []
         })) : []),
         ...(filtres["insecte"] ? insectes.filter(i => elements.includes(Array.isArray(i.name) ? i.name[0] : i.name)).map(i => ({
             name: getNom(i),
             emoji: "🐛",
             niveau: i.niveau_hobby,
-            hobbyUser: hobbyInsecte
+            hobbyUser: hobbyInsecte,
+            heures: i.heures || [],
+            meteos: i.meteos || []
         })) : [])
     ];
 
     if (tousElements.length === 0) return;
 
     let auMoinsUn = false;
-    tousElements.forEach(({ name, emoji, niveau, hobbyUser }) => {
+    const heuresCochees = new Set(
+        [...document.querySelectorAll(".heure-cb")].filter(cb => cb.checked).map(cb => cb.value)
+    );
+    tousElements.forEach(({ name, emoji, niveau, hobbyUser, heures, meteos }) => {
         const debloque = hobbyUser === null || niveau <= hobbyUser;
-
-        if (!debloque && !afficherNonDebloques) return;
+        const heuresDecalees = heures.map(decalerHeure);
+        const meteoOk = meteos.some(m => meteosCochees.has(m));
+        const heureOk = heuresDecalees.some(h => heuresCochees.has(h));
 
         auMoinsUn = true;
         const li = document.createElement("li");
         li.textContent = `${emoji} ${name}`;
-        if (!debloque) {
+
+        if (!debloque || !meteoOk || !heureOk) {
             li.style.color = "#555";
         }
+
         ul.appendChild(li);
     });
 
     if (auMoinsUn) container.appendChild(ul);
-}
-
-function afficherElementsLieu(nomLieu) {
-    const { estZoneNiv1, sousZones, resultats } = getElementsPourLieu(nomLieu);
-    const list = document.getElementById("elementsList");
-    list.innerHTML = "";
-
-    if (Object.keys(resultats).length === 0) {
-        list.innerHTML = `<div style='color:#666;font-size:14px'>${langue === "fr" ? "Aucun élément répertorié" : "No elements found"}</div>`;
-        return;
-    }
-
-    const lieuxPropres = getLieuxPourRecherche(nomLieu);
-    let premierLieu = true;
-    lieuxPropres.forEach(lieu => {
-        if (resultats[lieu]) {
-            const div = document.createElement("div");
-            div.className = "elements-lieu";
-            if (!premierLieu) {
-                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
-            }
-            premierLieu = false;
-            afficherGroupeElements(resultats[lieu], div);
-            list.appendChild(div);
-        }
-    });
-
-    if (estZoneNiv1) {
-        sousZones.forEach(sz => {
-            if (resultats[sz]) {
-                const div = document.createElement("div");
-                div.className = "elements-lieu";
-                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} :</div>`;
-                afficherGroupeElements(resultats[sz], div);
-                list.appendChild(div);
-            }
-            const lieuxSZ = getLieuxPourRecherche(sz);
-            lieuxSZ.forEach(lieu => {
-                if (lieu !== sz && resultats[lieu]) {
-                    const div = document.createElement("div");
-                    div.className = "elements-lieu";
-                    div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} (${getNomLieu(lieu)}) :</div>`;
-                    afficherGroupeElements(resultats[lieu], div);
-                    list.appendChild(div);
-                }
-            });
-        });
-    }
 }
 
 function toggleSpeciaux() {
@@ -1356,6 +1412,18 @@ function supprimerElement() {
 
 ["hobbyPoisson", "hobbyOiseau", "hobbyInsecte", "afficherNonDebloques"].forEach(id => {
     document.getElementById(id).addEventListener("change", function() {
+        appliquerFiltres();
+    });
+});
+
+document.querySelectorAll(".meteo-cb").forEach(cb => {
+    cb.addEventListener("change", function() {
+        appliquerFiltres();
+    });
+});
+
+document.querySelectorAll(".heure-cb").forEach(cb => {
+    cb.addEventListener("change", function() {
         appliquerFiltres();
     });
 });
