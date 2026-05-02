@@ -59,7 +59,19 @@ const UI = {
         matin: "🌅 Matin",
         apresMidi: "☀️ Après-midi",
         soir: "🌆 Soir",
-        nuit: "🌙 Nuit"
+        nuit: "🌙 Nuit",
+        meteoModeOu: "Au moins une",
+        meteoModeEt: "Exactement",
+        adminAjouterPoisson: "🐟 Poisson",
+        adminAjouterInsecte: "🐛 Insecte",
+        adminAjouterOiseau: "🪶 Oiseau",
+        adminAjouterCollectible: "🍄 Collectible",
+        adminSupprimerPosition: "🗑️ Supprimer position collectible",
+        adminSupprimerElement: "🗑️ Supprimer élément",
+        adminExporter: "📤 Tout exporter",
+        adminImporter: "📥 Importer éléments",
+        adminExporterLieux: "📤 Exporter lieux",
+        adminImporterLieux: "📥 Importer lieux",
     },
     en: {
         modeUser: "👀 User mode",
@@ -88,6 +100,18 @@ const UI = {
         apresMidi: "☀️ Day",
         soir: "🌆 Dusk",
         nuit: "🌙 Night",
+        meteoModeOu: "At least one",
+        meteoModeEt: "Exactly",
+        adminAjouterPoisson: "🐟 Fish",
+        adminAjouterInsecte: "🐛 Insect",
+        adminAjouterOiseau: "🪶 Bird",
+        adminAjouterCollectible: "🍄 Collectible",
+        adminSupprimerPosition: "🗑️ Delete collectible position",
+        adminSupprimerElement: "🗑️ Delete element",
+        adminExporter: "📤 Export all",
+        adminImporter: "📥 Import elements",
+        adminExporterLieux: "📤 Export locations",
+        adminImporterLieux: "📥 Import locations",
     }
 };
 
@@ -216,6 +240,20 @@ function mettreAJourUI() {
     document.getElementById("labelApresMidi").textContent = t("apresMidi");
     document.getElementById("labelSoir").textContent = t("soir");
     document.getElementById("labelNuit").textContent = t("nuit");
+    document.getElementById("labelMeteoModeOu").textContent = t("meteoModeOu");
+    document.getElementById("labelMeteoModeEt").textContent = t("meteoModeEt");
+    document.getElementById("btnAdminPoisson").textContent = t("adminAjouterPoisson");
+document.getElementById("btnAdminInsecte").textContent = t("adminAjouterInsecte");
+document.getElementById("btnAdminOiseau").textContent = t("adminAjouterOiseau");
+document.getElementById("btnAdminCollectible").textContent = t("adminAjouterCollectible");
+document.getElementById("btnSuppressionCollectible").textContent = suppressionCollectibleMode 
+    ? (langue === "fr" ? "🗑️ Mode suppression actif" : "🗑️ Delete mode active")
+    : t("adminSupprimerPosition");
+document.getElementById("btnAdminSupprimerElement").textContent = t("adminSupprimerElement");
+document.getElementById("btnAdminExporter").textContent = t("adminExporter");
+document.getElementById("btnAdminImporter").textContent = t("adminImporter");
+document.getElementById("btnAdminExporterLieux").textContent = t("adminExporterLieux");
+document.getElementById("btnAdminImporterLieux").textContent = t("adminImporterLieux");
     if (!selectedPlace) {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }
@@ -1224,13 +1262,20 @@ function afficherGroupeElements(elements, container) {
     tousElements.forEach(({ name, emoji, niveau, hobbyUser, heures, meteos }) => {
         const debloque = hobbyUser === null || niveau <= hobbyUser;
         const heuresDecalees = heures.map(decalerHeure);
-        const meteoOk = meteos.some(m => meteosCochees.has(m));
+        const meteoMode = document.querySelector("input[name='meteoMode']:checked").value;
+        const meteoOk = meteoMode === "ou"
+            ? meteos.some(m => meteosCochees.has(m))
+            : meteos.length === meteosCochees.size && meteos.every(m => meteosCochees.has(m));
         const heureOk = heuresDecalees.some(h => heuresCochees.has(h));
+
+        // Si non débloqué et case décochée → cacher
+        if (!debloque && !afficherNonDebloques) return;
 
         auMoinsUn = true;
         const li = document.createElement("li");
         li.textContent = `${emoji} ${name}`;
 
+        // Griser si non débloqué OU météo/heure incorrecte
         if (!debloque || !meteoOk || !heureOk) {
             li.style.color = "#555";
         }
@@ -1426,4 +1471,8 @@ document.querySelectorAll(".heure-cb").forEach(cb => {
     cb.addEventListener("change", function() {
         appliquerFiltres();
     });
+});
+
+document.querySelectorAll("input[name='meteoMode']").forEach(r => {
+    r.addEventListener("change", appliquerFiltres);
 });

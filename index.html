@@ -32,6 +32,16 @@
         <hr class="hobby-separator">
         <div id="labelMeteo" class="hobby-section-title">☁️ Météo actuelle</div>
         <hr class="hobby-separator">
+        <div class="hobby-row" style="margin-top: 4px;">
+            <label style="font-size: 22px;">
+                <input type="radio" name="meteoMode" id="meteoModeOu" value="ou" checked>
+                <span id="labelMeteoModeOu">Au moins une</span>
+            </label>
+            <label style="font-size: 22px;">
+                <input type="radio" name="meteoMode" id="meteoModeEt" value="et">
+                <span id="labelMeteoModeEt">Exactement</span>
+            </label>
+        </div>
         <div class="hobby-row">
             <label><input type="checkbox" class="meteo-cb" value="soleil" checked> <span>☀️ <span class="meteo-label-soleil">Soleil</span></span></label>
             <label><input type="checkbox" class="meteo-cb" value="pluie" checked> <span>🌧️ <span class="meteo-label-pluie">Pluie</span></span></label>
@@ -95,17 +105,17 @@
     <button onclick="closePanel('panelSuppression')">✖ Fermer</button>
 </div>
 <div id="adminPanel" class="hidden">
-    <button onclick="openPanel('panelPoisson')">🐟 Poisson</button>
-    <button onclick="openPanel('panelInsecte')">🐛 Insecte</button>
-    <button onclick="openPanel('panelOiseau')">🪶 Oiseau</button>
-    <button onclick="openCollectiblePanel()">🍄 Collectible</button>
+    <button id="btnAdminPoisson" onclick="openPanel('panelPoisson')">🐟 Poisson</button>
+    <button id="btnAdminInsecte" onclick="openPanel('panelInsecte')">🐛 Insecte</button>
+    <button id="btnAdminOiseau" onclick="openPanel('panelOiseau')">🪶 Oiseau</button>
+    <button id="btnAdminCollectible" onclick="openCollectiblePanel()">🍄 Collectible</button>
     <button id="btnSuppressionCollectible" onclick="toggleSuppressionCollectible()">🗑️ Supprimer position collectible</button>
-    <button onclick="openSuppressionPanel()">🗑️ Supprimer élément</button>
-    <button onclick="exportTout()">📤 Tout exporter</button>
-    <button onclick="triggerImportElements()">📥 Importer éléments</button>
+    <button id="btnAdminSupprimerElement" onclick="openSuppressionPanel()">🗑️ Supprimer élément</button>
+    <button id="btnAdminExporter" onclick="exportTout()">📤 Tout exporter</button>
+    <button id="btnAdminImporter" onclick="triggerImportElements()">📥 Importer éléments</button>
     <input type="file" id="importElementsFile" class="hidden" multiple onchange="importElements(event)">
-    <button onclick="exportPlacesToJSON()">📤 Exporter lieux</button>
-    <button onclick="triggerImport()">📥 Importer lieux</button>
+    <button id="btnAdminExporterLieux" onclick="exportPlacesToJSON()">📤 Exporter lieux</button>
+    <button id="btnAdminImporterLieux" onclick="triggerImport()">📥 Importer lieux</button>
     <input type="file" id="importFile" class="hidden" onchange="importPlacesFromJSON(event)">
 </div>
 
