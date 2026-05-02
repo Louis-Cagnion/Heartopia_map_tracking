@@ -738,7 +738,7 @@
       "pluie",
       "arc-en-ciel"
     ],
-    "niveau_hobby": 2
+    "niveau_hobby": 3
   },
   {
     "name": [
@@ -1725,6 +1725,24 @@
     "heures": [
       "après-midi",
       "soir"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Requin marteau",
+      "Smooth hammerhead"
+    ],
+    "lieu": [
+      "Ancienne mer",
+      "Old Sea"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
     ],
     "meteos": [
       "arc-en-ciel"

@@ -539,7 +539,7 @@
       "pluie",
       "arc-en-ciel"
     ],
-    "niveau_hobby": 4
+    "niveau_hobby": 3
   },
   {
     "name": [
@@ -547,7 +547,7 @@
       "Waroona cuckoo bee"
     ],
     "lieu": [
-      "Tour du faon",
+      "Tour faon",
       "Deer Tower"
     ],
     "heures": [
@@ -796,7 +796,7 @@
       "Asian lady beetle"
     ],
     "lieu": [
-      "Tour du faon",
+      "Tour faon",
       "Deer Tower"
     ],
     "heures": [
@@ -1244,5 +1244,76 @@
       "arc-en-ciel"
     ],
     "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Abeille charpentière bleue",
+      "Cerulean carpenter"
+    ],
+    "lieu": [
+      "Place du village de pêcheurs",
+      "Fishing Village Square"
+    ],
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Hypolimnas vert",
+      "Mother-of-pearl"
+    ],
+    "lieu": [
+      "Champ de fleurs des moulins à vent",
+      "Windmill Flower Field"
+    ],
+    "heures": [
+      "matin",
+      "nuit"
+    ],
+    "meteos": [
+      "pluie",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 9
+  },
+  {
+    "name": [
+      "Papillon soleil",
+      "Sunset morpho"
+    ],
+    "lieu": [
+      "Tour faon",
+      "Deer Tower"
+    ],
+    "heures": [
+      "matin",
+      "après-midi"
+    ],
+    "meteos": [
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
+  },
+  {
+    "name": [
+      "Chenille porte-case",
+      "Bagworm moth"
+    ],
+    "lieu": "Tour faon",
+    "heures": [
+      "soir",
+      "nuit"
+    ],
+    "meteos": [
+      "soleil",
+      "arc-en-ciel"
+    ],
+    "niveau_hobby": 10
   }
 ]
