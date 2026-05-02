@@ -56,7 +56,7 @@ const UI = {
         filtreInsectes: "Insectes",
         filtreCollectibles: "Collectibles",
         suppressionCollectible: "🗑️ Mode suppression actif",
-        legendeTitre: "🍄 Collectibles",
+        legendeTitre: "🍄 Collectibles ▶",
         meteoActuelle: "☁️ Météo actuelle",
         serveur: "🌍 Serveur",
         meteoSoleil: "Soleil",
@@ -98,7 +98,7 @@ const UI = {
         filtreInsectes: "Insects",
         filtreCollectibles: "Collectibles",
         suppressionCollectible: "🗑️ Delete mode active",
-        legendeTitre: "🍄 Collectibles",
+        legendeTitre: "🍄 Collectibles ▶",
         meteoActuelle: "☁️ Current weather",
         serveur: "🌍 Server",
         meteoSoleil: "Sunny",
@@ -1485,4 +1485,14 @@ document.querySelectorAll(".heure-cb").forEach(cb => {
 
 document.querySelectorAll("input[name='meteoMode']").forEach(r => {
     r.addEventListener("change", appliquerFiltres);
+});
+
+const panel = document.getElementById("legendeCollectibles");
+const titre = document.getElementById("legendeCollectiblesTitre");
+
+panel.classList.add("closed");
+
+titre.addEventListener("click", () => {
+    panel.classList.toggle("closed");
+    titre.textContent = "🍄 Collectibles " + (panel.classList.contains("closed") ? "▶" : "▼");
 });

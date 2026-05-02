@@ -374,11 +374,22 @@ button {
     color: white;
     font-size: var(--ui-font-size);
     z-index: 100;
+    transition: all 0.2s ease;
 }
 
 #legendeCollectibles h3 {
     margin: 0 0 8px 0;
     font-size: var(--ui-font-size);
+}
+
+#legendeCollectibles.closed {
+    padding: 6px 10px;
+    width: auto;
+    height: auto;
+}
+
+#legendeCollectibles.closed #legendeList {
+    display: none;
 }
 
 .legende-item {
