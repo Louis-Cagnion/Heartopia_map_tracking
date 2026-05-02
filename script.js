@@ -243,17 +243,17 @@ function mettreAJourUI() {
     document.getElementById("labelMeteoModeOu").textContent = t("meteoModeOu");
     document.getElementById("labelMeteoModeEt").textContent = t("meteoModeEt");
     document.getElementById("btnAdminPoisson").textContent = t("adminAjouterPoisson");
-document.getElementById("btnAdminInsecte").textContent = t("adminAjouterInsecte");
-document.getElementById("btnAdminOiseau").textContent = t("adminAjouterOiseau");
-document.getElementById("btnAdminCollectible").textContent = t("adminAjouterCollectible");
-document.getElementById("btnSuppressionCollectible").textContent = suppressionCollectibleMode 
-    ? (langue === "fr" ? "🗑️ Mode suppression actif" : "🗑️ Delete mode active")
-    : t("adminSupprimerPosition");
-document.getElementById("btnAdminSupprimerElement").textContent = t("adminSupprimerElement");
-document.getElementById("btnAdminExporter").textContent = t("adminExporter");
-document.getElementById("btnAdminImporter").textContent = t("adminImporter");
-document.getElementById("btnAdminExporterLieux").textContent = t("adminExporterLieux");
-document.getElementById("btnAdminImporterLieux").textContent = t("adminImporterLieux");
+    document.getElementById("btnAdminInsecte").textContent = t("adminAjouterInsecte");
+    document.getElementById("btnAdminOiseau").textContent = t("adminAjouterOiseau");
+    document.getElementById("btnAdminCollectible").textContent = t("adminAjouterCollectible");
+    document.getElementById("btnSuppressionCollectible").textContent = suppressionCollectibleMode 
+        ? (langue === "fr" ? "🗑️ Mode suppression actif" : "🗑️ Delete mode active")
+        : t("adminSupprimerPosition");
+    document.getElementById("btnAdminSupprimerElement").textContent = t("adminSupprimerElement");
+    document.getElementById("btnAdminExporter").textContent = t("adminExporter");
+    document.getElementById("btnAdminImporter").textContent = t("adminImporter");
+    document.getElementById("btnAdminExporterLieux").textContent = t("adminExporterLieux");
+    document.getElementById("btnAdminImporterLieux").textContent = t("adminImporterLieux");
     if (!selectedPlace) {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }

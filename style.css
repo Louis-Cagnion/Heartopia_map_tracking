@@ -526,3 +526,8 @@ button {
     margin-bottom: 4px;
     margin-top: 4px;
 }
+
+#labelMeteoModeOu,
+#labelMeteoModeEt {
+    font-size: var(--ui-font-size);
+}
