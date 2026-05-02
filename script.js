@@ -34,6 +34,7 @@ const generiquesEN = {
 
 const UI = {
     fr: {
+        mapTitle: "🗺️ Carte Heartopia",
         modeUser: "👀 Mode utilisateur",
         modeAdmin: "🔐 Mode admin",
         niveauPassion: "Niveau de passion",
@@ -49,6 +50,7 @@ const UI = {
         filtreOiseaux: "Oiseaux",
         filtreInsectes: "Insectes",
         filtreCollectibles: "Collectibles",
+        suppressionCollectible: "🗑️ Mode suppression actif",
         legendeTitre: "🍄 Collectibles",
         meteoActuelle: "☁️ Météo actuelle",
         serveur: "🌍 Serveur",
@@ -74,6 +76,7 @@ const UI = {
         adminImporterLieux: "📥 Importer lieux",
     },
     en: {
+        mapTitle: "🗺️ Heartopia Map",
         modeUser: "👀 User mode",
         modeAdmin: "🔐 Admin mode",
         niveauPassion: "Hobby level",
@@ -89,6 +92,7 @@ const UI = {
         filtreOiseaux: "Birds",
         filtreInsectes: "Insects",
         filtreCollectibles: "Collectibles",
+        suppressionCollectible: "🗑️ Delete mode active",
         legendeTitre: "🍄 Collectibles",
         meteoActuelle: "☁️ Current weather",
         serveur: "🌍 Server",
@@ -229,9 +233,9 @@ function mettreAJourUI() {
     document.getElementById("labelFiltreOiseaux").textContent = t("filtreOiseaux");
     document.getElementById("labelFiltreInsectes").textContent = t("filtreInsectes");
     document.getElementById("labelFiltreCollectibles").textContent = t("filtreCollectibles");
-    document.getElementById("titrePage").textContent = langue === "fr" ? "🗺️ Carte Heartopia" : "🗺️ Heartopia Map";
+    document.getElementById("titrePage").textContent = t("mapTitle");
     document.getElementById("labelMeteo").textContent = t("meteoActuelle");
-    document.getElementById("labelServeur").textContent = langue === "fr" ? "🌍 Serveur" : "🌍 Server";
+    document.getElementById("labelServeur").textContent = t("serveur");
     document.querySelectorAll(".meteo-label-soleil").forEach(el => el.textContent = t("meteoSoleil"));
     document.querySelectorAll(".meteo-label-pluie").forEach(el => el.textContent = t("meteoPluie"));
     document.querySelectorAll(".meteo-label-arc").forEach(el => el.textContent = t("meteoArc"));
@@ -247,8 +251,7 @@ function mettreAJourUI() {
     document.getElementById("btnAdminOiseau").textContent = t("adminAjouterOiseau");
     document.getElementById("btnAdminCollectible").textContent = t("adminAjouterCollectible");
     document.getElementById("btnSuppressionCollectible").textContent = suppressionCollectibleMode 
-        ? (langue === "fr" ? "🗑️ Mode suppression actif" : "🗑️ Delete mode active")
-        : t("adminSupprimerPosition");
+        ? t("suppressionCollectible") : t("adminSupprimerPosition");
     document.getElementById("btnAdminSupprimerElement").textContent = t("adminSupprimerElement");
     document.getElementById("btnAdminExporter").textContent = t("adminExporter");
     document.getElementById("btnAdminImporter").textContent = t("adminImporter");
@@ -1376,7 +1379,6 @@ function appliquerFiltres() {
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
         toggleSpeciaux();
-        toggleSpeciaux();
     }
 }
 
@@ -1385,13 +1387,12 @@ function toggleSuppressionCollectible() {
     const btn = document.getElementById("btnSuppressionCollectible");
     if (suppressionCollectibleMode) {
         btn.style.background = "#c0392b";
-        btn.textContent = "🗑️ Mode suppression actif";
-        container.style.cursor = "crosshair";
+        btn.textContent = t("suppressionCollectible");
     } else {
         btn.style.background = "";
-        btn.textContent = "🗑️ Supprimer position";
-        container.style.cursor = "crosshair";
+        btn.textContent = t("adminSupprimerPosition");
     }
+    container.style.cursor = "crosshair";
 }
 
 function openSuppressionPanel() {
