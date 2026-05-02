@@ -32,6 +32,11 @@ const generiquesEN = {
     "Attracteur d'insectes": "Insect Lure"
 };
 
+const languages = {
+    fr: 0,
+    en: 1
+}
+
 const UI = {
     fr: {
         mapTitle: "🗺️ Carte Heartopia",
@@ -123,6 +128,10 @@ function t(key) {
     return UI[langue][key] || key;
 }
 
+function l() {
+    return languages[langue];
+}
+
 const inner = document.getElementById("map-inner");
 const container = document.getElementById("map-container");
 container.classList.add("add-mode");
@@ -160,7 +169,7 @@ function setMode(newMode) {
         container.classList.add("editor-mode");
         container.style.cursor = "crosshair";
         selectedPlace = null;
-        document.getElementById("placeTitle").textContent = langue === "fr" ? "Aucun lieu sélectionné" : "No location selected";
+        document.getElementById("placeTitle").textContent = t("aucunLieu");
         document.getElementById("elementsPanel").classList.add("hidden");
         document.getElementById("btnSpeciaux").classList.add("hidden");
         updateModeButtons();
@@ -173,7 +182,7 @@ function setMode(newMode) {
     container.classList.remove("editor-mode");
     container.style.cursor = "default";
     selectedPlace = null;
-    document.getElementById("placeTitle").textContent = langue === "fr" ? "Aucun lieu sélectionné" : "No location selected";
+    document.getElementById("placeTitle").textContent = t("aucunLieu");
     document.getElementById("elementsPanel").classList.add("hidden");
     document.getElementById("btnSpeciaux").classList.add("hidden");
     updateModeButtons();
@@ -272,7 +281,7 @@ function getNomLieu(nomFr) {
 function getNom(element) {
     if (!element || !element.name) return "";
     if (Array.isArray(element.name)) {
-        return langue === "fr" ? element.name[0] : element.name[1];
+        return element.name[l()];
     }
     return element.name;
 }
@@ -280,7 +289,7 @@ function getNom(element) {
 function getLieu(element) {
     if (!element || !element.lieu) return "";
     if (Array.isArray(element.lieu)) {
-        return langue === "fr" ? element.lieu[0] : element.lieu[1];
+        return element.lieu[l()];
     }
     return element.lieu;
 }
@@ -321,7 +330,7 @@ function afficherElementsLieu(nomLieu) {
     list.innerHTML = "";
 
     if (Object.keys(resultats).length === 0) {
-        list.innerHTML = `<div style='color:#666;font-size:14px'>${langue === "fr" ? "Aucun élément répertorié" : "No elements found"}</div>`;
+        list.innerHTML = `<div style='color:#666;font-size:14px'>${t("aucunElement")}</div>`;
         return;
     }
 
