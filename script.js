@@ -1176,7 +1176,7 @@ function afficherGroupeElements(elements, container) {
         [...document.querySelectorAll(".meteo-cb")].filter(cb => cb.checked).map(cb => cb.value)
     );
 
-    const tranchesOrdre = ["matin", "apres-midi", "soir", "nuit"];
+    const tranchesOrdre = ["matin", "après-midi", "soir", "nuit"];
 
     function decalerHeure(h) {
         const idx = tranchesOrdre.indexOf(h);
