@@ -1333,27 +1333,88 @@ function toggleSpeciaux() {
     }
 }
 
+function groupByType(items) {
+    const groups = {};
+    items.forEach(item => {
+        if (!groups[item.type]) {
+            groups[item.type] = [];
+        }
+        groups[item.type].push(item);
+    });
+    return groups;
+}
+
+function createSeparator() {
+    const hr = document.createElement("hr");
+    hr.className = "hobby-separator";
+    return hr;
+}
+
 function afficherLegende() {
     const list = document.getElementById("legendeList");
     list.innerHTML = "";
 
-    const collectiblesAvecSpawns = collectibles.filter(c => c.spawns && c.spawns.length > 0);
+    const panel = document.getElementById("legendeCollectibles");
 
-    if (collectiblesAvecSpawns.length === 0) {
-        document.getElementById("legendeCollectibles").classList.add("hidden");
+    // filtre collectibles visibles
+    const visibles = collectibles.filter(c => c.spawns && c.spawns.length > 0);
+
+    if (visibles.length === 0) {
+        panel.classList.add("hidden");
         return;
     }
 
-    document.getElementById("legendeCollectibles").classList.remove("hidden");
+    panel.classList.remove("hidden");
 
-    collectiblesAvecSpawns.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "legende-item";
-        div.innerHTML = `
-            <div class="legende-pastille" style="background: ${c.color || "#e67e22"}"></div>
-            <span>${getNom(c)}</span>
-        `;
-        list.appendChild(div);
+    const i = languages[langue]; // 👈 index langue (0 ou 1)
+
+    // regroupement par type (dans la langue actuelle)
+    const grouped = {};
+
+    visibles.forEach(c => {
+        const typeKey = c.type[i] || c.type[0]; // fallback
+
+        if (!grouped[typeKey]) {
+            grouped[typeKey] = [];
+        }
+        grouped[typeKey].push(c);
+    });
+
+    // affichage
+    Object.keys(grouped).forEach((type) => {
+
+        const i = languages[langue];
+
+        // HR haut
+        list.appendChild(createSeparator());
+
+        // titre
+        const title = document.createElement("div");
+        title.className = "legende-type-title";
+        title.textContent = type + "s";
+        list.appendChild(title);
+
+        // HR bas
+        list.appendChild(createSeparator());
+
+        // items
+        grouped[type]
+            .sort((a, b) => {
+                const nameA = a.name[i] || a.name[0];
+                const nameB = b.name[i] || b.name[0];
+                return nameA.localeCompare(nameB, 'fr', { sensitivity: 'base' });
+            })
+            .forEach(c => {
+                const div = document.createElement("div");
+                div.className = "legende-item";
+
+                div.innerHTML = `
+                    <div class="legende-pastille" style="background:${c.color || "#e67e22"}"></div>
+                    <span>${c.name[i] || c.name[0]}</span>
+                `;
+
+                list.appendChild(div);
+            });
     });
 }
 
