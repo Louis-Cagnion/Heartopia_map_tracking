@@ -542,3 +542,31 @@ button {
 #labelMeteoModeEt {
     font-size: var(--ui-font-size);
 }
+
+.element-details {
+    background: #1a1a1a;
+    border-left: 3px solid #e8a44a;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-top: 4px;
+    font-size: var(--ui-font-size);
+    color: #ccc;
+}
+
+.element-details-row {
+    margin: 3px 0;
+}
+
+.elements-lieu-liste li {
+    padding: 2px 0;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+}
+
+.elements-lieu-liste li:hover {
+    color: #e8a44a;
+}
+
+.elements-lieu-liste li.selected {
+    color: #e8a44a;
+}

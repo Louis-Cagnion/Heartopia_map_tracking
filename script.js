@@ -1,14 +1,15 @@
 let places = JSON.parse(localStorage.getItem("places")) || [];
 let selectedPlace = null;
 let draggingPlace = null;
+let selectedElement = null;
+let isPanning = false;
 let mode = "user";
+let langue = "fr";
 let zoom = 1;
 let panX = 0;
 let panY = 0;
-let isPanning = false;
 let panStartX = 0;
 let panStartY = 0;
-let langue = "fr";
 const traductionsHeures = {
     "matin": "dawn",
     "après-midi": "day",
@@ -32,7 +33,7 @@ const generiquesEN = {
     "Attracteur d'insectes": "Insect Lure"
 };
 
-const languages = {
+const langIndex = {
     fr: 0,
     en: 1
 }
@@ -79,6 +80,9 @@ const UI = {
         adminImporter: "📥 Importer éléments",
         adminExporterLieux: "📤 Exporter lieux",
         adminImporterLieux: "📥 Importer lieux",
+        detailsHeures: "🕐 Horaires",
+        detailsMeteo: "☁️ Météo",
+        detailsHobby: "💗 Niveau",
     },
     en: {
         mapTitle: "🗺️ Heartopia Map",
@@ -121,6 +125,9 @@ const UI = {
         adminImporter: "📥 Import elements",
         adminExporterLieux: "📤 Export locations",
         adminImporterLieux: "📥 Import locations",
+        detailsHeures: "🕐 Schedule",
+        detailsMeteo: "☁️ Weather",
+        detailsHobby: "💗 Level",
     }
 };
 
@@ -128,8 +135,8 @@ function t(key) {
     return UI[langue][key] || key;
 }
 
-function l() {
-    return languages[langue];
+function li() {
+    return langIndex[langue];
 }
 
 const inner = document.getElementById("map-inner");
@@ -281,7 +288,7 @@ function getNomLieu(nomFr) {
 function getNom(element) {
     if (!element || !element.name) return "";
     if (Array.isArray(element.name)) {
-        return element.name[l()];
+        return element.name[li()];
     }
     return element.name;
 }
@@ -289,7 +296,7 @@ function getNom(element) {
 function getLieu(element) {
     if (!element || !element.lieu) return "";
     if (Array.isArray(element.lieu)) {
-        return element.lieu[l()];
+        return element.lieu[li()];
     }
     return element.lieu;
 }
@@ -459,16 +466,16 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
         e.stopPropagation();
     };
     el.onclick = function(e) {
-    if (mode !== "admin") return;
-    if (!suppressionCollectibleMode) return;
-    e.stopPropagation();
+        if (mode !== "admin") return;
+        if (!suppressionCollectibleMode) return;
+        e.stopPropagation();
 
-    if (!confirm("Supprimer cette position ?")) return;
+        if (!confirm("Supprimer cette position ?")) return;
 
-    const name = el.dataset.collectibleName;
-    const idx = parseInt(el.dataset.spawnIndex);
+        const name = el.dataset.collectibleName;
+        const idx = parseInt(el.dataset.spawnIndex);
 
-    const collectible = collectibles.find(c => c.name === name);
+        const collectible = collectibles.find(c => c.name === name);
         if (collectible) {
             collectible.spawns.splice(idx, 1);
 
@@ -627,6 +634,9 @@ function createPlaceMarker(name, x, y, level = 1) {
 
     el.onclick = function(e) {
         e.stopPropagation();
+        selectedElement = null;
+        document.querySelectorAll(".element-details").forEach(d => d.remove());
+        document.querySelectorAll(".elements-lieu-liste li.selected").forEach(l => l.classList.remove("selected"));
         selectedPlace = name;
         const title = document.getElementById("placeTitle");
         if (title) {
@@ -1245,7 +1255,8 @@ function afficherGroupeElements(elements, container) {
             niveau: p.niveau_hobby,
             hobbyUser: hobbyPoisson,
             heures: p.heures || [],
-            meteos: p.meteos || []
+            meteos: p.meteos || [],
+            element: p
         })) : []),
         ...(filtres["oiseau"] ? oiseaux.filter(o => elements.includes(Array.isArray(o.name) ? o.name[0] : o.name)).map(o => ({
             name: getNom(o),
@@ -1253,7 +1264,8 @@ function afficherGroupeElements(elements, container) {
             niveau: o.niveau_hobby,
             hobbyUser: hobbyOiseau,
             heures: o.heures || [],
-            meteos: o.meteos || []
+            meteos: o.meteos || [],
+            element: o
         })) : []),
         ...(filtres["insecte"] ? insectes.filter(i => elements.includes(Array.isArray(i.name) ? i.name[0] : i.name)).map(i => ({
             name: getNom(i),
@@ -1261,7 +1273,8 @@ function afficherGroupeElements(elements, container) {
             niveau: i.niveau_hobby,
             hobbyUser: hobbyInsecte,
             heures: i.heures || [],
-            meteos: i.meteos || []
+            meteos: i.meteos || [],
+            element: i
         })) : [])
     ];
 
@@ -1271,7 +1284,7 @@ function afficherGroupeElements(elements, container) {
     const heuresCochees = new Set(
         [...document.querySelectorAll(".heure-cb")].filter(cb => cb.checked).map(cb => cb.value)
     );
-    tousElements.forEach(({ name, emoji, niveau, hobbyUser, heures, meteos }) => {
+    tousElements.forEach(({ name, emoji, niveau, hobbyUser, heures, meteos, element }) => {
         const debloque = hobbyUser === null || niveau <= hobbyUser;
         const heuresDecalees = heures.map(decalerHeure);
         const meteoMode = document.querySelector("input[name='meteoMode']:checked").value;
@@ -1280,17 +1293,50 @@ function afficherGroupeElements(elements, container) {
             : meteos.length === meteosCochees.size && meteos.every(m => meteosCochees.has(m));
         const heureOk = heuresDecalees.some(h => heuresCochees.has(h));
 
-        // Si non débloqué et case décochée → cacher
         if (!debloque && !afficherNonDebloques) return;
 
         auMoinsUn = true;
         const li = document.createElement("li");
+        const nameFr = Array.isArray(element.name) ? element.name[0] : element.name;
+        li.dataset.nameFr = nameFr;
         li.textContent = `${emoji} ${name}`;
 
-        // Griser si non débloqué OU météo/heure incorrecte
         if (!debloque || !meteoOk || !heureOk) {
             li.style.color = "#555";
         }
+
+        // Sélection et détails
+        li.onclick = function(e) {
+            e.stopPropagation();
+
+            // Fermer l'ancien détail
+            document.querySelectorAll(".element-details").forEach(d => d.remove());
+            document.querySelectorAll(".elements-lieu-liste li.selected").forEach(l => l.classList.remove("selected"));
+
+            if (selectedElement === nameFr) {
+                selectedElement = null;
+                return;
+            }
+
+            selectedElement = nameFr;
+            li.classList.add("selected");
+
+            // Créer la fenêtre de détails
+            const details = document.createElement("div");
+            details.className = "element-details";
+
+            const heuresAffichees = heuresDecalees.map(h => traduireHeure(h)).join(", ");
+            const meteosAffichees = meteos.map(m => traduireMeteo(m)).join(", ");
+            const niveauAffiche = niveau || "?";
+
+            details.innerHTML = `
+                <div class="element-details-row">${t("detailsHeures")} : ${heuresAffichees}</div>
+                <div class="element-details-row">${t("detailsMeteo")} : ${meteosAffichees}</div>
+                <div class="element-details-row">${t("detailsHobby")} : ${niveauAffiche}</div>
+            `;
+
+            li.insertAdjacentElement("afterend", details);
+        };
 
         ul.appendChild(li);
     });
@@ -1366,7 +1412,7 @@ function afficherLegende() {
 
     panel.classList.remove("hidden");
 
-    const i = languages[langue]; // 👈 index langue (0 ou 1)
+    const i = langIndex[langue]; // 👈 index langue (0 ou 1)
 
     // regroupement par type (dans la langue actuelle)
     const grouped = {};
@@ -1383,7 +1429,7 @@ function afficherLegende() {
     // affichage
     Object.keys(grouped).forEach((type) => {
 
-        const i = languages[langue];
+        const i = langIndex[langue];
 
         // HR haut
         list.appendChild(createSeparator());
