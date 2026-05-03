@@ -379,8 +379,9 @@ function afficherElementsLieu(nomLieu) {
                 div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
             }
             premierLieu = false;
-            afficherGroupeElements(resultats[lieu], div);
-            list.appendChild(div);
+            if (afficherGroupeElements(resultats[lieu], div)) {
+                list.appendChild(div);
+            }
         }
     });
 
@@ -390,8 +391,9 @@ function afficherElementsLieu(nomLieu) {
                 const div = document.createElement("div");
                 div.className = "elements-lieu";
                 div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} :</div>`;
-                afficherGroupeElements(resultats[sz], div);
-                list.appendChild(div);
+                if (afficherGroupeElements(resultats[sz], div)) {
+                    list.appendChild(div);
+                }
             }
             const lieuxSZ = getLieuxPourRecherche(sz);
             lieuxSZ.forEach(lieu => {
@@ -399,8 +401,9 @@ function afficherElementsLieu(nomLieu) {
                     const div = document.createElement("div");
                     div.className = "elements-lieu";
                     div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} (${getNomLieu(lieu)}) :</div>`;
-                    afficherGroupeElements(resultats[lieu], div);
-                    list.appendChild(div);
+                    if (afficherGroupeElements(resultats[lieu], div)) {
+                        list.appendChild(div);
+                    }
                 }
             });
         });
@@ -1371,6 +1374,7 @@ function afficherGroupeElements(elements, container) {
     });
 
     if (auMoinsUn) container.appendChild(ul);
+    return auMoinsUn;
 }
 
 function toggleSpeciaux() {
