@@ -1320,8 +1320,9 @@ function afficherGroupeElements(elements, container) {
             ? meteos.some(m => meteosCochees.has(m))
             : meteos.length === meteosCochees.size && meteos.every(m => meteosCochees.has(m));
         const heureOk = heuresDecalees.some(h => heuresCochees.has(h));
+        const visible = debloque && meteoOk && heureOk;
 
-        if (!debloque && !afficherNonDebloques) return;
+        if (!visible && !afficherNonDebloques) return;
 
         auMoinsUn = true;
         const li = document.createElement("li");
@@ -1329,7 +1330,7 @@ function afficherGroupeElements(elements, container) {
         li.dataset.nameFr = nameFr;
         li.textContent = `${emoji} ${name}`;
 
-        if (!debloque || !meteoOk || !heureOk) {
+        if (!visible) {
             li.style.color = "#555";
         }
 
