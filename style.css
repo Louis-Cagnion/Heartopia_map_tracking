@@ -1,5 +1,5 @@
 :root {
-    --ui-font-size: 22px;
+    --ui-font-size: 16px;
 }
 
 body {
@@ -17,8 +17,8 @@ button {
 #map-container {
     overflow: hidden;
     user-select: none;
-    width: 900px;
-    height: 898px;
+    width: 675px;
+    height: 674px;
     display: inline-block;
     border: 5px solid rgba(255, 255, 255, 0.4);
     border-radius: 4px;
@@ -26,9 +26,8 @@ button {
 
 #map-inner {
     position: relative;
-    width: 900px;
-    height: 908px;
-    transform-origin: 0 0;
+    transform: scale(0.75);
+    transform-origin: top left;
     cursor: grab;
 }
 
@@ -41,7 +40,7 @@ button {
 }
 
 #map {
-    width: 900px;
+    width: 675px;
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;
@@ -407,7 +406,7 @@ button {
     flex-shrink: 0;
 }
 
-#userPreferences {
+#userSettings {
     position: fixed;
     left: 20px;
     top: 20px;
@@ -415,9 +414,9 @@ button {
     padding: 10px;
     border-radius: 8px;
     color: white;
-    z-index: 100;
+    z-index: 101;
     font-size: var(--ui-font-size);
-    min-width: 280px;
+    display: inline-block;
 }
 
 #btnLangue {
@@ -465,7 +464,10 @@ button {
 }
 
 #userPreferences {
-    position: fixed;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 15px auto;
+    width: fit-content;
     left: 20px;
     top: 20px;
     background: #111;

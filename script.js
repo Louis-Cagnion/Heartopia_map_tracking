@@ -104,7 +104,7 @@ const UI = {
         mapTitle: "🗺️ Carte Heartopia",
         modeUser: "👀 Mode utilisateur",
         modeAdmin: "🔐 Mode admin",
-        niveauPassion: "Niveau de passion",
+        niveauPassion: "💗 Niveau de passion",
         peche: "🐟 Pêche",
         observation: "🪶 Observation des oiseaux",
         attrapage: "🐛 Attrapage d'insectes",
@@ -120,6 +120,7 @@ const UI = {
         suppressionCollectible: "🗑️ Mode suppression actif",
         legendeTitre: "🍄 Collectibles ▶",
         meteoActuelle: "☁️ Météo actuelle",
+        langue: "🌐 Langue",
         serveur: "🌍 Serveur",
         meteoSoleil: "Soleil",
         meteoPluie: "Pluie",
@@ -149,7 +150,7 @@ const UI = {
         mapTitle: "🗺️ Heartopia Map",
         modeUser: "👀 User mode",
         modeAdmin: "🔐 Admin mode",
-        niveauPassion: "Hobby level",
+        niveauPassion: "💗 Hobby level",
         peche: "🐟 Fishing",
         observation: "🪶 Birdwatching",
         attrapage: "🐛 Insect catching",
@@ -165,6 +166,7 @@ const UI = {
         suppressionCollectible: "🗑️ Delete mode active",
         legendeTitre: "🍄 Collectibles ▶",
         meteoActuelle: "☁️ Current weather",
+        langue: "🌐 Language",
         serveur: "🌍 Server",
         meteoSoleil: "Sunny",
         meteoPluie: "Rainy",
@@ -312,52 +314,53 @@ function traduireMeteo(m) {
 
 function toggleLangue() {
     langue = langue === "fr" ? "en" : "fr";
-    document.getElementById("btnLangue").textContent = langue === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
+    btnLangue.textContent = langue === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
     mettreAJourUI();
     rafraichirAffichage();
 }
 
 function mettreAJourUI() {
-    document.getElementById("btnUser").textContent = t("modeUser");
-    document.getElementById("btnAdmin").textContent = t("modeAdmin");
-    document.getElementById("labelNiveauPassion").textContent = t("niveauPassion");
-    document.getElementById("labelPeche").textContent = t("peche");
-    document.getElementById("labelObservation").textContent = t("observation");
-    document.getElementById("labelAttrapage").textContent = t("attrapage");
-    document.getElementById("labelAfficherNonDebloques").textContent = t("afficherNonDebloques");
-    document.getElementById("btnSpeciaux").textContent = t("speciaux");
-    document.getElementById("panelSpeciauxTitre").textContent = t("panelSpeciaux");
-    document.getElementById("legendeCollectiblesTitre").textContent = t("legendeTitre");
-    document.getElementById("labelFiltrePoissons").textContent = t("filtrePoissons");
-    document.getElementById("labelFiltreOiseaux").textContent = t("filtreOiseaux");
-    document.getElementById("labelFiltreInsectes").textContent = t("filtreInsectes");
-    document.getElementById("labelFiltreCollectibles").textContent = t("filtreCollectibles");
-    document.getElementById("titrePage").textContent = t("mapTitle");
-    document.getElementById("labelMeteo").textContent = t("meteoActuelle");
-    document.getElementById("labelServeur").textContent = t("serveur");
+    btnUser.textContent = t("modeUser");
+    btnAdmin.textContent = t("modeAdmin");
+    labelNiveauPassion.textContent = t("niveauPassion");
+    labelPeche.textContent = t("peche");
+    labelObservation.textContent = t("observation");
+    labelAttrapage.textContent = t("attrapage");
+    labelAfficherNonDebloques.textContent = t("afficherNonDebloques");
+    btnSpeciaux.textContent = t("speciaux");
+    panelSpeciauxTitre.textContent = t("panelSpeciaux");
+    legendeCollectiblesTitre.textContent = t("legendeTitre");
+    labelFiltrePoissons.textContent = t("filtrePoissons");
+    labelFiltreOiseaux.textContent = t("filtreOiseaux");
+    labelFiltreInsectes.textContent = t("filtreInsectes");
+    labelFiltreCollectibles.textContent = t("filtreCollectibles");
+    titrePage.textContent = t("mapTitle");
+    labelMeteo.textContent = t("meteoActuelle");
+    labelServeur.textContent = t("serveur");
+    labelLangue.textContent = t("langue");
     document.querySelectorAll(".meteo-label-soleil").forEach(el => el.textContent = t("meteoSoleil"));
     document.querySelectorAll(".meteo-label-pluie").forEach(el => el.textContent = t("meteoPluie"));
     document.querySelectorAll(".meteo-label-arc").forEach(el => el.textContent = t("meteoArc"));
-    document.getElementById("labelHoraires").textContent = t("horaires");
-    document.getElementById("labelMatin").textContent = t("matin");
-    document.getElementById("labelApresMidi").textContent = t("apresMidi");
-    document.getElementById("labelSoir").textContent = t("soir");
-    document.getElementById("labelNuit").textContent = t("nuit");
-    document.getElementById("labelMeteoModeOu").textContent = t("meteoModeOu");
-    document.getElementById("labelMeteoModeEt").textContent = t("meteoModeEt");
-    document.getElementById("btnAdminPoisson").textContent = t("adminAjouterPoisson");
-    document.getElementById("btnAdminInsecte").textContent = t("adminAjouterInsecte");
-    document.getElementById("btnAdminOiseau").textContent = t("adminAjouterOiseau");
-    document.getElementById("btnAdminCollectible").textContent = t("adminAjouterCollectible");
-    document.getElementById("btnSuppressionCollectible").textContent = suppressionCollectibleMode 
+    labelHoraires.textContent = t("horaires");
+    labelMatin.textContent = t("matin");
+    labelApresMidi.textContent = t("apresMidi");
+    labelSoir.textContent = t("soir");
+    labelNuit.textContent = t("nuit");
+    labelMeteoModeOu.textContent = t("meteoModeOu");
+    labelMeteoModeEt.textContent = t("meteoModeEt");
+    btnAdminPoisson.textContent = t("adminAjouterPoisson");
+    btnAdminInsecte.textContent = t("adminAjouterInsecte");
+    btnAdminOiseau.textContent = t("adminAjouterOiseau");
+    btnAdminCollectible.textContent = t("adminAjouterCollectible");
+    btnSuppressionCollectible.textContent = suppressionCollectibleMode 
         ? t("suppressionCollectible") : t("adminSupprimerPosition");
-    document.getElementById("btnAdminSupprimerElement").textContent = t("adminSupprimerElement");
-    document.getElementById("btnAdminExporter").textContent = t("adminExporter");
-    document.getElementById("btnAdminImporter").textContent = t("adminImporter");
-    document.getElementById("btnAdminExporterLieux").textContent = t("adminExporterLieux");
-    document.getElementById("btnAdminImporterLieux").textContent = t("adminImporterLieux");
+    btnAdminSupprimerElement.textContent = t("adminSupprimerElement");
+    btnAdminExporter.textContent = t("adminExporter");
+    btnAdminImporter.textContent = t("adminImporter");
+    btnAdminExporterLieux.textContent = t("adminExporterLieux");
+    btnAdminImporterLieux.textContent = t("adminImporterLieux");
     if (!selectedPlace) {
-        document.getElementById("placeTitle").textContent = t("aucunLieu");
+        placeTitle.textContent = t("aucunLieu");
     }
 }
 
