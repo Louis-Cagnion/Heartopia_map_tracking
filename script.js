@@ -1,4 +1,65 @@
-let places = JSON.parse(localStorage.getItem("places")) || [];
+async function loadDatabaseAuto() {
+    const keys = [
+        { key: "poissons", file: "poissons.json" },
+        { key: "insectes", file: "insectes.json" },
+        { key: "oiseaux", file: "oiseaux.json" },
+        { key: "collectibles", file: "collectibles.json" },
+        { key: "places", file: "lieux.json" }
+    ];
+
+    const promises = keys.map(async ({ key, file }) => {
+        const local = localStorage.getItem(key);
+
+        if (local) {
+            return { key, data: JSON.parse(local) };
+        }
+
+        try {
+            const res = await fetch(`database/${file}`);
+            const data = await res.json();
+            return { key, data };
+        } catch (e) {
+            console.warn(`Erreur chargement ${file}`, e);
+            return { key, data: [] };
+        }
+    });
+
+    const results = await Promise.all(promises);
+
+    results.forEach(({ key, data }) => {
+        if (key === "poissons") poissons = data;
+        if (key === "insectes") insectes = data;
+        if (key === "oiseaux") oiseaux = data;
+        if (key === "collectibles") collectibles = data;
+        if (key === "places") places = data; // injecte poissons, insectes, etc.
+        localStorage.setItem(key, JSON.stringify(data)); // cache local
+    });
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    await loadDatabaseAuto();
+
+    places.forEach(p => {
+        const nameFr = Array.isArray(p.name) ? p.name[0] : p.name;
+        createPlaceMarker(nameFr, p.x, p.y, p.level || 1);
+    });
+
+    collectibles.forEach(c => {
+        c.spawns.forEach((s, i) => {
+            createCollectibleMarker(s.x, s.y, c.type, c.name, i, c.color || "#e67e22");
+        });
+    });
+
+    setTimeout(() => {
+        applyTransform();
+        updateMarkerVisibility();
+        repositionLabels();
+        clampLabels();
+        afficherLegende();
+        mettreAJourUI();
+    }, 100);
+});
+
 let selectedPlace = null;
 let draggingPlace = null;
 let selectedElement = null;
@@ -168,10 +229,11 @@ container.classList.add("add-mode");
 // 🐟 ELEMENTS
 // =========================
 
-let poissons = JSON.parse(localStorage.getItem("poissons")) || [];
-let insectes = JSON.parse(localStorage.getItem("insectes")) || [];
-let oiseaux = JSON.parse(localStorage.getItem("oiseaux")) || [];
-let collectibles = JSON.parse(localStorage.getItem("collectibles")) || [];
+let poissons = [];
+let insectes = [];
+let oiseaux = [];
+let collectibles = [];
+let places = [];
 
 let collectiblePlacementMode = false;
 let currentCollectible = null;
