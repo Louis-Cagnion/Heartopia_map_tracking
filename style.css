@@ -570,3 +570,15 @@ button {
 .elements-lieu-liste li.selected {
     color: #e8a44a;
 }
+
+#hobbyPoisson, #hobbyOiseau, #hobbyInsecte {
+    width: 60px;
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: var(--ui-font-size);
+    text-align: center;
+    flex-shrink: 0;
+}

@@ -131,6 +131,27 @@ const UI = {
     }
 };
 
+function remplirSelectNiveaux(selectIds, max = 10) {
+    const valeurDefaut = max;
+    const options = `
+        <option value="">—</option>
+        ${Array.from({ length: max }, (_, i) => `
+            <option value="${i + 1}" ${i + 1 === valeurDefaut ? "selected" : ""}>
+                ${i + 1}
+            </option>
+        `).join("")}
+    `;
+
+    selectIds.forEach(id => {
+        const select = document.getElementById(id);
+
+        // évite d'écraser un select déjà rempli
+        if (select && select.children.length === 0) {
+            select.innerHTML = options;
+        }
+    });
+}
+
 function t(key) {
     return UI[langue][key] || key;
 }
@@ -302,7 +323,8 @@ function getLieu(element) {
 }
 
 function rafraichirAffichage() {
-    // Mettre à jour les labels sur la carte
+    const elementOuvert = selectedElement; // sauvegarder avant rafraîchissement
+
     document.querySelectorAll(".place-marker").forEach(el => {
         const name = el.dataset.name;
         const place = places.find(p => Array.isArray(p.name) ? p.name[0] === name : p.name === name);
@@ -312,18 +334,24 @@ function rafraichirAffichage() {
         }
     });
 
-    // Mettre à jour la légende collectibles
     afficherLegende();
 
-    // Mettre à jour le panneau info si un lieu est sélectionné
     if (selectedPlace) {
         const place = places.find(p => (Array.isArray(p.name) ? p.name[0] : p.name) === selectedPlace);
         const title = document.getElementById("placeTitle");
         if (title && place) title.textContent = getNom(place);
         afficherElementsLieu(selectedPlace);
+
+        // Rouvrir le détail si un élément était sélectionné
+        if (elementOuvert) {
+            setTimeout(() => {
+                const li = [...document.querySelectorAll(".elements-lieu-liste li")]
+                    .find(li => li.dataset.nameFr === elementOuvert);
+                if (li) li.click();
+            }, 50);
+        }
     }
 
-    // Mettre à jour le panneau spéciaux si ouvert
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
         toggleSpeciaux();
@@ -1603,3 +1631,9 @@ titre.addEventListener("click", () => {
     panel.classList.toggle("closed");
     titre.textContent = "🍄 Collectibles " + (panel.classList.contains("closed") ? "▶" : "▼");
 });
+
+remplirSelectNiveaux([
+    "hobbyPoisson",
+    "hobbyOiseau",
+    "hobbyInsecte"
+]);
