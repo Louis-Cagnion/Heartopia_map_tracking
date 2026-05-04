@@ -167,6 +167,8 @@ const UI = {
         detailsMeteo: "☁️ Météo",
         detailsHobby: "💗 Niveau",
         filtres: "Filtres",
+        ongletCarte: "🗺️ Carte",
+        ongletTab2: "📋 ?",
     },
     en: {
         titreWebsite: "Heartopia Map",
@@ -234,6 +236,8 @@ const UI = {
         detailsMeteo: "☁️ Weather",
         detailsHobby: "💗 Level",
         filtres: "Filters",
+        ongletCarte: "🗺️ Map",
+        ongletTab2: "📋 ?",
     }
 };
 
@@ -432,6 +436,8 @@ function mettreAJourUI() {
     btnAdminImporter.textContent = t("adminImporter");
     btnAdminExporterLieux.textContent = t("adminExporterLieux");
     btnAdminImporterLieux.textContent = t("adminImporterLieux");
+    document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]").textContent = t("ongletCarte");
+    document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]").textContent = t("ongletTab2");
     setFilterToggleText();
     if (!selectedPlace) {
         placeTitle.textContent = t("aucunLieu");
@@ -809,6 +815,17 @@ function createPlaceMarker(name, x, y, level = 1) {
 
     el.onclick = function(e) {
         e.stopPropagation();
+
+        if (selectedPlace === name) {
+            selectedPlace = null;
+            selectedElement = null;
+            document.querySelectorAll(".element-details").forEach(d => d.remove());
+            document.querySelectorAll(".elements-lieu-liste li.selected").forEach(l => l.classList.remove("selected"));
+            document.getElementById("placeTitle").textContent = t("aucunLieu");
+            document.getElementById("elementsPanel").classList.add("hidden");
+            return;
+        }
+        
         selectedElement = null;
         document.querySelectorAll(".element-details").forEach(d => d.remove());
         document.querySelectorAll(".elements-lieu-liste li.selected").forEach(l => l.classList.remove("selected"));
@@ -997,8 +1014,10 @@ function clampLabels() {
 // =========================
 
 function applyTransform() {
-    const minPanX = -(900 * zoom - 900);
-    const minPanY = -(908 * zoom - 908);
+    const mapW = 675;
+    const mapH = 674;
+    const minPanX = -(mapW * zoom - mapW);
+    const minPanY = -(mapH * zoom - mapH);
     panX = Math.min(0, Math.max(panX, minPanX));
     panY = Math.min(0, Math.max(panY, minPanY));
     inner.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
@@ -1821,3 +1840,73 @@ filterToggle.addEventListener("click", () => {
 });
 
 setFilterToggleText();
+
+function switchTab(tabName) {
+    document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById("tab-" + tabName).classList.add("active");
+    document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add("active");
+    currentTab = tabName;
+}
+
+let currentTab = "map";
+const tabs = ["map", "tab2"];
+
+// Flèches clavier
+document.addEventListener("keydown", (e) => {
+    const idx = tabs.indexOf(currentTab);
+    if (e.key === "ArrowRight" && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
+    if (e.key === "ArrowLeft" && idx > 0) switchTab(tabs[idx - 1]);
+});
+
+// Swipe mobile
+let touchStartX = 0;
+document.getElementById("tabContainer").addEventListener("touchstart", e => {
+    touchStartX = e.touches[0].clientX;
+});
+document.getElementById("tabContainer").addEventListener("touchend", e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    const idx = tabs.indexOf(currentTab);
+    if (diff > 50 && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
+    if (diff < -50 && idx > 0) switchTab(tabs[idx - 1]);
+});
+
+let lastTouchDist = null;
+
+document.getElementById("map-container").addEventListener("touchstart", e => {
+    if (e.touches.length === 2) {
+        lastTouchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        e.preventDefault();
+    }
+}, { passive: false });
+
+document.getElementById("map-container").addEventListener("touchmove", e => {
+    if (e.touches.length === 2 && lastTouchDist !== null) {
+        e.preventDefault();
+        const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        const delta = dist / lastTouchDist;
+        const rect = container.getBoundingClientRect();
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+        const newZoom = Math.min(Math.max(zoom * delta, 1), 5);
+        panX = midX - (midX - panX) * (newZoom / zoom);
+        panY = midY - (midY - panY) * (newZoom / zoom);
+        zoom = newZoom;
+        lastTouchDist = dist;
+        applyTransform();
+        updateMarkerVisibility();
+    }
+}, { passive: false });
+
+document.getElementById("map-container").addEventListener("touchend", e => {
+    if (e.touches.length < 2) {
+        lastTouchDist = null;
+        setTimeout(() => { repositionLabels(); clampLabels(); }, 50);
+    }
+});

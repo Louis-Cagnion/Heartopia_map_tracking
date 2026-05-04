@@ -39,116 +39,126 @@
         <div id="headerRight"></div>
     </div>
 
-    <div id="map-layout">
-
-        <!-- COLONNE GAUCHE : paramètres utilisateur -->
-        <div id="userColumn">
-
-            <div id="userPreferences">
-                <div id="filterToggle" class="hobby-section-title" style="cursor:pointer;">
-                    ▼ <span id="labelFiltres">Filtres</span>
-                </div>
-                <div id="hobbyPanel">
-                    <div id="labelMeteo" class="hobby-section-title">☁️ Météo actuelle</div>
-                    <hr class="hobby-separator">
-                    <div class="hobby-row" style="margin-top: 4px;">
-                        <label>
-                            <input type="radio" name="meteoMode" id="meteoModeOu" value="ou" checked>
-                            <span id="labelMeteoModeOu">Au moins une</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="meteoMode" id="meteoModeEt" value="et">
-                            <span id="labelMeteoModeEt">Exactement</span>
-                        </label>
-                    </div>
-                    <div class="hobby-row">
-                        <label><input type="checkbox" class="meteo-cb" value="soleil" checked> <span>☀️ <span class="meteo-label-soleil">Soleil</span></span></label>
-                        <label><input type="checkbox" class="meteo-cb" value="pluie" checked> <span>🌧️ <span class="meteo-label-pluie">Pluie</span></span></label>
-                        <label><input type="checkbox" class="meteo-cb" value="arc-en-ciel" checked> <span>🌈 <span class="meteo-label-arc">Arc-en-ciel</span></span></label>
-                    </div>
-
-                    <hr class="hobby-separator">
-                    <div id="labelHoraires" class="hobby-section-title">🕐 Horaires</div>
-                    <hr class="hobby-separator">
-                    <div class="hobby-row" style="margin-top: 4px;">
-                        <label>
-                            <input type="radio" name="heureMode" id="heureModeOu" value="ou" checked>
-                            <span id="labelHeureModeOu">Au moins une</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="heureMode" id="heureModeEt" value="et">
-                            <span id="labelHeureModeEt">Exactement</span>
-                        </label>
-                    </div>
-                    <div class="hobby-row">
-                        <label><input type="checkbox" class="heure-cb" value="matin" checked> <span id="labelMatin">🌅 Matin</span></label>
-                        <label><input type="checkbox" class="heure-cb" value="après-midi" checked> <span id="labelApresMidi">☀️ Après-midi</span></label>
-                        <label><input type="checkbox" class="heure-cb" value="soir" checked> <span id="labelSoir">🌆 Soir</span></label>
-                        <label><input type="checkbox" class="heure-cb" value="nuit" checked> <span id="labelNuit">🌙 Nuit</span></label>
-                    </div>
-
-                    <hr class="hobby-separator">
-                    <div id="labelNiveauPassion" class="hobby-section-title">💗 Niveau de passion</div>
-                    <hr class="hobby-separator">
-                    <div class="hobby-row">
-                        <label id="labelPeche">🐟 Pêche</label>
-                        <select id="hobbyPoisson"></select>
-                    </div>
-                    <div class="hobby-row">
-                        <label id="labelObservation">🪶 Observation des oiseaux</label>
-                        <select id="hobbyOiseau"></select>
-                    </div>
-                    <div class="hobby-row">
-                        <label id="labelAttrapage">🐛 Attrapage d'insectes</label>
-                        <select id="hobbyInsecte"></select>
-                    </div>
-
-                    <hr class="hobby-separator">
-                    <div class="hobby-row">
-                        <label><input type="checkbox" id="afficherNonDebloques" checked> <span id="labelAfficherNonDebloques">Afficher non débloqués</span></label>
-                    </div>
-                    <hr class="hobby-separator">
-                    <div class="filters">
-                        <label><input type="checkbox" value="poisson" checked> <span id="labelFiltrePoissons">Poissons</span></label>
-                        <label><input type="checkbox" value="oiseau" checked> <span id="labelFiltreOiseaux">Oiseaux</span></label>
-                        <label><input type="checkbox" value="insecte" checked> <span id="labelFiltreInsectes">Insectes</span></label>
-                        <label><input type="checkbox" value="collectible" checked> <span id="labelFiltreCollectibles">Collectibles</span></label>
-                    </div>
-                </div>
-            </div>
-            <div id="legendeCollectibles">
-                <h3 id="legendeCollectiblesTitre" style="cursor: pointer;">🍄 Collectibles ▶</h3>
-                <div id="legendeList"></div>
-            </div>
-
-        </div>
-
-        <!-- COLONNE CENTRALE : carte -->
-        <div id="mapColumn">
-            <div id="map-container">
-                <div id="map-inner">
-                    <img src="./map/map.jpg" id="map" alt="Map du jeu Heartopia">
-                </div>
-            </div>
-        </div>
-
-        <!-- COLONNE DROITE : infos lieu sélectionné -->
-        <div id="infoColumn">
-            <div id="panel">
-                <h3 id="placeTitle" onclick="toggleElementsPanel()">Aucun lieu sélectionné</h3>
-                <div id="elementsPanel" class="hidden">
-                    <div id="elementsList"></div>
-                </div>
-            </div>
-            <div id="panelSpeciaux" class="hidden">
-                <h3><span id="panelSpeciauxTitre">⭐ Localisations spéciales</span> <button onclick="toggleSpeciaux()">✖</button></h3>
-                <div id="speciauxList"></div>
-            </div>
-            <button id="btnSpeciaux" onclick="toggleSpeciaux()">⭐ Localisations spéciales</button>
-        </div>
-
+    <div id="tabBar">
+        <button class="tab-btn active" onclick="switchTab('map')">🗺️</button>
+        <button class="tab-btn" onclick="switchTab('tab2')">📋</button>
     </div>
 
+    <div id="tabContainer">
+        <div id="tab-map" class="tab-content active">
+            <div id="map-layout">
+
+                <!-- COLONNE GAUCHE : paramètres utilisateur -->
+                <div id="userColumn">
+
+                    <div id="userPreferences">
+                        <div id="filterToggle" class="hobby-section-title" style="cursor:pointer;">
+                            ▼ <span id="labelFiltres">Filtres</span>
+                        </div>
+                        <div id="hobbyPanel">
+                            <div id="labelMeteo" class="hobby-section-title">☁️ Météo actuelle</div>
+                            <hr class="hobby-separator">
+                            <div class="hobby-row" style="margin-top: 4px;">
+                                <label>
+                                    <input type="radio" name="meteoMode" id="meteoModeOu" value="ou" checked>
+                                    <span id="labelMeteoModeOu">Au moins une</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="meteoMode" id="meteoModeEt" value="et">
+                                    <span id="labelMeteoModeEt">Exactement</span>
+                                </label>
+                            </div>
+                            <div class="hobby-row">
+                                <label><input type="checkbox" class="meteo-cb" value="soleil" checked> <span>☀️ <span class="meteo-label-soleil">Soleil</span></span></label>
+                                <label><input type="checkbox" class="meteo-cb" value="pluie" checked> <span>🌧️ <span class="meteo-label-pluie">Pluie</span></span></label>
+                                <label><input type="checkbox" class="meteo-cb" value="arc-en-ciel" checked> <span>🌈 <span class="meteo-label-arc">Arc-en-ciel</span></span></label>
+                            </div>
+
+                            <hr class="hobby-separator">
+                            <div id="labelHoraires" class="hobby-section-title">🕐 Horaires</div>
+                            <hr class="hobby-separator">
+                            <div class="hobby-row" style="margin-top: 4px;">
+                                <label>
+                                    <input type="radio" name="heureMode" id="heureModeOu" value="ou" checked>
+                                    <span id="labelHeureModeOu">Au moins une</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="heureMode" id="heureModeEt" value="et">
+                                    <span id="labelHeureModeEt">Exactement</span>
+                                </label>
+                            </div>
+                            <div class="hobby-row">
+                                <label><input type="checkbox" class="heure-cb" value="matin" checked> <span id="labelMatin">🌅 Matin</span></label>
+                                <label><input type="checkbox" class="heure-cb" value="après-midi" checked> <span id="labelApresMidi">☀️ Après-midi</span></label>
+                                <label><input type="checkbox" class="heure-cb" value="soir" checked> <span id="labelSoir">🌆 Soir</span></label>
+                                <label><input type="checkbox" class="heure-cb" value="nuit" checked> <span id="labelNuit">🌙 Nuit</span></label>
+                            </div>
+
+                            <hr class="hobby-separator">
+                            <div id="labelNiveauPassion" class="hobby-section-title">💗 Niveau de passion</div>
+                            <hr class="hobby-separator">
+                            <div class="hobby-row">
+                                <label id="labelPeche">🐟 Pêche</label>
+                                <select id="hobbyPoisson"></select>
+                            </div>
+                            <div class="hobby-row">
+                                <label id="labelObservation">🪶 Observation des oiseaux</label>
+                                <select id="hobbyOiseau"></select>
+                            </div>
+                            <div class="hobby-row">
+                                <label id="labelAttrapage">🐛 Attrapage d'insectes</label>
+                                <select id="hobbyInsecte"></select>
+                            </div>
+
+                            <hr class="hobby-separator">
+                            <div class="hobby-row">
+                                <label><input type="checkbox" id="afficherNonDebloques" checked> <span id="labelAfficherNonDebloques">Afficher non débloqués</span></label>
+                            </div>
+                            <hr class="hobby-separator">
+                            <div class="filters">
+                                <label><input type="checkbox" value="poisson" checked> <span id="labelFiltrePoissons">Poissons</span></label>
+                                <label><input type="checkbox" value="oiseau" checked> <span id="labelFiltreOiseaux">Oiseaux</span></label>
+                                <label><input type="checkbox" value="insecte" checked> <span id="labelFiltreInsectes">Insectes</span></label>
+                                <label><input type="checkbox" value="collectible" checked> <span id="labelFiltreCollectibles">Collectibles</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="legendeCollectibles">
+                        <h3 id="legendeCollectiblesTitre" style="cursor: pointer;">🍄 Collectibles ▶</h3>
+                        <div id="legendeList"></div>
+                    </div>
+
+                </div>
+
+                <!-- COLONNE CENTRALE : carte -->
+                <div id="mapColumn">
+                    <div id="map-container">
+                        <div id="map-inner">
+                            <img src="./map/map.jpg" id="map" alt="Map du jeu Heartopia">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLONNE DROITE : infos lieu sélectionné -->
+                <div id="infoColumn">
+                    <div id="panel">
+                        <h3 id="placeTitle" onclick="toggleElementsPanel()">Aucun lieu sélectionné</h3>
+                        <div id="elementsPanel" class="hidden">
+                            <div id="elementsList"></div>
+                        </div>
+                    </div>
+                    <div id="panelSpeciaux" class="hidden">
+                        <h3><span id="panelSpeciauxTitre">⭐ Localisations spéciales</span> <button onclick="toggleSpeciaux()">✖</button></h3>
+                        <div id="speciauxList"></div>
+                    </div>
+                    <button id="btnSpeciaux" onclick="toggleSpeciaux()">⭐ Localisations spéciales</button>
+                </div>
+            </div>
+        </div>
+        <div id="tab-tab2" class="tab-content">
+
+        </div>
+    </div>
     <!-- PANNEAUX ADMIN (fixes, hors layout) -->
 
     <div id="adminPanel" class="hidden">
