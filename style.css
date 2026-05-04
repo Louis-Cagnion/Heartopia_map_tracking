@@ -14,6 +14,29 @@ button {
     font-size: var(--ui-font-size);
 }
 
+#headerBar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 4px;
+}
+#headerLeft {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#headerCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#headerCenter h1 {
+    margin: 0 0 2px 0;
+    font-size: 28px;
+}
+
 #map-container {
     overflow: hidden;
     user-select: none;
@@ -47,7 +70,7 @@ button {
 }
 
 #modeSelector {
-    margin: 10px;
+    margin: 2px 0 0 0;
 }
 
 #modeSelector button {
@@ -258,7 +281,7 @@ button {
 
 /* cacher éléments */
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* mode admin visuel (optionnel) */
@@ -415,12 +438,8 @@ button {
     border: 1px solid black;
     flex-shrink: 0;
 }
-
 #userSettings {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    z-index: 101;
+    position: static;
     background: #111;
     padding: 10px;
     border-radius: 8px;

@@ -9,28 +9,33 @@
 
 <body>
 
-    <h1 id="titrePage">🗺️ Carte Heartopia</h1>
-
-    <div id="modeSelector">
-        <button id="btnUser" onclick="setMode('user')">👀 Mode utilisateur</button>
-        <button id="btnAdmin" onclick="setMode('admin')">🔐 Mode admin</button>
-    </div>
-
-    <div id="userSettings">
-        <div id="userSettingsLeft">
-            <div id="labelLangue" class="hobby-section-title">🌐 Langue</div>
-            <hr class="hobby-separator">
-            <button id="btnLangue" onclick="toggleLangue()">🇫🇷 FR</button>
+    <div id="headerBar">
+        <div id="headerLeft">
+            <div id="userSettings">
+                <div id="userSettingsLeft">
+                    <div id="labelLangue" class="hobby-section-title">🌐 Langue</div>
+                    <hr class="hobby-separator">
+                    <button id="btnLangue" onclick="toggleLangue()">🇫🇷 FR</button>
+                </div>
+                <div id="userSettingsRight">
+                    <div id="labelServeur" class="hobby-section-title">🌍 Serveur</div>
+                    <hr class="hobby-separator">
+                    <select id="selectServeur" onchange="appliquerFiltres()">
+                        <option value="0">🇺🇸 America</option>
+                        <option value="6">🌐 Global</option>
+                        <option value="12">🌏 SEA</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        <div id="userSettingsRight">
-            <div id="labelServeur" class="hobby-section-title">🌍 Serveur</div>
-            <hr class="hobby-separator">
-            <select id="selectServeur" onchange="appliquerFiltres()">
-                <option value="0">🇺🇸 America</option>
-                <option value="6">🌐 Global</option>
-                <option value="12">🌏 SEA</option>
-            </select>
+        <div id="headerCenter">
+            <h1 id="titrePage">🗺️ Carte Heartopia</h1>
+            <div id="modeSelector">
+                <button id="btnUser" onclick="setMode('user')">👀 Mode utilisateur</button>
+                <button id="btnAdmin" onclick="setMode('admin')">🔐 Mode admin</button>
+            </div>
         </div>
+        <div id="headerRight"></div>
     </div>
 
     <div id="map-layout">

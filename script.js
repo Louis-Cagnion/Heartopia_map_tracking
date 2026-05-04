@@ -102,6 +102,7 @@ const langIndex = {
 
 const UI = {
     fr: {
+        titreWebsite: "Carte Heartopia",
         mapTitle: "🗺️ Carte Heartopia",
         modeUser: "👀 Mode utilisateur",
         modeAdmin: "🔐 Mode admin",
@@ -168,6 +169,7 @@ const UI = {
         filtres: "Filtres",
     },
     en: {
+        titreWebsite: "Heartopia Map",
         mapTitle: "🗺️ Heartopia Map",
         modeUser: "👀 User mode",
         modeAdmin: "🔐 Admin mode",
@@ -387,6 +389,7 @@ function toggleLangue() {
 }
 
 function mettreAJourUI() {
+    document.title = t("titreWebsite");
     btnUser.textContent = t("modeUser");
     btnAdmin.textContent = t("modeAdmin");
     labelNiveauPassion.textContent = t("niveauPassion");
@@ -1794,13 +1797,26 @@ document.querySelectorAll("input[name='heureMode']").forEach(r => {
 const filterToggle = document.getElementById("filterToggle");
 const hobbyPanel = document.getElementById("hobbyPanel");
 
+// Initialisez hobbyPanel ouvert explicitement
+hobbyPanel.classList.remove("hidden");
+
 function setFilterToggleText() {
     const isOpen = !hobbyPanel.classList.contains("hidden");
-    filterToggle.innerHTML = `${isOpen ? "▼" : "▶"} <span id="labelFiltres">${t("filtres")}</span>`;
+    filterToggle.textContent = ""; // vider proprement
+    const arrow = document.createTextNode(isOpen ? "▼ " : "▶ ");
+    filterToggle.appendChild(arrow);
+    const span = document.createElement("span");
+    span.id = "labelFiltres";
+    span.textContent = t("filtres");
+    filterToggle.appendChild(span);
 }
 
 filterToggle.addEventListener("click", () => {
-    hobbyPanel.classList.toggle("hidden");
+    if (hobbyPanel.classList.contains("hidden")) {
+        hobbyPanel.classList.remove("hidden");
+    } else {
+        hobbyPanel.classList.add("hidden");
+    }
     setFilterToggleText();
 });
 
