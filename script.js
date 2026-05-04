@@ -239,7 +239,7 @@ const UI = {
 
 function traduirePanneauFaune(prefix, type) {
     const suffixes = {
-        poisson: "Poisson", insecte: "Insecte", oisseau: "Oisseau"
+        poisson: "Poisson", insecte: "Insecte", oiseau: "Oiseau"
     };
     const s = suffixes[type] || type;
     const el = id => document.getElementById(id + s);
@@ -438,7 +438,7 @@ function mettreAJourUI() {
     }
     traduirePanneauFaune("", "poisson");
     traduirePanneauFaune("", "insecte");
-    traduirePanneauFaune("", "oisseau");
+    traduirePanneauFaune("", "oiseau");
 }
 
 function getNomLieu(nomFr) {
