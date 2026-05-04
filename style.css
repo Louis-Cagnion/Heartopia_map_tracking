@@ -371,15 +371,11 @@ button {
     position: static;
     width: 100%;
     box-sizing: border-box;
-    left: 20px;
-    bottom: 20px;
     background: #111;
-    padding: 12px;
+    padding: 10px;
     border-radius: 8px;
     color: white;
     font-size: var(--ui-font-size);
-    z-index: 100;
-    transition: all 0.2s ease;
 }
 
 #infoColumn {
@@ -519,6 +515,11 @@ button {
     font-size: var(--ui-font-size);
     width: 100%;
     box-sizing: border-box;
+}
+
+#filterToggle {
+    margin-bottom: 4px;
+    user-select: none;
 }
 
 #mapColumn {

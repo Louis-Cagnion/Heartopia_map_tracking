@@ -111,8 +111,7 @@ const UI = {
         attrapage: "🐛 Attrapage d'insectes",
         afficherNonDebloques: "Afficher non débloqués",
         aucunLieu: "Aucun lieu sélectionné",
-        speciaux: "⭐ Spéciaux",
-        panelSpeciaux: "⭐ Éléments spéciaux",
+        speciaux: "⭐ Localisations spéciales",
         aucunElement: "Aucun élément répertorié",
         filtrePoissons: "Poissons",
         filtreOiseaux: "Oiseaux",
@@ -166,6 +165,7 @@ const UI = {
         detailsHeures: "🕐 Horaires",
         detailsMeteo: "☁️ Météo",
         detailsHobby: "💗 Niveau",
+        filtres: "Filtres",
     },
     en: {
         mapTitle: "🗺️ Heartopia Map",
@@ -177,8 +177,7 @@ const UI = {
         attrapage: "🐛 Insect catching",
         afficherNonDebloques: "Show locked",
         aucunLieu: "No location selected",
-        speciaux: "⭐ Specials",
-        panelSpeciaux: "⭐ Special elements",
+        speciaux: "⭐ Special locations",
         aucunElement: "No elements found",
         filtrePoissons: "Fish",
         filtreOiseaux: "Birds",
@@ -232,6 +231,7 @@ const UI = {
         detailsHeures: "🕐 Schedule",
         detailsMeteo: "☁️ Weather",
         detailsHobby: "💗 Level",
+        filtres: "Filters",
     }
 };
 
@@ -330,8 +330,8 @@ function setMode(newMode) {
         selectedPlace = null;
         document.getElementById("placeTitle").textContent = t("aucunLieu");
         document.getElementById("elementsPanel").classList.add("hidden");
-        document.getElementById("btnSpeciaux").classList.add("hidden");
         updateModeButtons();
+        setFilterToggleText();
         return;
     }
     mode = "user";
@@ -343,8 +343,8 @@ function setMode(newMode) {
     selectedPlace = null;
     document.getElementById("placeTitle").textContent = t("aucunLieu");
     document.getElementById("elementsPanel").classList.add("hidden");
-    document.getElementById("btnSpeciaux").classList.add("hidden");
     updateModeButtons();
+    setFilterToggleText();
     mettreAJourUI();
 }
 
@@ -395,7 +395,7 @@ function mettreAJourUI() {
     labelAttrapage.textContent = t("attrapage");
     labelAfficherNonDebloques.textContent = t("afficherNonDebloques");
     btnSpeciaux.textContent = t("speciaux");
-    panelSpeciauxTitre.textContent = t("panelSpeciaux");
+    panelSpeciauxTitre.textContent = t("speciaux");
     const isClosed = legendeCollectibles.classList.contains("closed");
     legendeCollectiblesTitre.textContent = "🍄 Collectibles " + (isClosed ? "▶" : "▼");
     labelFiltrePoissons.textContent = t("filtrePoissons");
@@ -429,6 +429,7 @@ function mettreAJourUI() {
     btnAdminImporter.textContent = t("adminImporter");
     btnAdminExporterLieux.textContent = t("adminExporterLieux");
     btnAdminImporterLieux.textContent = t("adminImporterLieux");
+    setFilterToggleText();
     if (!selectedPlace) {
         placeTitle.textContent = t("aucunLieu");
     }
@@ -495,7 +496,6 @@ function rafraichirAffichage() {
 
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
-        toggleSpeciaux();
         toggleSpeciaux();
     }
 }
@@ -818,7 +818,6 @@ function createPlaceMarker(name, x, y, level = 1) {
         const elementsPanel = document.getElementById("elementsPanel");
         elementsPanel.classList.remove("hidden");
         afficherElementsLieu(name);
-        document.getElementById("btnSpeciaux").classList.remove("hidden");
     };
 
     el.onmousedown = function(e) {
@@ -1001,7 +1000,7 @@ function applyTransform() {
     panY = Math.min(0, Math.max(panY, minPanY));
     inner.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
 
-    const fontSize = 22 / zoom;
+    const fontSize = 16 / zoom;
     const markerSize = Math.max(6, 16 / zoom);
     const borderSize = Math.max(1, 2 / zoom);
 
@@ -1791,3 +1790,18 @@ titre.addEventListener("click", () => {
 document.querySelectorAll("input[name='heureMode']").forEach(r => {
     r.addEventListener("change", appliquerFiltres);
 });
+
+const filterToggle = document.getElementById("filterToggle");
+const hobbyPanel = document.getElementById("hobbyPanel");
+
+function setFilterToggleText() {
+    const isOpen = !hobbyPanel.classList.contains("hidden");
+    filterToggle.innerHTML = `${isOpen ? "▼" : "▶"} <span id="labelFiltres">${t("filtres")}</span>`;
+}
+
+filterToggle.addEventListener("click", () => {
+    hobbyPanel.classList.toggle("hidden");
+    setFilterToggleText();
+});
+
+setFilterToggleText();

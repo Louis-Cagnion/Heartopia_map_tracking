@@ -39,6 +39,9 @@
         <div id="userColumn">
 
             <div id="userPreferences">
+                <div id="filterToggle" class="hobby-section-title" style="cursor:pointer;">
+                    ▼ <span id="labelFiltres">Filtres</span>
+                </div>
                 <div id="hobbyPanel">
                     <div id="labelMeteo" class="hobby-section-title">☁️ Météo actuelle</div>
                     <hr class="hobby-separator">
@@ -107,6 +110,10 @@
                     </div>
                 </div>
             </div>
+            <div id="legendeCollectibles">
+                <h3 id="legendeCollectiblesTitre" style="cursor: pointer;">🍄 Collectibles ▶</h3>
+                <div id="legendeList"></div>
+            </div>
 
         </div>
 
@@ -116,10 +123,6 @@
                 <div id="map-inner">
                     <img src="./map/map.jpg" id="map" alt="Map du jeu Heartopia">
                 </div>
-            </div>
-            <div id="legendeCollectibles">
-                <h3 id="legendeCollectiblesTitre" style="cursor: pointer;">🍄 Collectibles ▶</h3>
-                <div id="legendeList"></div>
             </div>
         </div>
 
@@ -132,10 +135,10 @@
                 </div>
             </div>
             <div id="panelSpeciaux" class="hidden">
-                <h3><span id="panelSpeciauxTitre">⭐ Éléments spéciaux</span> <button onclick="toggleSpeciaux()">✖</button></h3>
+                <h3><span id="panelSpeciauxTitre">⭐ Localisations spéciales</span> <button onclick="toggleSpeciaux()">✖</button></h3>
                 <div id="speciauxList"></div>
             </div>
-            <button id="btnSpeciaux" class="hidden" onclick="toggleSpeciaux()">⭐ Spéciaux</button>
+            <button id="btnSpeciaux" onclick="toggleSpeciaux()">⭐ Localisations spéciales</button>
         </div>
 
     </div>
