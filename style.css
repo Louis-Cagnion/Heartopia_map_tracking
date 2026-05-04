@@ -714,8 +714,8 @@ button {
 }
 
 .tab-btn.active {
-    background: #e8a44a;
-    color: black;
+    background: white;
+    color: #333;
 }
 
 #tabContainer {
