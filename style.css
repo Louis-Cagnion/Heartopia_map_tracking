@@ -392,7 +392,8 @@ button {
 
 #legendeCollectibles {
     position: static;
-    width: 100%;
+    width: fit-content;
+    min-width: 100%;
     box-sizing: border-box;
     background: #111;
     padding: 10px;
@@ -429,6 +430,7 @@ button {
     align-items: center;
     gap: 8px;
     margin: 4px 0;
+    white-space: nowrap;
 }
 
 .legende-pastille {
