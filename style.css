@@ -20,7 +20,10 @@ button {
     align-items: center;
     padding: 10px 20px;
     margin-bottom: 4px;
+    width: 100%;
+    box-sizing: border-box;
 }
+
 #headerLeft {
     display: flex;
     justify-content: flex-start;
@@ -426,10 +429,13 @@ button {
 
 .legende-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     margin: 4px 0;
-    white-space: nowrap;
+}
+
+.legende-item span {
+    text-align: left;
 }
 
 .legende-pastille {
@@ -516,7 +522,9 @@ button {
     align-items: flex-start;
     gap: 10px;
     margin: 0 auto;
-    width: fit-content;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
 }
 
 #userColumn {
@@ -615,13 +623,14 @@ button {
 
 #selectServeur {
     width: 100%;
+    min-width: 110px;
+    text-align: center;
     background: #222;
     border: 1px solid #555;
     color: white;
     padding: 6px;
     border-radius: 4px;
     font-size: var(--ui-font-size);
-    text-align: center;
     box-sizing: border-box;
 }
 
@@ -630,6 +639,11 @@ button {
     font-weight: bold;
     margin-bottom: 4px;
     margin-top: 4px;
+}
+
+#userSettingsLeft .hobby-section-title,
+#userSettingsRight .hobby-section-title {
+    white-space: nowrap;
 }
 
 #labelMeteoModeOu,
