@@ -65,17 +65,14 @@ button {
 }
 
 #panel {
-    font-size: var(--ui-font-size);
-    position: fixed;
-    right: 20px;
-    top: 20px;
+    position: static;
+    max-height: 600px;
+    overflow-y: auto;
     background: #111;
     padding: 10px;
     border-radius: 8px;
     color: white;
-    max-width: 250px;
-    max-height: 80vh;
-    overflow-y: auto;
+    font-size: var(--ui-font-size);
 }
 
 #placeTitle {
@@ -120,14 +117,14 @@ button {
 }
 
 #panelSpeciaux {
-    position: fixed;
+    position: static;
     right: 20px;
     bottom: 60px;
     background: #111;
     padding: 12px;
     border-radius: 8px;
     color: white;
-    max-width: 250px;
+    max-width: 400px;
     max-height: 60vh;
     overflow-y: auto;
     z-index: 100;
@@ -151,7 +148,8 @@ button {
 }
 
 #btnSpeciaux {
-    position: fixed;
+    position: static;
+    width: 100%;
     right: 20px;
     bottom: 20px;
     background: #333;
@@ -271,11 +269,17 @@ button {
 
 /* amélioration filtres (optionnel mais léger) */
 .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
     margin-bottom: 10px;
 }
 
 .filters label {
-    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
 }
 
 .element-panel {
@@ -364,7 +368,9 @@ button {
 }
 
 #legendeCollectibles {
-    position: fixed;
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
     left: 20px;
     bottom: 20px;
     background: #111;
@@ -374,6 +380,14 @@ button {
     font-size: var(--ui-font-size);
     z-index: 100;
     transition: all 0.2s ease;
+}
+
+#infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+    flex-shrink: 0;
 }
 
 #legendeCollectibles h3 {
@@ -410,13 +424,30 @@ button {
     position: fixed;
     left: 20px;
     top: 20px;
+    z-index: 101;
     background: #111;
     padding: 10px;
     border-radius: 8px;
     color: white;
-    z-index: 101;
     font-size: var(--ui-font-size);
-    display: inline-block;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+    align-items: start;
+    min-width: 220px;
+}
+
+#userSettingsLeft,
+#userSettingsRight {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#userSettingsLeft #btnLangue,
+#userSettingsRight #selectServeur {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #btnLangue {
@@ -463,20 +494,39 @@ button {
     flex: 1;
 }
 
-#userPreferences {
+#map-layout {
     display: flex;
     justify-content: center;
-    margin: 0 auto 15px auto;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 auto;
     width: fit-content;
-    left: 20px;
-    top: 20px;
+}
+
+#userColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 280px;
+    flex-shrink: 0;
+}
+
+#userPreferences {
     background: #111;
     padding: 10px;
     border-radius: 8px;
     color: white;
-    z-index: 100;
     font-size: var(--ui-font-size);
-    min-width: 220px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#mapColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
 }
 
 #labelNiveauPassion {
@@ -495,13 +545,33 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 4px;
+    flex-wrap: wrap;
 }
 
 .hobby-row label {
     font-size: var(--ui-font-size);
     text-align: left;
     flex: 1;
+    white-space: normal;
+    min-width: 0;
+}
+
+.hobby-row:has(.meteo-cb),
+.hobby-row:has(.heure-cb) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
+    justify-items: start;
+}
+
+.hobby-row label:has(.meteo-cb),
+.hobby-row label:has(.heure-cb) {
+    flex: unset;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .hobby-row input[type="number"] {
@@ -531,6 +601,7 @@ button {
     border-radius: 4px;
     font-size: var(--ui-font-size);
     text-align: center;
+    box-sizing: border-box;
 }
 
 .hobby-section-title {
@@ -574,11 +645,12 @@ button {
 }
 
 #hobbyPoisson, #hobbyOiseau, #hobbyInsecte {
-    width: 60px;
+    width: 55px;
+    min-width: 55px;
     background: #222;
     border: 1px solid #555;
     color: white;
-    padding: 6px;
+    padding: 4px;
     border-radius: 4px;
     font-size: var(--ui-font-size);
     text-align: center;

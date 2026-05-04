@@ -37,6 +37,7 @@ async function loadDatabaseAuto() {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+    remplirSelectNiveaux(["hobbyPoisson", "hobbyOiseau", "hobbyInsecte"]);
     await loadDatabaseAuto();
 
     places.forEach(p => {
@@ -132,6 +133,8 @@ const UI = {
         nuit: "🌙 Nuit",
         meteoModeOu: "Au moins une",
         meteoModeEt: "Exactement",
+        heureModeOu: "Au moins une",
+        heureModeEt: "Exactement",
         adminAjouterPoisson: "🐟 Poisson",
         adminAjouterInsecte: "🐛 Insecte",
         adminAjouterOiseau: "🪶 Oiseau",
@@ -142,6 +145,24 @@ const UI = {
         adminImporter: "📥 Importer éléments",
         adminExporterLieux: "📤 Exporter lieux",
         adminImporterLieux: "📥 Importer lieux",
+        adminTitrePoisson: "🐟 Ajouter un poisson",
+        adminTitreInsecte: "🐛 Ajouter un insecte",
+        adminTitreOiseau: "🪶 Ajouter un oiseau",
+        adminHeures: "Heures",
+        adminMeteo: "Météo",
+        adminNiveauHobby: "Niveau hobby",
+        adminSauvegarder: "💾 Sauvegarder",
+        adminFermer: "✖ Fermer",
+        adminCreerPlacer: "✅ Créer et placer",
+        adminNouvelElement: "➕ Nouvel élément",
+        adminAjouterPositions: "📍 Ajouter des positions",
+        adminPlacerCarte: "📍 Placer sur la carte",
+        adminNomFr: "Nom FR",
+        adminNomEn: "Nom EN",
+        adminLieu: "Lieu",
+        adminCategorie: "Catégorie",
+        adminNouvelleCategorie: "Nouvelle catégorie",
+        adminCouleur: "Couleur",
         detailsHeures: "🕐 Horaires",
         detailsMeteo: "☁️ Météo",
         detailsHobby: "💗 Niveau",
@@ -178,6 +199,8 @@ const UI = {
         nuit: "🌙 Night",
         meteoModeOu: "At least one",
         meteoModeEt: "Exactly",
+        heureModeOu: "At least one",
+        heureModeEt: "Exactly",
         adminAjouterPoisson: "🐟 Fish",
         adminAjouterInsecte: "🐛 Insect",
         adminAjouterOiseau: "🪶 Bird",
@@ -188,11 +211,55 @@ const UI = {
         adminImporter: "📥 Import elements",
         adminExporterLieux: "📤 Export locations",
         adminImporterLieux: "📥 Import locations",
+        adminTitrePoisson: "🐟 Add a fish",
+        adminTitreInsecte: "🐛 Add an insect",
+        adminTitreOiseau: "🪶 Add a bird",
+        adminHeures: "Schedule",
+        adminMeteo: "Weather",
+        adminNiveauHobby: "Hobby level",
+        adminSauvegarder: "💾 Save",
+        adminFermer: "✖ Close",
+        adminCreerPlacer: "✅ Create and place",
+        adminNouvelElement: "➕ New element",
+        adminAjouterPositions: "📍 Add positions",
+        adminPlacerCarte: "📍 Place on map",
+        adminNomFr: "FR name",
+        adminNomEn: "EN name",
+        adminLieu: "Location",
+        adminCategorie: "Category",
+        adminNouvelleCategorie: "New category",
+        adminCouleur: "Color",
         detailsHeures: "🕐 Schedule",
         detailsMeteo: "☁️ Weather",
         detailsHobby: "💗 Level",
     }
 };
+
+function traduirePanneauFaune(prefix, type) {
+    const suffixes = {
+        poisson: "Poisson", insecte: "Insecte", oisseau: "Oisseau"
+    };
+    const s = suffixes[type] || type;
+    const el = id => document.getElementById(id + s);
+    const safe = (id, key) => { const e = el(id); if (e) e.textContent = t(key); };
+
+    safe("adminTitre", "adminTitre" + s.charAt(0).toUpperCase() + s.slice(1).toLowerCase());
+    safe("adminNomFr", "adminNomFr");
+    safe("adminNomEn", "adminNomEn");
+    safe("adminLieu", "adminLieu");
+    safe("adminHeures", "adminHeures");
+    safe("adminMatin", "matin");
+    safe("adminApresMidi", "apresMidi");
+    safe("adminSoir", "soir");
+    safe("adminNuit", "nuit");
+    safe("adminMeteo", "adminMeteo");
+    safe("adminSoleil", "meteoSoleil");
+    safe("adminPluie", "meteoPluie");
+    safe("adminArc", "meteoArc");
+    safe("adminNiveau", "adminNiveauHobby");
+    safe("adminSauvegarder", "adminSauvegarder");
+    safe("adminFermer", "adminFermer");
+}
 
 function remplirSelectNiveaux(selectIds, max = 10) {
     const valeurDefaut = max;
@@ -329,7 +396,8 @@ function mettreAJourUI() {
     labelAfficherNonDebloques.textContent = t("afficherNonDebloques");
     btnSpeciaux.textContent = t("speciaux");
     panelSpeciauxTitre.textContent = t("panelSpeciaux");
-    legendeCollectiblesTitre.textContent = t("legendeTitre");
+    const isClosed = legendeCollectibles.classList.contains("closed");
+    legendeCollectiblesTitre.textContent = "🍄 Collectibles " + (isClosed ? "▶" : "▼");
     labelFiltrePoissons.textContent = t("filtrePoissons");
     labelFiltreOiseaux.textContent = t("filtreOiseaux");
     labelFiltreInsectes.textContent = t("filtreInsectes");
@@ -348,6 +416,8 @@ function mettreAJourUI() {
     labelNuit.textContent = t("nuit");
     labelMeteoModeOu.textContent = t("meteoModeOu");
     labelMeteoModeEt.textContent = t("meteoModeEt");
+    labelHeureModeOu.textContent = t("heureModeOu");
+    labelHeureModeEt.textContent = t("heureModeEt");
     btnAdminPoisson.textContent = t("adminAjouterPoisson");
     btnAdminInsecte.textContent = t("adminAjouterInsecte");
     btnAdminOiseau.textContent = t("adminAjouterOiseau");
@@ -362,6 +432,9 @@ function mettreAJourUI() {
     if (!selectedPlace) {
         placeTitle.textContent = t("aucunLieu");
     }
+    traduirePanneauFaune("", "poisson");
+    traduirePanneauFaune("", "insecte");
+    traduirePanneauFaune("", "oisseau");
 }
 
 function getNomLieu(nomFr) {
@@ -410,9 +483,12 @@ function rafraichirAffichage() {
         // Rouvrir le détail si un élément était sélectionné
         if (elementOuvert) {
             setTimeout(() => {
-                const li = [...document.querySelectorAll(".elements-lieu-liste li")]
-                    .find(li => li.dataset.nameFr === elementOuvert);
-                if (li) li.click();
+                const liEl = [...document.querySelectorAll(".elements-lieu-liste li")]
+                    .find(liEl => liEl.dataset.nameFr === elementOuvert);
+                if (liEl) {
+                    selectedElement = null; // reset pour que le click l'ouvre
+                    liEl.click();
+                }
             }, 50);
         }
     }
@@ -810,7 +886,10 @@ function exportPlacesToJSON() {
         y: Math.round(p.y),
         level: p.level || 1
     }));
-    const blob = new Blob([JSON.stringify(cleaned, null, 2)], { type: "application/json" });
+    const blob = new Blob(
+        ["\uFEFF" + JSON.stringify(data, null, 2)],
+        { type: "application/json;charset=utf-8" }
+    );
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -1078,7 +1157,7 @@ function closePanel(panelId) {
 function saveElement(type) {
     const panelId = type === "poisson" ? "panelPoisson" : type === "insecte" ? "panelInsecte" : "panelOiseau";
     const panel = document.getElementById(panelId);
-    const prefix = type === "oiseau" ? "oisseau" : type;
+    const prefix = type === "oiseau" ? "oiseau" : type;
 
     const nomFr = panel.querySelector(`#${prefix}Nom`).value.trim();
     const nomEn = panel.querySelector(`#${prefix}NomEn`).value.trim();
@@ -1200,7 +1279,10 @@ function exportTout() {
             filename: "collectibles.json"
         }
     ].forEach(({ data, filename }) => {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const blob = new Blob(
+            ["\uFEFF" + JSON.stringify(data, null, 2)],
+            { type: "application/json;charset=utf-8" }
+        );
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -1387,7 +1469,10 @@ function afficherGroupeElements(elements, container) {
         const meteoOk = meteoMode === "ou"
             ? meteos.some(m => meteosCochees.has(m))
             : meteos.length === meteosCochees.size && meteos.every(m => meteosCochees.has(m));
-        const heureOk = heuresDecalees.some(h => heuresCochees.has(h));
+        const heureMode = document.querySelector("input[name='heureMode']:checked").value;
+        const heureOk = heureMode === "ou"
+            ? heuresDecalees.some(h => heuresCochees.has(h))
+            : heuresDecalees.length === heuresCochees.size && heuresDecalees.every(h => heuresCochees.has(h));
         const visible = debloque && meteoOk && heureOk;
 
         if (!visible && !afficherNonDebloques) return;
@@ -1696,14 +1781,13 @@ const panel = document.getElementById("legendeCollectibles");
 const titre = document.getElementById("legendeCollectiblesTitre");
 
 panel.classList.add("closed");
+titre.textContent = "🍄 Collectibles ▶";
 
 titre.addEventListener("click", () => {
     panel.classList.toggle("closed");
     titre.textContent = "🍄 Collectibles " + (panel.classList.contains("closed") ? "▶" : "▼");
 });
 
-remplirSelectNiveaux([
-    "hobbyPoisson",
-    "hobbyOiseau",
-    "hobbyInsecte"
-]);
+document.querySelectorAll("input[name='heureMode']").forEach(r => {
+    r.addEventListener("change", appliquerFiltres);
+});
