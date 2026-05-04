@@ -7,6 +7,7 @@ body {
     color: white;
     text-align: center;
     font-family: Arial;
+    min-width: fit-content;
     font-size: var(--ui-font-size);
 }
 
@@ -20,7 +21,7 @@ button {
     align-items: center;
     padding: 10px 20px;
     margin-bottom: 4px;
-    width: 100%;
+    min-width: max-content;
     box-sizing: border-box;
 }
 
@@ -522,9 +523,7 @@ button {
     align-items: flex-start;
     gap: 10px;
     margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 20px;
+    width: fit-content;
 }
 
 #userColumn {
