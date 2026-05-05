@@ -314,7 +314,7 @@ function construireFenetreObtenu(type, containerId) {
 
         const toggleBtn = document.createElement("span");
         toggleBtn.className = "niveau-toggle";
-        toggleBtn.textContent = "▶";
+        toggleBtn.textContent = "▼";
 
         const labelNiv = document.createElement("span");
         labelNiv.className = "niveau-label";
@@ -327,7 +327,7 @@ function construireFenetreObtenu(type, containerId) {
 
         // Contenu (caché par défaut)
         const content = document.createElement("div");
-        content.className = "niveau-content hidden";
+        content.className = "niveau-content";
 
         const grid = document.createElement("div");
         grid.className = "faune-grid";

@@ -95,7 +95,7 @@ button {
     position: static;
     max-height: 600px;
     overflow-y: auto;
-    background: #111;
+    background: black;
     padding: 10px;
     border-radius: 8px;
     color: white;
@@ -179,7 +179,7 @@ button {
     width: 100%;
     right: 20px;
     bottom: 20px;
-    background: #333;
+    background: black;
     border: none;
     border-radius: 6px;
     color: white;
@@ -728,12 +728,13 @@ button {
     background-color: #333333;
     border-radius: 5px;
     padding: 5px;
-    max-width: max-content;
+    max-width: 1235px;
     margin: auto;
 }
 
 .tab-content.active {
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -745,7 +746,7 @@ button {
 }
 
 .tab-btn-wildlife {
-    background: #333;
+    background: black;
     border: none;
     border-radius: 6px;
     color: white;
