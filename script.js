@@ -105,8 +105,8 @@ const langIndex = {
 
 const UI = {
     fr: {
-        titreWebsite: "Carte Heartopia",
-        mapTitle: "🗺️ Carte Heartopia",
+        titreWebsite: "Wiki Heartopia",
+        mapTitle: "Wiki Heartopia",
         modeUser: "👀 Mode utilisateur",
         modeAdmin: "🔐 Mode admin",
         niveauPassion: "💗 Niveau de passion",
@@ -170,12 +170,12 @@ const UI = {
         detailsMeteo: "☁️ Météo",
         detailsHobby: "💗 Niveau",
         filtres: "Filtres",
-        ongletCarte: "🗺️ Carte",
-        ongletTab2: "📋 ?",
+        ongletCarte: "🗺️ Carte interactive",
+        ongletTab2: "📋 Faune obtenue",
     },
     en: {
-        titreWebsite: "Heartopia Map",
-        mapTitle: "🗺️ Heartopia Map",
+        titreWebsite: "Heartopia Wiki",
+        mapTitle: "Heartopia Wiki",
         modeUser: "👀 User mode",
         modeAdmin: "🔐 Admin mode",
         niveauPassion: "💗 Hobby level",
@@ -239,8 +239,8 @@ const UI = {
         detailsMeteo: "☁️ Weather",
         detailsHobby: "💗 Level",
         filtres: "Filters",
-        ongletCarte: "🗺️ Map",
-        ongletTab2: "📋 ?",
+        ongletCarte: "🗺️ Interactive Map",
+        ongletTab2: "📋 Wildlife obtained",
     }
 };
 
