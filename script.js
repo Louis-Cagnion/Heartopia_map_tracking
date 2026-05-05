@@ -41,8 +41,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     await loadDatabaseAuto();
 
     construireFenetreObtenu("poisson", "ObtenuPoisson");
-construireFenetreObtenu("oiseau", "ObtenuOiseau");
-construireFenetreObtenu("insecte", "ObtenuInsecte");
+    construireFenetreObtenu("oiseau", "ObtenuOiseau");
+    construireFenetreObtenu("insecte", "ObtenuInsecte");
     places.forEach(p => {
         const nameFr = Array.isArray(p.name) ? p.name[0] : p.name;
         createPlaceMarker(nameFr, p.x, p.y, p.level || 1);
@@ -172,6 +172,11 @@ const UI = {
         filtres: "Filtres",
         ongletCarte: "🗺️ Carte interactive",
         ongletTab2: "📋 Faune obtenue",
+        cacherObtenus: "Cacher les obtenus",
+        wildlifePoisson: "🐟 Poissons",
+        wildlifeOiseau: "🪶 Oiseaux",
+        wildlifeInsecte: "🐛 Insectes",
+        niveauLabel: "Niveau",
     },
     en: {
         titreWebsite: "Heartopia Wiki",
@@ -241,6 +246,11 @@ const UI = {
         filtres: "Filters",
         ongletCarte: "🗺️ Interactive Map",
         ongletTab2: "📋 Wildlife obtained",
+        cacherObtenus: "Hide obtained",
+        wildlifePoisson: "🐟 Fish",
+        wildlifeOiseau: "🪶 Birds",
+        wildlifeInsecte: "🐛 Insects",
+        niveauLabel: "Level",
     }
 };
 
@@ -311,6 +321,9 @@ function construireFenetreObtenu(type, containerId) {
             saveCheckedFaune();
             construireFenetreObtenu(type, containerId); // reconstruire pour mettre à jour
         });
+        cbNiveau.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
 
         const toggleBtn = document.createElement("span");
         toggleBtn.className = "niveau-toggle";
@@ -318,7 +331,7 @@ function construireFenetreObtenu(type, containerId) {
 
         const labelNiv = document.createElement("span");
         labelNiv.className = "niveau-label";
-        labelNiv.textContent = langue === "fr" ? `Niveau ${niv}` : `Level ${niv}`;
+        labelNiv.textContent = `${t("niveauLabel")} ${niv}`;
 
         header.appendChild(cbNiveau);
         header.appendChild(toggleBtn);
@@ -526,6 +539,9 @@ function toggleLangue() {
     btnLangue.textContent = langue === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
     mettreAJourUI();
     rafraichirAffichage();
+    construireFenetreObtenu("poisson", "ObtenuPoisson");
+    construireFenetreObtenu("oiseau", "ObtenuOiseau");
+    construireFenetreObtenu("insecte", "ObtenuInsecte");
 }
 
 function mettreAJourUI() {
@@ -574,6 +590,10 @@ function mettreAJourUI() {
     btnAdminImporterLieux.textContent = t("adminImporterLieux");
     document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]").textContent = t("ongletCarte");
     document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]").textContent = t("ongletTab2");
+    labelCacherObtenus.textContent = t("cacherObtenus");
+    btnWildlifePoisson.textContent = t("wildlifePoisson");
+    btnWildlifeOiseau.textContent = t("wildlifeOiseau");
+    btnWildlifeInsecte.textContent = t("wildlifeInsecte");
     setFilterToggleText();
     if (!selectedPlace) {
         placeTitle.textContent = t("aucunLieu");
@@ -1565,10 +1585,14 @@ function afficherGroupeElements(elements, container) {
     const hobbyOiseau = parseInt(document.getElementById("hobbyOiseau").value) || null;
     const hobbyInsecte = parseInt(document.getElementById("hobbyInsecte").value) || null;
     const afficherNonDebloques = document.getElementById("afficherNonDebloques").checked;
+    const cacherObtenus = document.getElementById("cacherObtenus").checked;
 
     const decalage = parseInt(document.getElementById("selectServeur").value) || 0;
     const meteosCochees = new Set(
         [...document.querySelectorAll(".meteo-cb")].filter(cb => cb.checked).map(cb => cb.value)
+    );
+    const heuresCochees = new Set(
+        [...document.querySelectorAll(".heure-cb")].filter(cb => cb.checked).map(cb => cb.value)
     );
 
     const tranchesOrdre = ["matin", "après-midi", "soir", "nuit"];
@@ -1576,8 +1600,7 @@ function afficherGroupeElements(elements, container) {
     function decalerHeure(h) {
         const idx = tranchesOrdre.indexOf(h);
         if (idx === -1) return h;
-        const decalageTranches = decalage / 6;
-        return tranchesOrdre[(idx + decalageTranches) % 4];
+        return tranchesOrdre[(idx + decalage / 6) % 4];
     }
 
     const ul = document.createElement("ul");
@@ -1585,41 +1608,25 @@ function afficherGroupeElements(elements, container) {
 
     const tousElements = [
         ...(filtres["poisson"] ? poissons.filter(p => elements.includes(Array.isArray(p.name) ? p.name[0] : p.name)).map(p => ({
-            name: getNom(p),
-            emoji: "🐟",
-            niveau: p.niveau_hobby,
-            hobbyUser: hobbyPoisson,
-            heures: p.heures || [],
-            meteos: p.meteos || [],
-            element: p
+            name: getNom(p), emoji: "🐟", niveau: p.niveau_hobby, hobbyUser: hobbyPoisson,
+            heures: p.heures || [], meteos: p.meteos || [], element: p
         })) : []),
         ...(filtres["oiseau"] ? oiseaux.filter(o => elements.includes(Array.isArray(o.name) ? o.name[0] : o.name)).map(o => ({
-            name: getNom(o),
-            emoji: "🪶",
-            niveau: o.niveau_hobby,
-            hobbyUser: hobbyOiseau,
-            heures: o.heures || [],
-            meteos: o.meteos || [],
-            element: o
+            name: getNom(o), emoji: "🪶", niveau: o.niveau_hobby, hobbyUser: hobbyOiseau,
+            heures: o.heures || [], meteos: o.meteos || [], element: o
         })) : []),
         ...(filtres["insecte"] ? insectes.filter(i => elements.includes(Array.isArray(i.name) ? i.name[0] : i.name)).map(i => ({
-            name: getNom(i),
-            emoji: "🐛",
-            niveau: i.niveau_hobby,
-            hobbyUser: hobbyInsecte,
-            heures: i.heures || [],
-            meteos: i.meteos || [],
-            element: i
+            name: getNom(i), emoji: "🐛", niveau: i.niveau_hobby, hobbyUser: hobbyInsecte,
+            heures: i.heures || [], meteos: i.meteos || [], element: i
         })) : [])
     ];
 
     if (tousElements.length === 0) return;
 
     let auMoinsUn = false;
-    const heuresCochees = new Set(
-        [...document.querySelectorAll(".heure-cb")].filter(cb => cb.checked).map(cb => cb.value)
-    );
+
     tousElements.forEach(({ name, emoji, niveau, hobbyUser, heures, meteos, element }) => {
+        const nameFr = Array.isArray(element.name) ? element.name[0] : element.name;
         const debloque = hobbyUser === null || niveau <= hobbyUser;
         const heuresDecalees = heures.map(decalerHeure);
         const meteoMode = document.querySelector("input[name='meteoMode']:checked").value;
@@ -1631,24 +1638,22 @@ function afficherGroupeElements(elements, container) {
             ? heuresDecalees.some(h => heuresCochees.has(h))
             : heuresDecalees.length === heuresCochees.size && heuresDecalees.every(h => heuresCochees.has(h));
         const visible = debloque && meteoOk && heureOk;
+        const obtenu = !!checkedFaune[nameFr];
 
         if (!visible && !afficherNonDebloques) return;
+        if (obtenu && cacherObtenus && !afficherNonDebloques) return;
 
         auMoinsUn = true;
         const li = document.createElement("li");
-        const nameFr = Array.isArray(element.name) ? element.name[0] : element.name;
         li.dataset.nameFr = nameFr;
         li.textContent = `${emoji} ${name}`;
 
-        if (!visible) {
+        if (!visible || (obtenu && cacherObtenus)) {
             li.style.color = "#555";
         }
 
-        // Sélection et détails
         li.onclick = function(e) {
             e.stopPropagation();
-
-            // Fermer l'ancien détail
             document.querySelectorAll(".element-details").forEach(d => d.remove());
             document.querySelectorAll(".elements-lieu-liste li.selected").forEach(l => l.classList.remove("selected"));
 
@@ -1660,20 +1665,15 @@ function afficherGroupeElements(elements, container) {
             selectedElement = nameFr;
             li.classList.add("selected");
 
-            // Créer la fenêtre de détails
             const details = document.createElement("div");
             details.className = "element-details";
-
             const heuresAffichees = heuresDecalees.map(h => traduireHeure(h)).join(", ");
             const meteosAffichees = meteos.map(m => traduireMeteo(m)).join(", ");
-            const niveauAffiche = niveau || "?";
-
             details.innerHTML = `
                 <div class="element-details-row">${t("detailsHeures")} : ${heuresAffichees}</div>
                 <div class="element-details-row">${t("detailsMeteo")} : ${meteosAffichees}</div>
-                <div class="element-details-row">${t("detailsHobby")} : ${niveauAffiche}</div>
+                <div class="element-details-row">${t("detailsHobby")} : ${niveau || "?"}</div>
             `;
-
             li.insertAdjacentElement("afterend", details);
         };
 
@@ -1998,9 +1998,11 @@ document.addEventListener("keydown", (e) => {
 // Swipe mobile
 let touchStartX = 0;
 document.getElementById("tabContainer").addEventListener("touchstart", e => {
+    if (e.target.closest("#map-container")) return; // ignorer si sur la map
     touchStartX = e.touches[0].clientX;
 });
 document.getElementById("tabContainer").addEventListener("touchend", e => {
+    if (e.target.closest("#map-container")) return; // ignorer si sur la map
     const diff = touchStartX - e.changedTouches[0].clientX;
     const idx = tabs.indexOf(currentTab);
     if (diff > 50 && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
@@ -2046,3 +2048,5 @@ document.getElementById("map-container").addEventListener("touchend", e => {
         setTimeout(() => { repositionLabels(); clampLabels(); }, 50);
     }
 });
+
+cacherObtenus.addEventListener("change", appliquerFiltres);

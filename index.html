@@ -112,6 +112,9 @@
 
                             <hr class="hobby-separator">
                             <div class="hobby-row">
+                                <label><input type="checkbox" id="cacherObtenus"> <span id="labelCacherObtenus">Cacher les obtenus</span></label>
+                            </div>
+                            <div class="hobby-row">
                                 <label><input type="checkbox" id="afficherNonDebloques" checked> <span id="labelAfficherNonDebloques">Afficher non débloqués</span></label>
                             </div>
                             <hr class="hobby-separator">
@@ -157,9 +160,9 @@
         </div>
         <div id="tab-tab2" class="tab-content">
             <div id="tabBarWildlife">
-                <button class="tab-btn-wildlife active" onclick="switchTabWildlife('poisson')">🐟 Poissons</button>
-                <button class="tab-btn-wildlife" onclick="switchTabWildlife('oiseau')">🪶 Oiseaux</button>
-                <button class="tab-btn-wildlife" onclick="switchTabWildlife('insecte')">🐛 Insectes</button>
+                <button class="tab-btn-wildlife active" id="btnWildlifePoisson" onclick="switchTabWildlife('poisson')">🐟 Poissons</button>
+                <button class="tab-btn-wildlife" id="btnWildlifeOiseau" onclick="switchTabWildlife('oiseau')">🪶 Oiseaux</button>
+                <button class="tab-btn-wildlife" id="btnWildlifeInsecte" onclick="switchTabWildlife('insecte')">🐛 Insectes</button>
             </div>
             <div class="FenetreObtenu active" id="ObtenuPoisson"></div>
             <div class="FenetreObtenu" id="ObtenuOiseau"></div>
