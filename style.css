@@ -800,6 +800,7 @@ button {
 
 .faune-grid {
     display: grid;
+    text-align: left;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 4px 16px;
 }
