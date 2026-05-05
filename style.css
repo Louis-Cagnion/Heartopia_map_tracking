@@ -725,8 +725,90 @@ button {
 
 .tab-content {
     display: none;
+    background-color: #333333;
+    border-radius: 5px;
+    padding: 5px;
+    max-width: max-content;
+    margin: auto;
 }
 
 .tab-content.active {
+    display: flex;
+    justify-content: center;
+}
+
+#tabBarWildlife {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tab-btn-wildlife {
+    background: #333;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 6px 16px;
+    cursor: pointer;
+    font-size: var(--ui-font-size);
+    transition: background 0.2s;
+}
+
+.tab-btn-wildlife:hover { background: #555; }
+
+.tab-btn-wildlife.active {
+    background: white;
+    color: #333;
+}
+
+.FenetreObtenu {
+    display: none;
+}
+
+.FenetreObtenu.active {
     display: block;
 }
+
+.niveau-bloc {
+    background: #111;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.niveau-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+    background: #1a1a1a;
+}
+
+.niveau-header:hover { background: #222; }
+
+.niveau-toggle { font-size: 12px; }
+
+.niveau-label { font-weight: bold; }
+
+.niveau-content {
+    padding: 8px 12px;
+}
+
+.faune-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+}
+
+.faune-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 2px 0;
+}
+
+.faune-item:hover { color: #e8a44a; }

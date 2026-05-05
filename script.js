@@ -40,6 +40,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     remplirSelectNiveaux(["hobbyPoisson", "hobbyOiseau", "hobbyInsecte"]);
     await loadDatabaseAuto();
 
+    construireFenetreObtenu("poisson", "ObtenuPoisson");
+construireFenetreObtenu("oiseau", "ObtenuOiseau");
+construireFenetreObtenu("insecte", "ObtenuInsecte");
     places.forEach(p => {
         const nameFr = Array.isArray(p.name) ? p.name[0] : p.name;
         createPlaceMarker(nameFr, p.x, p.y, p.level || 1);
@@ -240,6 +243,139 @@ const UI = {
         ongletTab2: "📋 ?",
     }
 };
+
+// =========================
+// 🐟 ELEMENTS
+// =========================
+
+// State pour les cases cochées, chargé depuis localStorage
+const checkedFaune = JSON.parse(localStorage.getItem("checkedFaune") || "{}");
+
+function saveCheckedFaune() {
+    localStorage.setItem("checkedFaune", JSON.stringify(checkedFaune));
+}
+
+function switchTabWildlife(type) {
+    document.querySelectorAll(".FenetreObtenu").forEach(f => f.classList.remove("active"));
+    document.querySelectorAll(".tab-btn-wildlife").forEach(b => b.classList.remove("active"));
+    document.getElementById("Obtenu" + type.charAt(0).toUpperCase() + type.slice(1)).classList.add("active");
+    document.querySelector(`.tab-btn-wildlife[onclick="switchTabWildlife('${type}')"]`).classList.add("active");
+}
+
+function construireFenetreObtenu(type, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    const data = type === "poisson" ? poissons : type === "oiseau" ? oiseaux : insectes;
+
+    // Grouper par niveau_hobby
+    const parNiveau = {};
+    data.forEach(el => {
+        const niv = el.niveau_hobby || 1;
+        if (!parNiveau[niv]) parNiveau[niv] = [];
+        parNiveau[niv].push(el);
+    });
+
+    Object.keys(parNiveau).sort((a, b) => a - b).forEach(niv => {
+        const elements = parNiveau[niv];
+        const nivDiv = document.createElement("div");
+        nivDiv.className = "niveau-bloc";
+
+        // Header du niveau
+        const header = document.createElement("div");
+        header.className = "niveau-header";
+
+        const cbNiveau = document.createElement("input");
+        cbNiveau.type = "checkbox";
+        cbNiveau.className = "cb-niveau";
+
+        // Vérifier si tous les éléments du niveau sont cochés
+        const allChecked = elements.every(el => {
+            const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+            return checkedFaune[nameFr];
+        });
+        cbNiveau.checked = allChecked;
+
+        cbNiveau.addEventListener("change", () => {
+            if (cbNiveau.checked) {
+                elements.forEach(el => {
+                    const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+                    checkedFaune[nameFr] = true;
+                });
+            } else {
+                elements.forEach(el => {
+                    const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+                    delete checkedFaune[nameFr];
+                });
+            }
+            saveCheckedFaune();
+            construireFenetreObtenu(type, containerId); // reconstruire pour mettre à jour
+        });
+
+        const toggleBtn = document.createElement("span");
+        toggleBtn.className = "niveau-toggle";
+        toggleBtn.textContent = "▶";
+
+        const labelNiv = document.createElement("span");
+        labelNiv.className = "niveau-label";
+        labelNiv.textContent = langue === "fr" ? `Niveau ${niv}` : `Level ${niv}`;
+
+        header.appendChild(cbNiveau);
+        header.appendChild(toggleBtn);
+        header.appendChild(labelNiv);
+        nivDiv.appendChild(header);
+
+        // Contenu (caché par défaut)
+        const content = document.createElement("div");
+        content.className = "niveau-content hidden";
+
+        const grid = document.createElement("div");
+        grid.className = "faune-grid";
+
+        elements.forEach(el => {
+            const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+            const nameAff = getNom(el);
+
+            const label = document.createElement("label");
+            label.className = "faune-item";
+
+            const cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.checked = !!checkedFaune[nameFr];
+
+            cb.addEventListener("change", () => {
+                if (cb.checked) {
+                    checkedFaune[nameFr] = true;
+                } else {
+                    delete checkedFaune[nameFr];
+                }
+                saveCheckedFaune();
+                // Mettre à jour la case niveau sans reconstruire
+                const allNowChecked = elements.every(e => {
+                    const n = Array.isArray(e.name) ? e.name[0] : e.name;
+                    return checkedFaune[n];
+                });
+                cbNiveau.checked = allNowChecked;
+            });
+
+            label.appendChild(cb);
+            label.appendChild(document.createTextNode(" " + nameAff));
+            grid.appendChild(label);
+        });
+
+        content.appendChild(grid);
+        nivDiv.appendChild(content);
+
+        // Toggle ouverture/fermeture
+        header.addEventListener("click", (e) => {
+            if (e.target === cbNiveau) return;
+            content.classList.toggle("hidden");
+            toggleBtn.textContent = content.classList.contains("hidden") ? "▶" : "▼";
+        });
+
+        container.appendChild(nivDiv);
+    });
+}
 
 function traduirePanneauFaune(prefix, type) {
     const suffixes = {
