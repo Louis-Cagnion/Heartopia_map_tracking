@@ -1,0 +1,128 @@
+[
+  {
+    "name": [
+      "Huile de cuisson",
+      "Cooking oil"
+    ],
+    "price": 100
+  },
+  {
+    "name": [
+      "Viande",
+      "Meat"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre rouge",
+      "Red sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre orange",
+      "Orange sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre jaune",
+      "Yellow sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre vert",
+      "Green sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre Cyan",
+      "Blue sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre bleu",
+      "Indigo sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Sucre violet",
+      "Violet sugar"
+    ],
+    "price": 200
+  },
+  {
+    "name": [
+      "Haricots rouges",
+      "Red beans"
+    ],
+    "price": 50
+  },
+  {
+    "name": [
+      "Grains de café",
+      "Coffee beans"
+    ],
+    "price": 50
+  },
+  {
+    "name": [
+      "Farine de riz",
+      "Rice flour"
+    ],
+    "price": 50
+  },
+  {
+    "name": [
+      "Oeufs",
+      "Eggs"
+    ],
+    "price": 100
+  },
+  {
+    "name": [
+      "Lait",
+      "Milk"
+    ],
+    "price": 50
+  },
+  {
+    "name": [
+      "Beurre",
+      "Butter"
+    ],
+    "price": 150
+  },
+  {
+    "name": [
+      "Poudre de matcha",
+      "Matcha powder"
+    ],
+    "price": 250
+  },
+  {
+    "name": [
+      "Fromage",
+      "Cheese"
+    ],
+    "price": 100
+  },
+  {
+    "name": [
+      "Thé noir",
+      "Tea leaves"
+    ],
+    "price": 250
+  }
+]
