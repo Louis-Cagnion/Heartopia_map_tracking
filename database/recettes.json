@@ -5,22 +5,20 @@
       "House salad"
     ],
     "ingredients": [
-      "Salade maison",
-      "House salad"
+      
     ],
     "energy": 15,
     "sellPrice": 90
   },
   {
     "name": [
-      "Salade maison",
-      "House salad"
+      "Confiture assortie",
+      "Mixed jam"
     ],
     "ingredients": [
-      "Salade maison",
-      "House salad"
+
     ],
-    "energy": 15,
-    "sellPrice": 90
+    "energy": 22,
+    "sellPrice": 160
   }
 ]
