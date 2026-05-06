@@ -53,7 +53,8 @@ button {
 
 #map-inner {
     position: relative;
-    transform: scale(0.75);
+    width: 675px;
+    height: 674px;
     transform-origin: top left;
     cursor: grab;
 }

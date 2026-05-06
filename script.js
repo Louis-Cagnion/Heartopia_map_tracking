@@ -387,7 +387,8 @@ function construireFenetreObtenu(type, containerId) {
 
         // Toggle ouverture/fermeture
         header.addEventListener("click", (e) => {
-            if (e.target === cbNiveau) return;
+            // Vérifie si le clic vient de la checkbox ou de ses parents directs
+            if (e.target.type === "checkbox" || e.target.closest("input[type='checkbox']")) return;
             content.classList.toggle("hidden");
             toggleBtn.textContent = content.classList.contains("hidden") ? "▶" : "▼";
         });
@@ -809,8 +810,7 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
         e.stopPropagation();
     };
     el.onclick = function(e) {
-        if (mode !== "admin") return;
-        if (!suppressionCollectibleMode) return;
+        if (mode !== "admin" || !suppressionCollectibleMode) return;
         e.stopPropagation();
 
         if (!confirm("Supprimer cette position ?")) return;
@@ -1025,6 +1025,21 @@ function createPlaceMarker(name, x, y, level = 1) {
             if (title) title.textContent = "";
         }
     };
+    const hitArea = document.createElement("div");
+    hitArea.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+    `;
+    hitArea.onclick = el.onclick;
+    hitArea.onmousedown = el.onmousedown;
+    el.appendChild(hitArea);
 
     inner.appendChild(el);
 }
@@ -1176,13 +1191,15 @@ function clampLabels() {
 // =========================
 
 function applyTransform() {
+    const baseScale = 0.75;
+    const effectiveZoom = zoom * baseScale;
     const mapW = 675;
     const mapH = 674;
-    const minPanX = -(mapW * zoom - mapW);
-    const minPanY = -(mapH * zoom - mapH);
+    const minPanX = -(mapW * effectiveZoom - mapW * baseScale);
+    const minPanY = -(mapH * effectiveZoom - mapH * baseScale);
     panX = Math.min(0, Math.max(panX, minPanX));
     panY = Math.min(0, Math.max(panY, minPanY));
-    inner.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+    inner.style.transform = `translate(${panX}px, ${panY}px) scale(${effectiveZoom})`;
 
     const fontSize = 16 / zoom;
     const markerSize = Math.max(6, 16 / zoom);
@@ -2001,20 +2018,6 @@ document.addEventListener("keydown", (e) => {
     const idx = tabs.indexOf(currentTab);
     if ((e.key === "ArrowRight" || e.key === "d") && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
     if ((e.key === "ArrowLeft" || e.key === "a") && idx > 0) switchTab(tabs[idx - 1]);
-});
-
-// Swipe mobile
-let touchStartX = 0;
-document.getElementById("tabContainer").addEventListener("touchstart", e => {
-    if (e.target.closest("#map-container")) return; // ignorer si sur la map
-    touchStartX = e.touches[0].clientX;
-});
-document.getElementById("tabContainer").addEventListener("touchend", e => {
-    if (e.target.closest("#map-container")) return; // ignorer si sur la map
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    const idx = tabs.indexOf(currentTab);
-    if (diff > 50 && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
-    if (diff < -50 && idx > 0) switchTab(tabs[idx - 1]);
 });
 
 let touchStartTime = 0;
