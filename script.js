@@ -306,7 +306,8 @@ function construireFenetreObtenu(type, containerId) {
         });
         cbNiveau.checked = allChecked;
 
-        cbNiveau.addEventListener("change", () => {
+        cbNiveau.addEventListener("change", (e) => {
+            e.stopPropagation();
             if (cbNiveau.checked) {
                 elements.forEach(el => {
                     const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
@@ -319,9 +320,14 @@ function construireFenetreObtenu(type, containerId) {
                 });
             }
             saveCheckedFaune();
-            construireFenetreObtenu(type, containerId); // reconstruire pour mettre à jour
+            construireFenetreObtenu(type, containerId);
         });
+
         cbNiveau.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+
+        cbNiveau.addEventListener("pointerdown", (e) => {
             e.stopPropagation();
         });
 
@@ -1686,7 +1692,9 @@ function afficherGroupeElements(elements, container) {
 
 function toggleSpeciaux() {
     const panel = document.getElementById("panelSpeciaux");
+    const btn = document.getElementById("btnSpeciaux");
     panel.classList.toggle("hidden");
+    btn.style.display = panel.classList.contains("hidden") ? "" : "none";
 
     if (!panel.classList.contains("hidden")) {
         const list = document.getElementById("speciauxList");
@@ -1991,8 +1999,8 @@ const tabs = ["map", "tab2"];
 // Flèches clavier
 document.addEventListener("keydown", (e) => {
     const idx = tabs.indexOf(currentTab);
-    if (e.key === "ArrowRight" && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
-    if (e.key === "ArrowLeft" && idx > 0) switchTab(tabs[idx - 1]);
+    if ((e.key === "ArrowRight" || e.key === "d") && idx < tabs.length - 1) switchTab(tabs[idx + 1]);
+    if ((e.key === "ArrowLeft" || e.key === "a") && idx > 0) switchTab(tabs[idx - 1]);
 });
 
 // Swipe mobile
@@ -2009,7 +2017,10 @@ document.getElementById("tabContainer").addEventListener("touchend", e => {
     if (diff < -50 && idx > 0) switchTab(tabs[idx - 1]);
 });
 
-let lastTouchDist = null;
+let touchStartTime = 0;
+let touchStartPos = { x: 0, y: 0 };
+let touchMoved = false;
+let panTouchId = null;
 
 document.getElementById("map-container").addEventListener("touchstart", e => {
     if (e.touches.length === 2) {
@@ -2018,6 +2029,13 @@ document.getElementById("map-container").addEventListener("touchstart", e => {
             e.touches[0].clientY - e.touches[1].clientY
         );
         e.preventDefault();
+        return;
+    }
+    if (e.touches.length === 1) {
+        touchStartTime = Date.now();
+        touchStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        touchMoved = false;
+        panTouchId = e.touches[0].identifier;
     }
 }, { passive: false });
 
@@ -2039,6 +2057,20 @@ document.getElementById("map-container").addEventListener("touchmove", e => {
         lastTouchDist = dist;
         applyTransform();
         updateMarkerVisibility();
+        return;
+    }
+    if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        const dx = touch.clientX - touchStartPos.x;
+        const dy = touch.clientY - touchStartPos.y;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            touchMoved = true;
+            e.preventDefault();
+            panX += dx;
+            panY += dy;
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            applyTransform();
+        }
     }
 }, { passive: false });
 
@@ -2046,6 +2078,15 @@ document.getElementById("map-container").addEventListener("touchend", e => {
     if (e.touches.length < 2) {
         lastTouchDist = null;
         setTimeout(() => { repositionLabels(); clampLabels(); }, 50);
+    }
+    if (e.touches.length === 0 && !touchMoved) {
+        // C'est un tap — simuler un click sur l'élément sous le doigt
+        const touch = e.changedTouches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (target) {
+            const marker = target.closest(".place-marker");
+            if (marker) marker.click();
+        }
     }
 });
 
