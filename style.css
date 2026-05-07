@@ -53,8 +53,9 @@ button {
 
 #map-inner {
     position: relative;
-    width: 675px;
-    height: 674px;
+    width: 900px;
+    height: 908px;
+    transform: scale(0.75);
     transform-origin: top left;
     cursor: grab;
 }
@@ -68,7 +69,7 @@ button {
 }
 
 #map {
-    width: 675px;
+    width: 900px;
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;

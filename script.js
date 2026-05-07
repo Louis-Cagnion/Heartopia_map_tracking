@@ -1191,17 +1191,16 @@ function clampLabels() {
 // =========================
 
 function applyTransform() {
-    const baseScale = 0.75;
-    const effectiveZoom = zoom * baseScale;
     const mapW = 675;
     const mapH = 674;
-    const minPanX = -(mapW * effectiveZoom - mapW * baseScale);
-    const minPanY = -(mapH * effectiveZoom - mapH * baseScale);
+    const minPanX = -(mapW * zoom - mapW);
+    const minPanY = -(mapH * zoom - mapH);
     panX = Math.min(0, Math.max(panX, minPanX));
     panY = Math.min(0, Math.max(panY, minPanY));
-    inner.style.transform = `translate(${panX}px, ${panY}px) scale(${effectiveZoom})`;
+    inner.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom * 0.75})`;
+    inner.style.transformOrigin = "top left";
 
-    const fontSize = 16 / zoom;
+    const fontSize = 20 / zoom;
     const markerSize = Math.max(6, 16 / zoom);
     const borderSize = Math.max(1, 2 / zoom);
 
