@@ -1982,12 +1982,12 @@ hobbyPanel.classList.remove("hidden");
 function setFilterToggleText() {
     const isOpen = !hobbyPanel.classList.contains("hidden");
     filterToggle.textContent = ""; // vider proprement
-    const arrow = document.createTextNode(isOpen ? "▼ " : "▶ ");
-    filterToggle.appendChild(arrow);
     const span = document.createElement("span");
     span.id = "labelFiltres";
     span.textContent = t("filtres");
     filterToggle.appendChild(span);
+    const arrow = document.createTextNode(isOpen ? " ▼" : " ▶");
+    filterToggle.appendChild(arrow);
 }
 
 filterToggle.addEventListener("click", () => {
