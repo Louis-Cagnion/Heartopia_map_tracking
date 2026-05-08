@@ -15,6 +15,10 @@ button {
     font-size: var(--ui-font-size);
 }
 
+/* ========================= */
+/* HEADER BAR                */
+/* ========================= */
+
 #headerBar {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -41,413 +45,6 @@ button {
     font-size: 28px;
 }
 
-#map-container {
-    overflow: hidden;
-    user-select: none;
-    width: 675px;
-    height: 674px;
-    display: inline-block;
-    border: 5px solid rgba(255, 255, 255, 0.4);
-    border-radius: 4px;
-}
-
-#map-inner {
-    position: relative;
-    width: 900px;
-    height: 908px;
-    transform: scale(0.75);
-    transform-origin: top left;
-    cursor: grab;
-}
-
-#map-inner.grabbing {
-    cursor: grabbing;
-}
-
-.editor-mode #map-container {
-    cursor: crosshair;
-}
-
-#map {
-    width: 900px;
-    user-select: none;
-    -webkit-user-drag: none;
-    pointer-events: none;
-}
-
-#modeSelector {
-    margin: 2px 0 0 0;
-}
-
-#modeSelector button {
-    margin: 5px;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 6px;
-    background: #333;
-    color: white;
-    cursor: pointer;
-}
-
-#modeSelector button:hover {
-    background: #555;
-}
-
-#panel {
-    position: static;
-    max-height: 600px;
-    overflow-y: auto;
-    background: black;
-    padding: 10px;
-    border-radius: 8px;
-    color: white;
-    font-size: var(--ui-font-size);
-}
-
-#placeTitle {
-    cursor: pointer;
-    margin: 0;
-    color: red;
-}
-
-#placeTitle:hover {
-    color: red;
-}
-
-#elementsList {
-    margin-top: 8px;
-    font-size: var(--ui-font-size);
-}
-
-.elements-lieu {
-    margin-top: 8px;
-}
-
-.elements-lieu-titre {
-    color: red;
-    font-size: var(--ui-font-size);
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 3px;
-    padding-bottom: 2px;
-    border-left: 3px solid red;
-    padding-left: 6px;
-}
-
-.elements-lieu-liste {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.elements-lieu-liste li {
-    padding: 2px 0;
-    border-bottom: 1px solid #222;
-}
-
-#panelSpeciaux {
-    position: static;
-    right: 20px;
-    bottom: 60px;
-    background: #111;
-    padding: 12px;
-    border-radius: 8px;
-    color: white;
-    max-width: 400px;
-    max-height: 60vh;
-    overflow-y: auto;
-    z-index: 100;
-}
-
-#panelSpeciaux h3 {
-    margin: 0 0 8px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#panelSpeciaux h3 button {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: var(--ui-font-size);
-    padding: 0;
-    width: auto;
-}
-
-#btnSpeciaux {
-    position: static;
-    width: 100%;
-    right: 20px;
-    bottom: 20px;
-    background: black;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 6px 10px;
-    cursor: pointer;
-    font-size: var(--ui-font-size);
-    z-index: 100;
-}
-
-#btnSpeciaux:hover {
-    background: #555;
-}
-
-.marker {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    cursor: pointer;
-    transform: translate(-50%, -50%);
-}
-
-.place-marker {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-}
-
-.place-label {
-    font-size: var(--ui-font-size);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    background: rgba(0,0,0,0.6);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-
-    white-space: pre;
-    display: inline-block;
-    pointer-events: none;
-}
-
-/* couleurs */
-.poisson { background: #3498db; }
-.oiseau { background: #f1c40f; }
-.insecte { background: #2ecc71; }
-.collectible { background: #e67e22; }
-
-#tooltip {
-    position: absolute;
-    background: black;
-    padding: 6px;
-    border-radius: 5px;
-    display: none;
-    font-size: var(--ui-font-size);
-}
-
-/* ========================= */
-/* 🔵 AJOUTS ADMIN UI        */
-/* ========================= */
-
-/* panneau admin */
-#adminPanel {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    background: #111;
-    padding: 12px;
-    border-radius: 10px;
-    width: 180px;
-    text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
-}
-
-/* boutons admin */
-#adminPanel button {
-    width: 100%;
-    margin: 4px 0;
-    padding: 6px;
-    border: none;
-    border-radius: 6px;
-    background: #333;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-#adminPanel button:hover {
-    background: #555;
-}
-
-/* input file propre */
-#adminPanel input[type="file"] {
-    width: 100%;
-    margin-top: 5px;
-    font-size: var(--ui-font-size);
-    color: white;
-}
-
-/* cacher éléments */
-.hidden {
-    display: none !important;
-}
-
-/* mode admin visuel (optionnel) */
-.editor-mode #map {
-    outline: 2px dashed rgba(255,255,255,0.3);
-    cursor: crosshair;
-}
-
-/* amélioration filtres (optionnel mais léger) */
-.filters {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 8px;
-    margin-bottom: 10px;
-}
-
-.filters label {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-}
-
-.element-panel {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    background: #111;
-    padding: 14px;
-    border-radius: 10px;
-    width: 220px;
-    text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    color: white;
-    font-size: var(--ui-font-size);
-    z-index: 100;
-}
-
-.element-panel h3 {
-    margin: 0 0 10px 0;
-}
-
-.element-panel label {
-    display: block;
-    margin: 6px 0;
-}
-
-.element-panel input[type="text"],
-.element-panel input[type="number"],
-.element-panel select {
-    width: 100%;
-    margin-top: 3px;
-    background: #222;
-    border: 1px solid #555;
-    color: white;
-    padding: 4px;
-    border-radius: 4px;
-    font-size: var(--ui-font-size);
-}
-
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    margin-top: 3px;
-    gap: 3px;
-}
-
-.checkbox-group label {
-    margin: 0;
-    font-size: var(--ui-font-size);
-}
-
-.element-panel button {
-    width: 100%;
-    margin: 4px 0;
-    padding: 6px;
-    border: none;
-    border-radius: 6px;
-    background: #333;
-    color: white;
-    cursor: pointer;
-    font-size: var(--ui-font-size);
-}
-
-.element-panel button:hover {
-    background: #555;
-}
-
-.collectible-marker {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    background: #e67e22;
-    border: 1px solid black;
-}
-
-.collectible-section {
-    margin-bottom: 8px;
-}
-
-.collectible-section strong {
-    display: block;
-    margin-bottom: 6px;
-    color: #aaa;
-}
-
-#legendeCollectibles {
-    position: static;
-    min-width: 100%;
-    box-sizing: border-box;
-    background: #111;
-    padding: 10px;
-    border-radius: 8px;
-    color: white;
-    font-size: var(--ui-font-size);
-}
-
-#infoColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 250px;
-    flex-shrink: 0;
-}
-
-#legendeCollectibles h3 {
-    margin: 0 0 8px 0;
-    font-size: var(--ui-font-size);
-}
-
-#legendeCollectibles.closed {
-    padding: 6px 10px;
-    width: auto;
-    height: auto;
-}
-
-#legendeCollectibles.closed #legendeList {
-    display: none;
-}
-
-.legende-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin: 4px 0;
-}
-
-.legende-item span {
-    text-align: left;
-}
-
-.legende-pastille {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 1px solid black;
-    flex-shrink: 0;
-}
 #userSettings {
     position: static;
     background: #111;
@@ -475,6 +72,11 @@ button {
     box-sizing: border-box;
 }
 
+#userSettingsLeft .hobby-section-title,
+#userSettingsRight .hobby-section-title {
+    white-space: nowrap;
+}
+
 #btnLangue {
     width: 100%;
     margin-bottom: 8px;
@@ -491,137 +93,6 @@ button {
     background: #555;
 }
 
-#hobbyPanel {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.hobby-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.hobby-row input[type="number"] {
-    width: 70px;
-    background: #222;
-    border: 1px solid #555;
-    color: white;
-    padding: 6px;
-    border-radius: 4px;
-    font-size: var(--ui-font-size);
-}
-
-.hobby-row label {
-    white-space: nowrap;
-    font-size: var(--ui-font-size);
-    flex: 1;
-}
-
-#map-layout {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-    margin: 0 auto;
-    width: fit-content;
-}
-
-#userColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 280px;
-    flex-shrink: 0;
-}
-
-#userPreferences {
-    background: #111;
-    padding: 10px;
-    border-radius: 8px;
-    color: white;
-    font-size: var(--ui-font-size);
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#filterToggle {
-    margin-bottom: 4px;
-    user-select: none;
-}
-
-#mapColumn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-}
-
-#labelNiveauPassion {
-    font-size: var(--ui-font-size);
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-#hobbyPanel {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.hobby-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-    flex-wrap: wrap;
-}
-
-.hobby-row label {
-    font-size: var(--ui-font-size);
-    text-align: left;
-    flex: 1;
-    white-space: normal;
-    min-width: 0;
-}
-
-.hobby-row:has(.meteo-cb),
-.hobby-row:has(.heure-cb) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 8px;
-    justify-items: start;
-}
-
-.hobby-row label:has(.meteo-cb),
-.hobby-row label:has(.heure-cb) {
-    flex: unset;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.hobby-row input[type="number"] {
-    width: 60px;
-    background: #222;
-    border: 1px solid #555;
-    color: white;
-    padding: 6px;
-    border-radius: 4px;
-    font-size: var(--ui-font-size);
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.hobby-separator {
-    border: none;
-    border-top: 1px solid #333;
-    margin: 6px 0;
-}
-
 #selectServeur {
     width: 100%;
     min-width: 110px;
@@ -635,63 +106,27 @@ button {
     box-sizing: border-box;
 }
 
-.hobby-section-title {
-    font-size: var(--ui-font-size);
-    font-weight: bold;
-    margin-bottom: 4px;
-    margin-top: 4px;
+#modeSelector {
+    margin: 2px 0 0 0;
 }
 
-#userSettingsLeft .hobby-section-title,
-#userSettingsRight .hobby-section-title {
-    white-space: nowrap;
-}
-
-#labelMeteoModeOu,
-#labelMeteoModeEt {
-    font-size: var(--ui-font-size);
-}
-
-.element-details {
-    background: #1a1a1a;
-    border-left: 3px solid #e8a44a;
-    border-radius: 4px;
-    padding: 6px 8px;
-    margin-top: 4px;
-    font-size: var(--ui-font-size);
-    color: #ccc;
-}
-
-.element-details-row {
-    margin: 3px 0;
-}
-
-.elements-lieu-liste li {
-    padding: 2px 0;
-    border-bottom: 1px solid #222;
+#modeSelector button {
+    margin: 5px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #333;
+    color: white;
     cursor: pointer;
 }
 
-.elements-lieu-liste li:hover {
-    color: #e8a44a;
+#modeSelector button:hover {
+    background: #555;
 }
 
-.elements-lieu-liste li.selected {
-    color: #e8a44a;
-}
-
-#hobbyPoisson, #hobbyOiseau, #hobbyInsecte {
-    width: 55px;
-    min-width: 55px;
-    background: #222;
-    border: 1px solid #555;
-    color: white;
-    padding: 4px;
-    border-radius: 4px;
-    font-size: var(--ui-font-size);
-    text-align: center;
-    flex-shrink: 0;
-}
+/* ========================= */
+/* TABS                      */
+/* ========================= */
 
 #tabBar {
     display: flex;
@@ -740,79 +175,61 @@ button {
     justify-content: center;
 }
 
-#tabBarWildlife {
+/* ========================= */
+/* LAYOUT MAP                */
+/* ========================= */
+
+#map-layout {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 auto;
+    width: fit-content;
 }
 
-.tab-btn-wildlife {
-    background: black;
+#userColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 280px;
+    flex-shrink: 0;
+}
+
+#mapColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* ========================= */
+/* UTILITAIRES               */
+/* ========================= */
+
+.hidden {
+    display: none !important;
+}
+
+.hobby-separator {
     border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 6px 16px;
-    cursor: pointer;
+    border-top: 1px solid #333;
+    margin: 6px 0;
+}
+
+.hobby-section-title {
     font-size: var(--ui-font-size);
-    transition: background 0.2s;
+    font-weight: bold;
+    margin-bottom: 4px;
+    margin-top: 4px;
 }
 
-.tab-btn-wildlife:hover { background: #555; }
-
-.tab-btn-wildlife.active {
-    background: white;
-    color: #333;
-}
-
-.FenetreObtenu {
+#tooltip {
+    position: absolute;
+    background: black;
+    padding: 6px;
+    border-radius: 5px;
     display: none;
+    font-size: var(--ui-font-size);
 }
-
-.FenetreObtenu.active {
-    display: block;
-}
-
-.niveau-bloc {
-    background: #111;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    overflow: hidden;
-}
-
-.niveau-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-    user-select: none;
-    background: #1a1a1a;
-}
-
-.niveau-header:hover { background: #222; }
-
-.niveau-toggle { font-size: 12px; }
-
-.niveau-label { font-weight: bold; }
-
-.niveau-content {
-    padding: 8px 12px;
-}
-
-.faune-grid {
-    display: grid;
-    text-align: left;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 4px 16px;
-}
-
-.faune-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    padding: 2px 0;
-}
-
-.faune-item:hover { color: #e8a44a; }
