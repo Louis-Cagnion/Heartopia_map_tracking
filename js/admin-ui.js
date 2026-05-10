@@ -65,23 +65,25 @@ function renderAdminPage() {
         page.appendChild(section);
     });
 
-    // Carte inline pour collectibles
+    // Carte inline pour collectibles — on crée uniquement le shell,
+    // le vrai #map-container y sera déplacé par ouvrirCarteAdmin()
     const carteInline = document.createElement("div");
     carteInline.id = "adminCarteInline";
     carteInline.className = "hidden";
-    carteInline.innerHTML = `
-        <div class="admin-carte-header">
-            <span id="adminCarteTitre">${t("adminPositionsCarte")}</span>
-            <button onclick="fermerCarteAdmin()">✖</button>
-        </div>
-        <div id="admin-map-container-wrapper">
-            <div id="map-container">
-                <div id="map-inner">
-                    <img src="./map/map.jpg" id="map" alt="Map du jeu Heartopia">
-                </div>
-            </div>
-        </div>
-    `;
+
+    const carteHeader = document.createElement("div");
+    carteHeader.className = "admin-carte-header";
+    carteHeader.innerHTML = `<span id="adminCarteTitre">${t("adminPositionsCarte")}</span>`;
+    const btnFermerCarte = document.createElement("button");
+    btnFermerCarte.textContent = "✖";
+    btnFermerCarte.onclick = fermerCarteAdmin;
+    carteHeader.appendChild(btnFermerCarte);
+
+    const wrapper = document.createElement("div");
+    wrapper.id = "admin-map-container-wrapper";
+
+    carteInline.appendChild(carteHeader);
+    carteInline.appendChild(wrapper);
     page.appendChild(carteInline);
 }
 
@@ -143,19 +145,19 @@ function renderGrilleTypes(body, mode) {
     grid.className = "admin-type-grid";
 
     const types = [
-        { key: "poisson",     emoji: "🐟", labelKey: "adminAjouterPoisson" },
-        { key: "insecte",     emoji: "🐛", labelKey: "adminAjouterInsecte" },
-        { key: "oiseau",      emoji: "🪶", labelKey: "adminAjouterOiseau" },
-        { key: "collectible", emoji: "🍄", labelKey: "adminAjouterCollectible" },
-        { key: "ingredient",  emoji: "🥕", labelKey: "adminAjouterIngredient" },
-        { key: "recette",     emoji: "📖", labelKey: "adminAjouterRecette" }
+        { key: "poisson",     emoji: "🐟", labelKey: "adminAjouterPoisson",    label: { fr: "Poisson",     en: "Fish" } },
+        { key: "insecte",     emoji: "🐛", labelKey: "adminAjouterInsecte",    label: { fr: "Insecte",     en: "Insect" } },
+        { key: "oiseau",      emoji: "🪶", labelKey: "adminAjouterOiseau",     label: { fr: "Oiseau",      en: "Bird" } },
+        { key: "collectible", emoji: "🍄", labelKey: "adminAjouterCollectible",label: { fr: "Collectible", en: "Collectible" } },
+        { key: "ingredient",  emoji: "🥕", labelKey: "adminAjouterIngredient", label: { fr: "Ingrédient",  en: "Ingredient" } },
+        { key: "recette",     emoji: "📖", labelKey: "adminAjouterRecette",    label: { fr: "Recette",     en: "Recipe" } }
     ];
 
-    types.forEach(({ key, emoji, labelKey }) => {
+    types.forEach(({ key, emoji, labelKey, label }) => {
         const btn = document.createElement("div");
         btn.className = "admin-type-btn";
         btn.id = `adminTypeBtn-${mode}-${key}`;
-        btn.innerHTML = `<span class="admin-type-emoji">${emoji}</span><span>${t(labelKey)}</span>`;
+        btn.innerHTML = `<span class="admin-type-emoji">${emoji}</span><span>${label[langue] || label.fr}</span>`;
         btn.addEventListener("click", () => toggleAdminPanneau(mode, key, btn, body));
         grid.appendChild(btn);
     });
@@ -442,17 +444,11 @@ function renderImportExport(body) {
     const zone = document.createElement("div");
     zone.className = "admin-form";
 
-    // Import
+    // --- Import ---
     const titreImport = document.createElement("div");
     titreImport.className = "admin-sub-title";
-    titreImport.textContent = t("adminImporter");
+    titreImport.textContent = langue === "fr" ? "Importer des fichiers" : "Import files";
     zone.appendChild(titreImport);
-
-    const btnImport = document.createElement("button");
-    btnImport.className = "admin-btn-secondary";
-    btnImport.textContent = "📂 " + t("adminImporter");
-    btnImport.onclick = () => document.getElementById("adminImportFile").click();
-    zone.appendChild(btnImport);
 
     const inputFile = document.createElement("input");
     inputFile.type = "file";
@@ -463,15 +459,21 @@ function renderImportExport(body) {
     inputFile.addEventListener("change", (e) => importElements(e));
     zone.appendChild(inputFile);
 
+    const btnImport = document.createElement("button");
+    btnImport.className = "admin-btn-ie";
+    btnImport.innerHTML = `<span class="admin-ie-emoji">📂</span><span>${langue === "fr" ? "Choisissez vos fichiers" : "Choose your files"}</span>`;
+    btnImport.onclick = () => document.getElementById("adminImportFile").click();
+    zone.appendChild(btnImport);
+
     // Séparateur
     const sep = document.createElement("hr");
     sep.className = "hobby-separator";
     zone.appendChild(sep);
 
-    // Export
+    // --- Export ---
     const titreExport = document.createElement("div");
     titreExport.className = "admin-sub-title";
-    titreExport.textContent = t("adminExporterTout");
+    titreExport.textContent = langue === "fr" ? "Exporter des fichiers" : "Export files";
     zone.appendChild(titreExport);
 
     const fichiers = [
@@ -502,8 +504,8 @@ function renderImportExport(body) {
     zone.appendChild(checkZone);
 
     const btnExport = document.createElement("button");
-    btnExport.className = "admin-btn-primary";
-    btnExport.textContent = "📤 " + t("adminExporterTout");
+    btnExport.className = "admin-btn-ie";
+    btnExport.innerHTML = `<span class="admin-ie-emoji">📤</span><span>${langue === "fr" ? "Exporter les fichiers" : "Export files"}</span>`;
     btnExport.onclick = () => exportSelectionne(checkZone);
     zone.appendChild(btnExport);
 
@@ -710,8 +712,12 @@ function fermerCarteAdmin() {
     suppressionCollectibleMode = false;
     adminCarteVisible = false;
 
-    // Remettre le curseur
+    // Remettre map-container dans mapColumn
     const mapContainer = document.getElementById("map-container");
+    const mapColumn = document.getElementById("mapColumn");
+    if (mapContainer && mapColumn && !mapColumn.contains(mapContainer)) {
+        mapColumn.appendChild(mapContainer);
+    }
     if (mapContainer) mapContainer.style.cursor = "crosshair";
 }
 

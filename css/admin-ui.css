@@ -378,3 +378,32 @@
     background-color: #1e1e1e;
     padding: 0;
 }
+
+/* =========================
+   BOUTONS IMPORT/EXPORT
+   ========================= */
+
+.admin-btn-ie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 8px;
+    background: #222;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: var(--ui-font-size);
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.admin-btn-ie:hover {
+    background: #333;
+}
+
+.admin-ie-emoji {
+    font-size: 28px;
+}
