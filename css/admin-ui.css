@@ -1,0 +1,380 @@
+/* =========================
+   🔧 ADMIN UI — NOUVELLE INTERFACE
+   ========================= */
+
+#adminPage {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+    display: none;
+}
+
+#adminPage.active {
+    display: block;
+}
+
+/* =========================
+   SECTIONS ACCORDÉON
+   ========================= */
+
+.admin-section {
+    background: #111;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.admin-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+    background: #1a1a1a;
+    font-weight: bold;
+    font-size: var(--ui-font-size);
+    transition: background 0.2s;
+}
+
+.admin-section-header:hover {
+    background: #222;
+}
+
+.admin-section-arrow {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.admin-section-body {
+    padding: 12px 16px;
+}
+
+/* =========================
+   GRILLE 2×3 DE TYPES
+   ========================= */
+
+.admin-type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.admin-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 8px;
+    background: #222;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: var(--ui-font-size);
+    user-select: none;
+    border: 2px solid transparent;
+}
+
+.admin-type-btn:hover {
+    background: #333;
+}
+
+.admin-type-btn.active {
+    background: #2a2a2a;
+    border-color: #e8a44a;
+}
+
+.admin-type-emoji {
+    font-size: 24px;
+}
+
+/* =========================
+   FORMULAIRES
+   ========================= */
+
+.admin-panneau-zone {
+    margin-top: 4px;
+}
+
+.admin-form {
+    background: #0d0d0d;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-champ {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-label {
+    font-size: calc(var(--ui-font-size) - 1px);
+    color: #aaa;
+    font-weight: bold;
+}
+
+.admin-input {
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: var(--ui-font-size);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-input:focus {
+    outline: 1px solid #e8a44a;
+    border-color: #e8a44a;
+}
+
+.admin-input-number {
+    width: 120px;
+}
+
+.admin-input-color {
+    width: 60px;
+    height: 36px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.admin-select {
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: var(--ui-font-size);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-select:focus {
+    outline: 1px solid #e8a44a;
+    border-color: #e8a44a;
+}
+
+.admin-checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+}
+
+.admin-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--ui-font-size);
+    cursor: pointer;
+}
+
+/* =========================
+   BOUTONS
+   ========================= */
+
+.admin-btn-primary {
+    background: #e8a44a;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: var(--ui-font-size);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.admin-btn-primary:hover {
+    background: #f0b84a;
+}
+
+.admin-btn-secondary {
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: var(--ui-font-size);
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.admin-btn-secondary:hover {
+    background: #555;
+}
+
+.admin-btn-danger {
+    background: #c0392b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: var(--ui-font-size);
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.admin-btn-danger:hover {
+    background: #e74c3c;
+}
+
+.admin-btn-small {
+    width: auto;
+    padding: 5px 10px;
+    font-size: calc(var(--ui-font-size) - 1px);
+}
+
+.admin-sub-title {
+    font-weight: bold;
+    font-size: var(--ui-font-size);
+    color: #ccc;
+    margin-bottom: 6px;
+}
+
+.admin-empty {
+    color: #666;
+    font-style: italic;
+    padding: 8px 0;
+}
+
+/* =========================
+   IMPORT / EXPORT
+   ========================= */
+
+.admin-export-checks {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 6px 16px;
+    margin-bottom: 10px;
+}
+
+.admin-export-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--ui-font-size);
+    cursor: pointer;
+}
+
+/* =========================
+   SLOTS INGRÉDIENTS
+   ========================= */
+
+.admin-slots-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-slot {
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 10px;
+    border-left: 3px solid #e8a44a;
+}
+
+.admin-slot-label {
+    font-weight: bold;
+    color: #e8a44a;
+    margin-bottom: 6px;
+    font-size: calc(var(--ui-font-size) - 1px);
+}
+
+.admin-slot-select-wrapper {
+    width: 100%;
+}
+
+.admin-slot-select {
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: calc(var(--ui-font-size) - 1px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-slot-select optgroup {
+    color: #aaa;
+    font-style: italic;
+}
+
+.admin-slot-select option {
+    color: white;
+    font-style: normal;
+}
+
+.admin-slot-hint {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.admin-slots-btns {
+    display: flex;
+    gap: 8px;
+}
+
+/* =========================
+   CARTE INLINE
+   ========================= */
+
+#adminCarteInline {
+    background: #111;
+    border-radius: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.admin-carte-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: #1a1a1a;
+    font-weight: bold;
+}
+
+.admin-carte-header button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: var(--ui-font-size);
+}
+
+#admin-map-container-wrapper {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+/* =========================
+   PAGE ADMIN GLOBALE
+   ========================= */
+
+#tabContainer.admin-active .tab-content.active {
+    background-color: #1e1e1e;
+    padding: 0;
+}

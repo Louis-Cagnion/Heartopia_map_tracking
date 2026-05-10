@@ -76,6 +76,40 @@ const UI = {
         wildlifeOiseau: "🪶 Oiseaux",
         wildlifeInsecte: "🐛 Insectes",
         niveauLabel: "Niveau",
+        // === ADMIN REFONTE ===
+        adminSectionAjouter: "➕ Ajouter un élément",
+        adminSectionModifier: "✏️ Modifier un élément",
+        adminSectionSupprimer: "🗑️ Supprimer un élément",
+        adminSectionImportExport: "📦 Import / Export",
+        adminAjouterIngredient: "🥕 Ingrédient",
+        adminAjouterRecette: "📖 Recette",
+        adminNomFrLabel: "Nom FR",
+        adminNomEnLabel: "Nom EN",
+        adminPrix: "Prix",
+        adminCategorieLabel: "Catégorie",
+        adminEnergy: "Énergie",
+        adminSellPrice: "Prix de vente",
+        adminIngredients: "Ingrédients",
+        adminNbSlots: "Nombre de slots",
+        adminSlot: "Slot",
+        adminChoixIngredients: "Ingrédients autorisés",
+        adminAjouterSlot: "➕ Ajouter un slot",
+        adminRetirerSlot: "➖ Retirer un slot",
+        adminSelectionnerElement: "— Sélectionner —",
+        adminElementAModifier: "Élément à modifier",
+        adminElementASupprimer: "Élément à supprimer",
+        adminImporter: "📥 Importer des fichiers",
+        adminExporterTout: "📤 Exporter tout",
+        adminExporterChoix: "Choisir les fichiers à exporter",
+        adminFermerCarte: "✖ Fermer la carte",
+        adminPositionsCarte: "Positions sur la carte",
+        adminAjouterPosition: "📍 Ajouter une position",
+        adminSupprimerPositionMode: "🗑️ Mode suppression actif",
+        adminNombreSlots: "2 slots",
+        adminCategories: "Catégories",
+        adminPoissonsDisponibles: "Poissons disponibles",
+        adminCollectiblesDisponibles: "Collectibles disponibles",
+        adminIngredientsDisponibles: "Ingrédients disponibles",
     },
     en: {
         titreWebsite: "Heartopia Wiki",
@@ -150,6 +184,40 @@ const UI = {
         wildlifeOiseau: "🪶 Birds",
         wildlifeInsecte: "🐛 Insects",
         niveauLabel: "Level",
+        // === ADMIN REFONTE ===
+        adminSectionAjouter: "➕ Add an element",
+        adminSectionModifier: "✏️ Modify an element",
+        adminSectionSupprimer: "🗑️ Delete an element",
+        adminSectionImportExport: "📦 Import / Export",
+        adminAjouterIngredient: "🥕 Ingredient",
+        adminAjouterRecette: "📖 Recipe",
+        adminNomFrLabel: "FR name",
+        adminNomEnLabel: "EN name",
+        adminPrix: "Price",
+        adminCategorieLabel: "Category",
+        adminEnergy: "Energy",
+        adminSellPrice: "Sell price",
+        adminIngredients: "Ingredients",
+        adminNbSlots: "Number of slots",
+        adminSlot: "Slot",
+        adminChoixIngredients: "Allowed ingredients",
+        adminAjouterSlot: "➕ Add a slot",
+        adminRetirerSlot: "➖ Remove a slot",
+        adminSelectionnerElement: "— Select —",
+        adminElementAModifier: "Element to modify",
+        adminElementASupprimer: "Element to delete",
+        adminImporter: "📥 Import files",
+        adminExporterTout: "📤 Export all",
+        adminExporterChoix: "Choose files to export",
+        adminFermerCarte: "✖ Close map",
+        adminPositionsCarte: "Map positions",
+        adminAjouterPosition: "📍 Add a position",
+        adminSupprimerPositionMode: "🗑️ Delete mode active",
+        adminNombreSlots: "2 slots",
+        adminCategories: "Categories",
+        adminPoissonsDisponibles: "Available fish",
+        adminCollectiblesDisponibles: "Available collectibles",
+        adminIngredientsDisponibles: "Available ingredients",
     }
 };
 
@@ -215,24 +283,18 @@ function mettreAJourUI() {
     document.getElementById("labelHeureModeOu").textContent = t("heureModeOu");
     document.getElementById("labelHeureModeEt").textContent = t("heureModeEt");
 
-    document.getElementById("btnAdminPoisson").textContent = t("adminAjouterPoisson");
-    document.getElementById("btnAdminInsecte").textContent = t("adminAjouterInsecte");
-    document.getElementById("btnAdminOiseau").textContent = t("adminAjouterOiseau");
-    document.getElementById("btnAdminCollectible").textContent = t("adminAjouterCollectible");
-    document.getElementById("btnSuppressionCollectible").textContent = suppressionCollectibleMode
-        ? t("suppressionCollectible") : t("adminSupprimerPosition");
-    document.getElementById("btnAdminSupprimerElement").textContent = t("adminSupprimerElement");
-    document.getElementById("btnAdminExporter").textContent = t("adminExporter");
-    document.getElementById("btnAdminImporter").textContent = t("adminImporter");
-    document.getElementById("btnAdminExporterLieux").textContent = t("adminExporterLieux");
-    document.getElementById("btnAdminImporterLieux").textContent = t("adminImporterLieux");
+    // Onglets (seulement en mode user, les éléments existent dans le DOM)
+    const btnTabMap = document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]");
+    const btnTabFaune = document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]");
+    if (btnTabMap) btnTabMap.textContent = t("ongletCarte");
+    if (btnTabFaune) btnTabFaune.textContent = t("ongletTab2");
 
-    document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]").textContent = t("ongletCarte");
-    document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]").textContent = t("ongletTab2");
-
-    document.getElementById("btnWildlifePoisson").textContent = t("wildlifePoisson");
-    document.getElementById("btnWildlifeOiseau").textContent = t("wildlifeOiseau");
-    document.getElementById("btnWildlifeInsecte").textContent = t("wildlifeInsecte");
+    const bwp = document.getElementById("btnWildlifePoisson");
+    const bwo = document.getElementById("btnWildlifeOiseau");
+    const bwi = document.getElementById("btnWildlifeInsecte");
+    if (bwp) bwp.textContent = t("wildlifePoisson");
+    if (bwo) bwo.textContent = t("wildlifeOiseau");
+    if (bwi) bwi.textContent = t("wildlifeInsecte");
 
     setFilterToggleText();
 
@@ -240,9 +302,10 @@ function mettreAJourUI() {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }
 
-    traduirePanneauFaune("", "poisson");
-    traduirePanneauFaune("", "insecte");
-    traduirePanneauFaune("", "oiseau");
+    // Mettre à jour l'interface admin si active
+    if (mode === "admin") {
+        mettreAJourAdminUI();
+    }
 }
 
 function traduirePanneauFaune(prefix, type) {

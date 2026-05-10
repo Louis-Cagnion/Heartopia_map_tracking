@@ -23,6 +23,8 @@ let insectes = [];
 let oiseaux = [];
 let collectibles = [];
 let places = [];
+let ingredients = [];
+let recettes = [];
 
 // =========================
 // ✅ FAUNE OBTENUE
@@ -87,7 +89,9 @@ async function loadDatabaseAuto() {
         { key: "insectes",    file: "insectes.json" },
         { key: "oiseaux",     file: "oiseaux.json" },
         { key: "collectibles",file: "collectibles.json" },
-        { key: "places",      file: "lieux.json" }
+        { key: "places",      file: "lieux.json" },
+        { key: "ingredients", file: "ingredients.json" },
+        { key: "recettes",    file: "recettes.json" }
     ];
 
     const promises = keys.map(async ({ key, file }) => {
@@ -113,6 +117,8 @@ async function loadDatabaseAuto() {
         if (key === "oiseaux")      oiseaux     = data;
         if (key === "collectibles") collectibles = data;
         if (key === "places")       places      = data;
+        if (key === "ingredients") ingredients = data;
+        if (key === "recettes")    recettes    = data;
         localStorage.setItem(key, JSON.stringify(data));
     });
 }
