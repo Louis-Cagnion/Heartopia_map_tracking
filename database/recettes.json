@@ -1,1 +1,1250 @@
-[]
+﻿[
+  {
+    "name": [
+      "Salade maison",
+      "House salad"
+    ],
+    "ingredients": [
+      [
+        "ing:Tomate",
+        "ing:Pomme de terre",
+        "ing:Blé",
+        "ing:Laitue",
+        "ing:Carotte",
+        "ing:Maïs",
+        "ing:Aubergine"
+      ],
+      [
+        "ing:Tomate",
+        "ing:Pomme de terre",
+        "ing:Blé",
+        "ing:Laitue",
+        "ing:Carotte",
+        "ing:Maïs",
+        "ing:Aubergine"
+      ]
+    ],
+    "energy": 15,
+    "sellPrice": 90
+  },
+  {
+    "name": [
+      "Confiture assortie",
+      "Mixed jam"
+    ],
+    "ingredients": [
+      [
+        "ing:Tomate",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ],
+      [
+        "ing:Tomate",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ],
+      [
+        "ing:Tomate",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ],
+      [
+        "ing:Tomate",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ]
+    ],
+    "energy": 22,
+    "sellPrice": 160
+  },
+  {
+    "name": [
+      "Confiture de framboise",
+      "Raspberry jam"
+    ],
+    "ingredients": [
+      [
+        "col:Framboises"
+      ],
+      [
+        "col:Framboises"
+      ],
+      [
+        "col:Framboises"
+      ],
+      [
+        "col:Framboises"
+      ]
+    ],
+    "energy": 30,
+    "sellPrice": 250
+  },
+  {
+    "name": [
+      "Sauce tomate",
+      "Tomato sauce"
+    ],
+    "ingredients": [
+      [
+        "ing:Tomate"
+      ],
+      [
+        "ing:Tomate"
+      ],
+      [
+        "ing:Tomate"
+      ],
+      [
+        "ing:Tomate"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 180
+  },
+  {
+    "name": [
+      "Confiture de myrtille",
+      "Blueberry jam"
+    ],
+    "ingredients": [
+      [
+        "col:Myrtilles"
+      ],
+      [
+        "col:Myrtilles"
+      ],
+      [
+        "col:Myrtilles"
+      ],
+      [
+        "col:Myrtilles"
+      ]
+    ],
+    "energy": 22,
+    "sellPrice": 170
+  },
+  {
+    "name": [
+      "Confiture de pomme",
+      "Apple jam"
+    ],
+    "ingredients": [
+      [
+        "col:Pommes"
+      ],
+      [
+        "col:Pommes"
+      ],
+      [
+        "col:Pommes"
+      ],
+      [
+        "col:Pommes"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 270
+  },
+  {
+    "name": [
+      "Confiture d'orange",
+      "Mandarin jam"
+    ],
+    "ingredients": [
+      [
+        "col:Oranges"
+      ],
+      [
+        "col:Oranges"
+      ],
+      [
+        "col:Oranges"
+      ],
+      [
+        "col:Oranges"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 270
+  },
+  {
+    "name": [
+      "Confiture de fraise",
+      "Strawberry jam"
+    ],
+    "ingredients": [
+      [
+        "ing:Fraise"
+      ],
+      [
+        "ing:Fraise"
+      ],
+      [
+        "ing:Fraise"
+      ],
+      [
+        "ing:Fraise"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 1580
+  },
+  {
+    "name": [
+      "Confiture d'ananas",
+      "Pineapple jam"
+    ],
+    "ingredients": [
+      [
+        "ing:Ananas"
+      ],
+      [
+        "ing:Ananas"
+      ],
+      [
+        "ing:Ananas"
+      ],
+      [
+        "ing:Ananas"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 280
+  },
+  {
+    "name": [
+      "Confiture de raisin",
+      "Grape jam"
+    ],
+    "ingredients": [
+      [
+        "ing:Raisin"
+      ],
+      [
+        "ing:Raisin"
+      ],
+      [
+        "ing:Raisin"
+      ],
+      [
+        "ing:Raisin"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 2020
+  },
+  {
+    "name": [
+      "Poisson et frites",
+      "Fish and chips"
+    ],
+    "ingredients": [
+      [
+        "ing:Raisin",
+        "poi:Perche de rivière",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Baudroie",
+        "poi:Sandre blanc",
+        "poi:Écrevisse noble",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ],
+      [
+        "ing:Raisin",
+        "poi:Perche de rivière",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Baudroie",
+        "poi:Sandre blanc",
+        "poi:Écrevisse noble",
+        "poi:Pieuvre",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Crabe de ruisseau",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ],
+      [
+        "ing:Pomme de terre"
+      ],
+      [
+        "ing:Pomme de terre"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 250
+  },
+  {
+    "name": [
+      "Gâteau au fromage",
+      "Cheese cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Fromage"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Blé"
+      ]
+    ],
+    "energy": 50,
+    "sellPrice": 480
+  },
+  {
+    "name": [
+      "Gâteau roulé à la saveur original",
+      "Original roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre rouge",
+        "ing:Sucre orange",
+        "ing:Sucre jaune",
+        "ing:Sucre vert",
+        "ing:Sucre Cyan",
+        "ing:Sucre bleu",
+        "ing:Sucre violet",
+        "ing:Blé"
+      ],
+      [
+        "ing:Sucre rouge",
+        "ing:Sucre orange",
+        "ing:Sucre jaune",
+        "ing:Sucre vert",
+        "ing:Sucre Cyan",
+        "ing:Sucre bleu",
+        "ing:Sucre violet"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 550
+  },
+  {
+    "name": [
+      "Gâteau roulé rouge",
+      "Red roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre rouge"
+      ],
+      [
+        "ing:Sucre rouge"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 670
+  },
+  {
+    "name": [
+      "Gâteau roulé orange",
+      "Orange roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre orange"
+      ],
+      [
+        "ing:Sucre orange"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 670
+  },
+  {
+    "name": [
+      "Gâteau roulé jaune",
+      "Yellow roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre jaune"
+      ],
+      [
+        "ing:Sucre jaune"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 670
+  },
+  {
+    "name": [
+      "Gâteau roulé vert",
+      "Green roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre vert"
+      ],
+      [
+        "ing:Sucre vert"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 670
+  },
+  {
+    "name": [
+      "Gâteau roulé cyan",
+      "Blue roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre Cyan"
+      ],
+      [
+        "ing:Sucre Cyan"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 570
+  },
+  {
+    "name": [
+      "Gâteau roulé bleu",
+      "Indigo roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre bleu"
+      ],
+      [
+        "ing:Sucre bleu"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 570
+  },
+  {
+    "name": [
+      "Gâteau roulé violet",
+      "Violet roll cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Sucre violet"
+      ],
+      [
+        "ing:Sucre violet"
+      ]
+    ],
+    "energy": 48,
+    "sellPrice": 570
+  },
+  {
+    "name": [
+      "Tarte aux champingons",
+      "Mushroom pie"
+    ],
+    "ingredients": [
+      [
+        "col:Cèpes de Bordeaux",
+        "col:Mousserons/Champignon de Paris",
+        "col:Shiitakes",
+        "col:Pleurote",
+        "col:Truffes"
+      ],
+      [
+        "col:Cèpes de Bordeaux",
+        "col:Mousserons/Champignon de Paris",
+        "col:Shiitakes",
+        "col:Pleurote",
+        "col:Truffes"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 500
+  },
+  {
+    "name": [
+      "Tarte aux pleurotes",
+      "Oyster mushroom pie"
+    ],
+    "ingredients": [
+      [
+        "col:Pleurote"
+      ],
+      [
+        "col:Pleurote"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 500
+  },
+  {
+    "name": [
+      "Tarte aux Shiitakes",
+      "Shiitake pie"
+    ],
+    "ingredients": [
+      [
+        "col:Shiitakes"
+      ],
+      [
+        "col:Shiitakes"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 500
+  },
+  {
+    "name": [
+      "Tarte aux champignons de Paris",
+      "Button mushroom pie"
+    ],
+    "ingredients": [
+      [
+        "col:Mousserons/Champignon de Paris"
+      ],
+      [
+        "col:Mousserons/Champignon de Paris"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 500
+  },
+  {
+    "name": [
+      "Tarte aux truffes noires",
+      "Black truffles pie"
+    ],
+    "ingredients": [
+      [
+        "col:Truffes"
+      ],
+      [
+        "col:Truffes"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ]
+    ],
+    "energy": 80,
+    "sellPrice": 830
+  },
+  {
+    "name": [
+      "Champignons rôtis",
+      "Grilled mushrooms"
+    ],
+    "ingredients": [
+      [
+        "col:Cèpes de Bordeaux",
+        "col:Mousserons/Champignon de Paris",
+        "col:Shiitakes",
+        "col:Pleurote",
+        "col:Truffes"
+      ],
+      [
+        "col:Cèpes de Bordeaux",
+        "col:Mousserons/Champignon de Paris",
+        "col:Shiitakes",
+        "col:Pleurote",
+        "col:Truffes"
+      ],
+      [
+        "ing:Blé",
+        "col:Cèpes de Bordeaux",
+        "col:Mousserons/Champignon de Paris",
+        "col:Shiitakes",
+        "col:Pleurote",
+        "col:Truffes"
+      ],
+      [
+        "ing:Oeufs",
+        "col:Cèpes de Bordeaux",
+        "col:Mousserons/Champignon de Paris",
+        "col:Shiitakes",
+        "col:Pleurote",
+        "col:Truffes"
+      ]
+    ],
+    "energy": 15,
+    "sellPrice": 180
+  },
+  {
+    "name": [
+      "Pleurotes rôtis",
+      "Grilled oyster mushroom"
+    ],
+    "ingredients": [
+      [
+        "col:Pleurote"
+      ],
+      [
+        "col:Pleurote"
+      ],
+      [
+        "col:Pleurote"
+      ],
+      [
+        "col:Pleurote"
+      ]
+    ],
+    "energy": 15,
+    "sellPrice": 180
+  },
+  {
+    "name": [
+      "Shiitakes rôtis",
+      "Grilled shiitake mushroom"
+    ],
+    "ingredients": [
+      [
+        "col:Shiitakes"
+      ],
+      [
+        "col:Shiitakes"
+      ],
+      [
+        "col:Shiitakes"
+      ],
+      [
+        "col:Shiitakes"
+      ]
+    ],
+    "energy": 15,
+    "sellPrice": 180
+  },
+  {
+    "name": [
+      "Mousserons rôtis",
+      "Grilled button mushroom"
+    ],
+    "ingredients": [
+      [
+        "col:Mousserons/Champignon de Paris"
+      ],
+      [
+        "col:Mousserons/Champignon de Paris"
+      ],
+      [
+        "col:Mousserons/Champignon de Paris"
+      ],
+      [
+        "col:Mousserons/Champignon de Paris"
+      ]
+    ],
+    "energy": 15,
+    "sellPrice": 180
+  },
+  {
+    "name": [
+      "Cèpes de bordeaux rôtis",
+      "Grilled penny bun"
+    ],
+    "ingredients": [
+      [
+        "col:Cèpes de Bordeaux"
+      ],
+      [
+        "col:Cèpes de Bordeaux"
+      ],
+      [
+        "col:Cèpes de Bordeaux"
+      ],
+      [
+        "col:Cèpes de Bordeaux"
+      ]
+    ],
+    "energy": 15,
+    "sellPrice": 180
+  },
+  {
+    "name": [
+      "Café",
+      "Coffee"
+    ],
+    "ingredients": [
+      [
+        "ing:Grains de café"
+      ],
+      [
+        "ing:Grains de café"
+      ],
+      [
+        "ing:Grains de café"
+      ],
+      [
+        "ing:Grains de café"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 290
+  },
+  {
+    "name": [
+      "Café latte",
+      "Coffee latte"
+    ],
+    "ingredients": [
+      [
+        "ing:Grains de café"
+      ],
+      [
+        "ing:Grains de café"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 300
+  },
+  {
+    "name": [
+      "Bagel au poisson fumé",
+      "Smoked fish bagged"
+    ],
+    "ingredients": [
+      [
+        "ing:Grains de café",
+        "poi:Perche de rivière",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Baudroie",
+        "poi:Sandre blanc",
+        "poi:Écrevisse noble",
+        "poi:Saumon atlantique",
+        "poi:Bernard-l'ermite",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ],
+      [
+        "ing:Fromage"
+      ],
+      [
+        "ing:Lait",
+        "ing:Tomate",
+        "ing:Pomme de terre",
+        "ing:Blé",
+        "ing:Laitue",
+        "ing:Carotte",
+        "ing:Aubergine"
+      ],
+      [
+        "ing:Lait",
+        "ing:Blé"
+      ]
+    ],
+    "energy": 50,
+    "sellPrice": 520
+  },
+  {
+    "name": [
+      "Risotto aux fruits de mer",
+      "Seafood risotto"
+    ],
+    "ingredients": [
+      [
+        "ing:Grains de café",
+        "poi:Perche de rivière",
+        "poi:Grenouille européenne",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Crevette verte",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Hippocampe",
+        "poi:Baudroie",
+        "poi:Moule",
+        "poi:Sandre blanc",
+        "poi:Têtard",
+        "poi:Écrevisse noble",
+        "poi:Pieuvre",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Bernard-l'ermite",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Crabe de ruisseau",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Homard européen",
+        "poi:Calmar volant",
+        "poi:Grande huître perlière",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Crabe royal doré",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Crabe royal",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ],
+      [
+        "ing:Fromage",
+        "poi:Perche de rivière",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Crevette verte",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Hippocampe",
+        "poi:Baudroie",
+        "poi:Moule",
+        "poi:Sandre blanc",
+        "poi:Têtard",
+        "poi:Écrevisse noble",
+        "poi:Pieuvre",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Bernard-l'ermite",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Crabe de ruisseau",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Homard européen",
+        "poi:Calmar volant",
+        "poi:Grande huître perlière",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Crabe royal doré",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Crabe royal",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Tomate"
+      ]
+    ],
+    "energy": 40,
+    "sellPrice": 490
+  },
+  {
+    "name": [
+      "Ragoût rustique",
+      "Rustic ratatouille"
+    ],
+    "ingredients": [
+      [
+        "ing:Tomate"
+      ],
+      [
+        "ing:Pomme de terre"
+      ],
+      [
+        "ing:Laitue"
+      ]
+    ],
+    "energy": 60,
+    "sellPrice": 640
+  },
+  {
+    "name": [
+      "Pâtes à la crème de truffes noires",
+      "Black truffle cream pasta"
+    ],
+    "ingredients": [
+      [
+        "col:Truffes"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Lait"
+      ]
+    ],
+    "energy": 90,
+    "sellPrice": 900
+  }
+]
