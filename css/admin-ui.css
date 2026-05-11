@@ -279,11 +279,7 @@
     gap: 8px;
 }
 
-.admin-slots-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+/* .admin-slots-container défini plus bas avec grid */
 
 .admin-slot {
     background: #1a1a1a;
@@ -406,4 +402,135 @@
 
 .admin-ie-emoji {
     font-size: 28px;
+}
+
+/* =========================
+   SLOTS — NOUVEAUX STYLES
+   ========================= */
+
+.admin-slot-hint-global {
+    font-size: 13px;
+    color: #aaa;
+    font-style: italic;
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    border-left: 3px solid #555;
+}
+
+.admin-slot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.admin-btn-dup {
+    background: #333;
+    border: none;
+    color: #e8a44a;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.admin-btn-dup:hover {
+    background: #555;
+}
+
+.admin-slot-filter-row {
+    margin-bottom: 6px;
+}
+
+.admin-slot-filter-select {
+    background: #2a2a2a;
+    border: 1px solid #555;
+    color: #ccc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: calc(var(--ui-font-size) - 2px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Slots en 2 colonnes par paires */
+.admin-slots-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Sur petits écrans, revenir en colonne */
+@media (max-width: 700px) {
+    .admin-slots-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   SLOTS — NOUVELLES RÈGLES
+   ========================= */
+
+.admin-slot-hint-global {
+    font-size: calc(var(--ui-font-size) - 1px);
+    color: #aaa;
+    font-style: italic;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    border-left: 3px solid #e8a44a;
+}
+
+/* Layout 2 colonnes pour les slots */
+.admin-slots-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.admin-slot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.admin-btn-dup {
+    background: #333;
+    border: none;
+    color: #e8a44a;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.admin-btn-dup:hover {
+    background: #555;
+}
+
+.admin-slot-filter-row {
+    margin-bottom: 6px;
+}
+
+.admin-slot-filter-select {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: calc(var(--ui-font-size) - 2px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Supprimer l'ancien hint individuel (plus utilisé) */
+.admin-slot-hint {
+    display: none;
 }

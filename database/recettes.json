@@ -1246,5 +1246,614 @@
     ],
     "energy": 90,
     "sellPrice": 900
+  },
+  {
+    "name": [
+      "Pizza aux fruits de mer",
+      "Seafood pizza"
+    ],
+    "ingredients": [
+      [
+        "ing:Fromage"
+      ],
+      [
+        "rec:Sauce tomate"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "poi:Perche de rivière",
+        "poi:Grenouille européenne",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Crevette verte",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Hippocampe",
+        "poi:Baudroie",
+        "poi:Moule",
+        "poi:Sandre blanc",
+        "poi:Têtard",
+        "poi:Écrevisse noble",
+        "poi:Pieuvre",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Bernard-l'ermite",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Crabe de ruisseau",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Homard européen",
+        "poi:Calmar volant",
+        "poi:Grande huître perlière",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Crabe royal doré",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Crabe royal",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ]
+    ],
+    "energy": 70,
+    "sellPrice": 780
+  },
+  {
+    "name": [
+      "Spaghetti polonaise",
+      "Meat sauce pasta"
+    ],
+    "ingredients": [
+      [
+        "ing:Viande"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Tomate"
+      ],
+      [
+        "ing:Fromage"
+      ]
+    ],
+    "energy": 80,
+    "sellPrice": 670
+  },
+  {
+    "name": [
+      "Tarte aux pommes",
+      "Apple pie"
+    ],
+    "ingredients": [
+      [
+        "col:Pommes"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Beurre"
+      ]
+    ],
+    "energy": 70,
+    "sellPrice": 730
+  },
+  {
+    "name": [
+      "Bateau à la carotte",
+      "Carot cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Carotte"
+      ],
+      [
+        "ing:Carotte"
+      ]
+    ],
+    "energy": 55,
+    "sellPrice": 840
+  },
+  {
+    "name": [
+      "Soupe épaisse au maïs",
+      "Corn soup"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Beurre"
+      ],
+      [
+        "ing:Maïs"
+      ],
+      [
+        "ing:Maïs"
+      ]
+    ],
+    "energy": 80,
+    "sellPrice": 1340
+  },
+  {
+    "name": [
+      "Assortiment de fruits de mer deluxe",
+      "Deluxe seafood platter"
+    ],
+    "ingredients": [
+      [
+        "poi:Écrevisse noble"
+      ],
+      [
+        "poi:Écrevisse noble"
+      ],
+      [
+        "poi:Perche de rivière",
+        "poi:Grenouille européenne",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Crevette verte",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Hippocampe",
+        "poi:Baudroie",
+        "poi:Moule",
+        "poi:Sandre blanc",
+        "poi:Têtard",
+        "poi:Écrevisse noble",
+        "poi:Pieuvre",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Bernard-l'ermite",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Crabe de ruisseau",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Homard européen",
+        "poi:Calmar volant",
+        "poi:Grande huître perlière",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Crabe royal doré",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Crabe royal",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ],
+      [
+        "poi:Perche de rivière",
+        "poi:Grenouille européenne",
+        "poi:Carpe argentée",
+        "poi:Loche des fleurs",
+        "poi:Barbillon",
+        "poi:Zingel streber",
+        "poi:Vairon",
+        "poi:Tilapia",
+        "poi:Tanche dorée",
+        "poi:Féra",
+        "poi:Carpe noire",
+        "poi:Ablette",
+        "poi:Barbeau",
+        "poi:Crevette verte",
+        "poi:Sardine",
+        "poi:Perche de mer",
+        "poi:Bonite",
+        "poi:Poisson sabre",
+        "poi:Crevette de mer",
+        "poi:Saurel",
+        "poi:Chimère argentée",
+        "poi:Épinoche de mer",
+        "poi:Rouget barbet",
+        "poi:Loche des rochers",
+        "poi:Acantharchus pomotis",
+        "poi:Éperlan",
+        "poi:Grémille",
+        "poi:Comète coussut",
+        "poi:Hippocampe",
+        "poi:Baudroie",
+        "poi:Moule",
+        "poi:Sandre blanc",
+        "poi:Têtard",
+        "poi:Écrevisse noble",
+        "poi:Pieuvre",
+        "poi:Saumon atlantique",
+        "poi:Pieuvre naine d'Atlantique",
+        "poi:Bernard-l'ermite",
+        "poi:Poisson-clown",
+        "poi:Grand black-bass",
+        "poi:Carpe commune",
+        "poi:Lotte",
+        "poi:Gobie",
+        "poi:Crabe de ruisseau",
+        "poi:Turbot",
+        "poi:Plie commune",
+        "poi:Piranha à ventre rouge",
+        "poi:Koï papillon",
+        "poi:Blennie fluviatile",
+        "poi:Truite",
+        "poi:Rotengle",
+        "poi:Maquereau commun",
+        "poi:Homard européen",
+        "poi:Calmar volant",
+        "poi:Grande huître perlière",
+        "poi:Tétraodon",
+        "poi:Saumon kéta",
+        "poi:Omble commun",
+        "poi:Grondin perlon",
+        "poi:Roussette",
+        "poi:Épinoche",
+        "poi:Aphanius de Corse",
+        "poi:Chabot",
+        "poi:Régalec",
+        "poi:Pagellus bogaraveo",
+        "poi:Anguille d'Europe",
+        "poi:Crabe royal doré",
+        "poi:Poisson-chien",
+        "poi:Écrevisse noble bleue",
+        "poi:Poisson rouge",
+        "poi:Crabe royal",
+        "poi:Églefin",
+        "poi:Brochet tacheté",
+        "poi:Crapet-soleil",
+        "poi:Huchon",
+        "poi:Thon rouge",
+        "poi:Poisson-lune",
+        "poi:Lampris-lune",
+        "poi:Silure glane",
+        "poi:Crapet arlequin",
+        "poi:Omble chevalier",
+        "poi:Espadon",
+        "poi:Requin mako",
+        "poi:Requin marteau"
+      ]
+    ],
+    "energy": 65,
+    "sellPrice": 410
+  },
+  {
+    "name": [
+      "Tiramisu",
+      "Tiramisu"
+    ],
+    "ingredients": [
+      [
+        "ing:Grains de café"
+      ],
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Fromage"
+      ]
+    ],
+    "energy": 65,
+    "sellPrice": 530
+  },
+  {
+    "name": [
+      "Repas de pique-nique",
+      "Picnic set"
+    ],
+    "ingredients": [
+      [
+        "rec:Café",
+        "rec:Café latte"
+      ],
+      [
+        "rec:Pizza aux fruits de mer"
+      ],
+      [
+        "rec:Tarte aux pommes"
+      ],
+      [
+        "rec:Poisson et frites"
+      ]
+    ],
+    "energy": 100,
+    "sellPrice": 2260
+  },
+  {
+    "name": [
+      "Goûter anglais",
+      "Afternoon tea"
+    ],
+    "ingredients": [
+      [
+        "rec:Tiramisu"
+      ],
+      [
+        "ing:Tomate",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ]
+    ],
+    "energy": 25,
+    "sellPrice": 710
+  },
+  {
+    "name": [
+      "Burger à la viande fraîche",
+      "Meat burger"
+    ],
+    "ingredients": [
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Laitue"
+      ],
+      [
+        "ing:Viande"
+      ],
+      [
+        "rec:Sauce tomate"
+      ]
+    ],
+    "energy": 75,
+    "sellPrice": 1350
+  },
+  {
+    "name": [
+      "Plateau écrevisses",
+      "Crayfish sashimi"
+    ],
+    "ingredients": [
+      [
+        "poi:Écrevisse noble",
+        "poi:Écrevisse noble bleue"
+      ],
+      [
+        "poi:Écrevisse noble",
+        "poi:Écrevisse noble bleue"
+      ],
+      [
+        "poi:Écrevisse noble",
+        "poi:Écrevisse noble bleue"
+      ],
+      [
+        "ing:Laitue"
+      ]
+    ],
+    "energy": 30,
+    "sellPrice": 850
+  },
+  {
+    "name": [
+      "Plateau d'écrevisse nobles bleues",
+      "Blue european crayfish sashimi"
+    ],
+    "ingredients": [
+      [
+        "poi:Écrevisse noble bleue"
+      ],
+      [
+        "poi:Écrevisse noble bleue"
+      ],
+      [
+        "poi:Écrevisse noble bleue"
+      ],
+      [
+        "ing:Laitue"
+      ]
+    ],
+    "energy": 60,
+    "sellPrice": 1310
+  },
+  {
+    "name": [
+      "Aubergines gratinées a la bolognaise",
+      "Baked eggplant w/ meat"
+    ],
+    "ingredients": [
+      [
+        "ing:Aubergine"
+      ],
+      [
+        "ing:Viande"
+      ],
+      [
+        "ing:Huile de cuisson"
+      ],
+      [
+        "rec:Sauce tomate"
+      ]
+    ],
+    "energy": 75,
+    "sellPrice": 1230
+  },
+  {
+    "name": [
+      "Dîner aux chandelles",
+      "Candlelight dinner"
+    ],
+    "ingredients": [
+      [
+        "rec:Salade maison"
+      ],
+      [
+        "rec:Bagel au poisson fumé"
+      ],
+      [
+        "rec:Risotto aux fruits de mer"
+      ],
+      [
+        "rec:Tiramisu"
+      ]
+    ],
+    "energy": 75,
+    "sellPrice": 1760
+  },
+  {
+    "name": [
+      "Crabe royal cuit à la vapeur",
+      "Steamed king crab"
+    ],
+    "ingredients": [
+      [
+        "poi:Crabe royal doré",
+        "poi:Crabe royal"
+      ],
+      [
+        "poi:Crabe royal doré",
+        "poi:Crabe royal"
+      ],
+      [
+        "poi:Crabe royal doré",
+        "poi:Crabe royal"
+      ],
+      [
+        "ing:Beurre"
+      ]
+    ],
+    "energy": 90,
+    "sellPrice": 1990
+  },
+  {
+    "name": [
+      "Crabe royal doré cuit à la vapeur",
+      "Steamed golden king crab"
+    ],
+    "ingredients": [
+      [
+        "poi:Crabe royal doré"
+      ],
+      [
+        "poi:Crabe royal doré"
+      ],
+      [
+        "poi:Crabe royal doré"
+      ],
+      [
+        "ing:Beurre"
+      ]
+    ],
+    "energy": 100,
+    "sellPrice": 2980
   }
 ]

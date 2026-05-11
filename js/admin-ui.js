@@ -188,6 +188,8 @@ function toggleAdminPanneau(mode, type, btn, body) {
         fermerCarteAdmin();
         return;
     }
+    // Fermer la carte si on ouvre un type différent
+    fermerCarteAdmin();
 
     btn.classList.add("active");
     adminPanneauActif = type;
@@ -246,8 +248,8 @@ function renderFormulaireAjouter(type, zone) {
     } else if (type === "recette") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel")));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel")));
-        form.appendChild(champNombre("energy", t("adminEnergy"), 0, 9999, 0));
-        form.appendChild(champNombre("sellPrice", t("adminSellPrice"), 0, 99999, 0));
+        form.appendChild(champTexteNombre("energy", t("adminEnergy"), 0));
+        form.appendChild(champTexteNombre("sellPrice", t("adminSellPrice"), 0));
         form.appendChild(renderSlotsIngredients([]));
     }
 
@@ -365,8 +367,8 @@ function renderFormulaireModifierRempli(type, el, zone) {
     } else if (type === "recette") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel"), nameFr));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel"), nameEn));
-        form.appendChild(champNombre("energy", t("adminEnergy"), 0, 9999, el.energy || 0));
-        form.appendChild(champNombre("sellPrice", t("adminSellPrice"), 0, 99999, el.sellPrice || 0));
+        form.appendChild(champTexteNombre("energy", t("adminEnergy"), el.energy || 0));
+        form.appendChild(champTexteNombre("sellPrice", t("adminSellPrice"), el.sellPrice || 0));
         form.appendChild(renderSlotsIngredients(el.ingredients || []));
     }
 
@@ -584,6 +586,8 @@ function sauvegarderElement(type, form, estModification) {
             adminElementEdite.name = name;
             adminElementEdite.type = typeVal;
             adminElementEdite.color = color;
+            // Ouvrir la carte pour modifier les positions
+            ouvrirCarteAdmin("modifier", adminElementEdite);
         } else {
             const element = { name, type: typeVal, color, spawns: [] };
             collectibles.push(element);
@@ -619,7 +623,19 @@ function sauvegarderElement(type, form, estModification) {
         localStorage.setItem("recettes", JSON.stringify(recettes));
     }
 
-    alert(`✅ ${nomFr} ${estModification ? "modifié" : "sauvegardé"} !`);
+    const msgFr = estModification ? "modifié" : "sauvegardé";
+    const msgEn = estModification ? "modified" : "saved";
+    alert(`✅ ${nomFr} ${langue === "fr" ? msgFr : msgEn} !`);
+
+    // Reset formulaire si ajout
+    if (!estModification) {
+        form.querySelectorAll("input[type='text']").forEach(inp => { inp.value = ""; });
+        form.querySelectorAll("input[type='number']").forEach(inp => { inp.value = inp.min || 0; });
+        form.querySelectorAll("input[type='color']").forEach(inp => { inp.value = "#e67e22"; });
+        form.querySelectorAll("input[type='checkbox']").forEach(cb => { cb.checked = true; });
+        form.querySelectorAll("select:not([multiple])").forEach(sel => { sel.selectedIndex = 0; });
+        form.querySelectorAll("select[multiple] option").forEach(opt => { opt.selected = false; });
+    }
 
     // Refresh si modification
     if (estModification) {
@@ -676,7 +692,8 @@ function ouvrirCarteAdmin(modeAction, collectible) {
     if (!carteInline) return;
 
     currentCollectible = collectible;
-    collectiblePlacementMode = modeAction === "ajouter";
+    // En mode ajouter ET modifier, on peut placer des positions
+    collectiblePlacementMode = (modeAction === "ajouter" || modeAction === "modifier");
     suppressionCollectibleMode = modeAction === "supprimer";
 
     carteInline.classList.remove("hidden");
@@ -702,7 +719,10 @@ function ouvrirCarteAdmin(modeAction, collectible) {
         updateMarkerVisibility();
         repositionLabels();
         clampLabels();
-    }, 50);
+        // Scroller jusqu'à la carte
+        const carteEl = document.getElementById("adminCarteInline");
+        if (carteEl) carteEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 80);
 }
 
 function fermerCarteAdmin() {
@@ -735,6 +755,14 @@ function renderSlotsIngredients(existingSlots) {
     titre.textContent = t("adminIngredients");
     wrapper.appendChild(titre);
 
+    // Hint commun (une seule fois, avant les slots)
+    const hint = document.createElement("div");
+    hint.className = "admin-slot-hint-global";
+    hint.textContent = langue === "fr"
+        ? "Ctrl+clic pour sélectionner plusieurs ingrédients dans les slots"
+        : "Ctrl+click to select multiple ingredients in the slots";
+    wrapper.appendChild(hint);
+
     const slotsContainer = document.createElement("div");
     slotsContainer.className = "admin-slots-container";
     slotsContainer.id = "adminSlotsContainer";
@@ -747,7 +775,12 @@ function renderSlotsIngredients(existingSlots) {
     btnAdd.type = "button";
     btnAdd.className = "admin-btn-secondary admin-btn-small";
     btnAdd.textContent = t("adminAjouterSlot");
-    btnAdd.onclick = () => ajouterSlot(slotsContainer, []);
+    btnAdd.onclick = () => {
+        const slots = slotsContainer.querySelectorAll(".admin-slot");
+        if (slots.length >= 4) return;
+        ajouterSlot(slotsContainer, []);
+        mettreAJourNumeroSlots(slotsContainer);
+    };
 
     const btnRemove = document.createElement("button");
     btnRemove.type = "button";
@@ -755,7 +788,9 @@ function renderSlotsIngredients(existingSlots) {
     btnRemove.textContent = t("adminRetirerSlot");
     btnRemove.onclick = () => {
         const slots = slotsContainer.querySelectorAll(".admin-slot");
-        if (slots.length > 0) slots[slots.length - 1].remove();
+        if (slots.length <= 2) return;
+        slots[slots.length - 1].remove();
+        mettreAJourNumeroSlots(slotsContainer);
     };
 
     btnRow.appendChild(btnAdd);
@@ -766,7 +801,9 @@ function renderSlotsIngredients(existingSlots) {
     if (existingSlots && existingSlots.length > 0) {
         existingSlots.forEach(slot => ajouterSlot(slotsContainer, slot));
     } else {
-        // 2 slots par défaut
+        // 4 slots par défaut
+        ajouterSlot(slotsContainer, []);
+        ajouterSlot(slotsContainer, []);
         ajouterSlot(slotsContainer, []);
         ajouterSlot(slotsContainer, []);
     }
@@ -774,54 +811,109 @@ function renderSlotsIngredients(existingSlots) {
     return wrapper;
 }
 
+function mettreAJourNumeroSlots(container) {
+    container.querySelectorAll(".admin-slot-label").forEach((lbl, i) => {
+        lbl.textContent = `${t("adminSlot")} ${i + 1}`;
+    });
+}
+
 function ajouterSlot(container, selectedItems) {
     const slotIdx = container.querySelectorAll(".admin-slot").length + 1;
     const slot = document.createElement("div");
     slot.className = "admin-slot";
 
+    // Header slot : label + bouton dupliquer
+    const slotHeader = document.createElement("div");
+    slotHeader.className = "admin-slot-header";
+
     const slotLabel = document.createElement("div");
     slotLabel.className = "admin-slot-label";
     slotLabel.textContent = `${t("adminSlot")} ${slotIdx}`;
-    slot.appendChild(slotLabel);
+
+    const btnDup = document.createElement("button");
+    btnDup.type = "button";
+    btnDup.className = "admin-btn-dup";
+    btnDup.title = langue === "fr" ? "Dupliquer ce slot" : "Duplicate this slot";
+    btnDup.textContent = "⧉";
+    btnDup.onclick = () => {
+        const slots = container.querySelectorAll(".admin-slot");
+        if (slots.length >= 4) return;
+        const sel = slot.querySelector(".admin-slot-select");
+        const selected = sel ? [...sel.selectedOptions].map(o => o.value) : [];
+        ajouterSlot(container, selected);
+        mettreAJourNumeroSlots(container);
+    };
+
+    slotHeader.appendChild(slotLabel);
+    slotHeader.appendChild(btnDup);
+    slot.appendChild(slotHeader);
+
+    // Filtre catégorie rapide
+    const allCats = ["— " + (langue === "fr" ? "Toutes catégories" : "All categories")];
+    const cats = [...new Set([
+        ...ingredients.map(i => Array.isArray(i.category) ? i.category[li()] : i.category),
+        ...poissons.map(() => t("adminPoissonsDisponibles")),
+        ...collectibles.map(c => Array.isArray(c.type) ? c.type[li()] : c.type),
+        ...recettes.map(() => langue === "fr" ? "Recettes" : "Recipes")
+    ])].sort();
+    
+    const filterRow = document.createElement("div");
+    filterRow.className = "admin-slot-filter-row";
+    const filterSel = document.createElement("select");
+    filterSel.className = "admin-slot-filter-select";
+    ["", ...cats].forEach((cat, idx) => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = idx === 0 ? (langue === "fr" ? "— Toutes catégories" : "— All categories") : cat;
+        filterSel.appendChild(opt);
+    });
+    filterRow.appendChild(filterSel);
+    slot.appendChild(filterRow);
 
     // Multi-select des ingrédients autorisés
     const selectWrapper = document.createElement("div");
     selectWrapper.className = "admin-slot-select-wrapper";
 
-    // Groupes : Ingrédients, Poissons, Collectibles
     const select = document.createElement("select");
     select.className = "admin-slot-select";
     select.multiple = true;
-    select.size = 6;
+    select.size = 7;
 
-    // Groupe Ingrédients
-    buildOptgroup(select, t("adminIngredientsDisponibles"), ingredients.map(i => ({
-        value: "ing:" + (Array.isArray(i.name) ? i.name[0] : i.name),
-        label: Array.isArray(i.name) ? i.name[li()] : i.name,
-        category: Array.isArray(i.category) ? i.category[li()] : i.category
-    })), selectedItems);
+    const buildAll = (filter) => {
+        select.innerHTML = "";
 
-    // Groupe Poissons
-    buildOptgroup(select, t("adminPoissonsDisponibles"), poissons.map(p => ({
-        value: "poi:" + (Array.isArray(p.name) ? p.name[0] : p.name),
-        label: Array.isArray(p.name) ? p.name[li()] : p.name,
-        category: null
-    })), selectedItems);
+        const ingItems = ingredients.map(i => ({
+            value: "ing:" + (Array.isArray(i.name) ? i.name[0] : i.name),
+            label: Array.isArray(i.name) ? i.name[li()] : i.name,
+            category: Array.isArray(i.category) ? i.category[li()] : i.category
+        }));
+        const poiItems = poissons.map(p => ({
+            value: "poi:" + (Array.isArray(p.name) ? p.name[0] : p.name),
+            label: Array.isArray(p.name) ? p.name[li()] : p.name,
+            category: t("adminPoissonsDisponibles")
+        }));
+        const colItems = collectibles.map(co => ({
+            value: "col:" + (Array.isArray(co.name) ? co.name[0] : co.name),
+            label: Array.isArray(co.name) ? co.name[li()] : co.name,
+            category: Array.isArray(co.type) ? co.type[li()] : co.type
+        }));
+        const recItems = recettes.map(r => ({
+            value: "rec:" + (Array.isArray(r.name) ? r.name[0] : r.name),
+            label: Array.isArray(r.name) ? r.name[li()] : r.name,
+            category: langue === "fr" ? "Recettes" : "Recipes"
+        }));
 
-    // Groupe Collectibles
-    buildOptgroup(select, t("adminCollectiblesDisponibles"), collectibles.map(c => ({
-        value: "col:" + (Array.isArray(c.name) ? c.name[0] : c.name),
-        label: Array.isArray(c.name) ? c.name[li()] : c.name,
-        category: c.type
-    })), selectedItems);
+        const allItems = [...ingItems, ...poiItems, ...colItems, ...recItems];
+        const filtered = filter ? allItems.filter(it => it.category === filter) : allItems;
+
+        buildOptgroup(select, "", filtered, selectedItems);
+    };
+
+    buildAll("");
+    filterSel.addEventListener("change", () => buildAll(filterSel.value));
 
     selectWrapper.appendChild(select);
     slot.appendChild(selectWrapper);
-
-    const hint = document.createElement("div");
-    hint.className = "admin-slot-hint";
-    hint.textContent = "Ctrl+clic pour sélectionner plusieurs";
-    slot.appendChild(hint);
 
     container.appendChild(slot);
 }
@@ -837,7 +929,7 @@ function buildOptgroup(select, label, items, selectedItems) {
 
     Object.entries(grouped).forEach(([cat, catItems]) => {
         const og = document.createElement("optgroup");
-        og.label = `${label} — ${cat}`;
+        og.label = label ? `${label} — ${cat}` : cat;
         catItems.forEach(({ value, label: itemLabel }) => {
             const opt = document.createElement("option");
             opt.value = value;
@@ -891,6 +983,27 @@ function champNombre(field, label, min, max, valeur) {
     input.max = max;
     input.value = valeur;
     input.dataset.field = field;
+    div.appendChild(lbl);
+    div.appendChild(input);
+    return div;
+}
+
+function champTexteNombre(field, label, valeur = 0) {
+    const div = document.createElement("div");
+    div.className = "admin-champ";
+    const lbl = document.createElement("label");
+    lbl.className = "admin-label";
+    lbl.textContent = label;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.pattern = "[0-9]*";
+    input.className = "admin-input admin-input-number";
+    input.value = valeur;
+    input.dataset.field = field;
+    input.addEventListener("input", () => {
+        input.value = input.value.replace(/[^0-9]/g, "");
+    });
     div.appendChild(lbl);
     div.appendChild(input);
     return div;
@@ -956,11 +1069,14 @@ function champSelectCategorie(field, label, valeurSelectionnee = "") {
     optNew.textContent = "➕ " + t("adminNouvelleCategorie");
     sel.appendChild(optNew);
 
-    // Catégories existantes
-    const types = [...new Set(collectibles.map(c => c.type))].sort();
-    types.forEach(tp => {
+    // Catégories existantes (déduplication sur le nom FR/EN selon langue)
+    const typesRaw = [...new Set(collectibles.map(c => {
+        if (Array.isArray(c.type)) return c.type[0]; // stocké en FR
+        return c.type;
+    }))].sort();
+    typesRaw.forEach(tp => {
         const opt = document.createElement("option");
-        opt.value = tp;
+        opt.value = tp; // toujours la valeur FR pour la cohérence
         opt.textContent = tp;
         if (tp === valeurSelectionnee) opt.selected = true;
         sel.appendChild(opt);
