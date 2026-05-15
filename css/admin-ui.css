@@ -256,7 +256,7 @@
 
 .admin-export-checks {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 6px 16px;
     margin-bottom: 10px;
 }
@@ -336,7 +336,7 @@
    CARTE INLINE
    ========================= */
 
-#adminCarteInline {
+.admin-carte-inline {
     background: #111;
     border-radius: 8px;
     margin-top: 10px;
@@ -360,7 +360,7 @@
     font-size: var(--ui-font-size);
 }
 
-#admin-map-container-wrapper {
+.admin-map-container-wrapper {
     padding: 10px;
     display: flex;
     justify-content: center;
