@@ -22,9 +22,23 @@ You can access to the website here : https://louis-cagnion.github.io/Heartopia_m
 
 # 🗺️ Description <a id="description"></a>
 
-This project is an interactive map-based wiki designed to help users explore and locate collectibles in **Heartopia**.
+This project is an interactive map-based wiki designed to help users explore, understand, and locate collectibles in **Heartopia**.
 
-It provides a visual map interface where users can navigate through points of interest and access structured information about different collectible categories.
+It acts as a structured companion tool for the game, transforming raw in-game data into a clear and navigable visual interface.
+
+The goal is to centralize and organize a large amount of collectible-related information into a single, intuitive experience, allowing users to:
+- visually explore the game world through an interactive map
+- quickly identify collectible locations and categories
+- filter and access data based on progression, type, and conditions
+- track collected and uncollected items efficiently
+
+Unlike a simple static wiki, this project focuses on **dynamic interaction with data**, including filtering systems, progression logic, and contextual display of information directly on the map.
+
+It is built as a single-developer project with a strong focus on:
+- clean and modular frontend architecture
+- scalable JSON-based data structure
+- maintainability and future extensibility
+- user-friendly interface for both exploration and tracking
 
 ---
 
