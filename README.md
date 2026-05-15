@@ -5,7 +5,6 @@ You can access to the website here : https://louis-cagnion.github.io/Heartopia_m
 ## 📋 Table of Contents
 - [Description](#description)
 - [Overview](#overview)
-- [Installation](#installation)
 - [Project Structure](#project-structure)
 - [Features](#features)
   - [Core system](#core-system)
@@ -39,25 +38,6 @@ It focuses on:
 - Structured data visualization
 - Category-based exploration
 - Clean and modular frontend architecture
-
----
-
-# 🛠️ Installation <a id="installation"></a>
-
-## Prerequisites
-
-- Python 3.x
-
-No external dependencies are required.
-
----
-
-## Clone the repository
-
-```bash
-git clone https://github.com/Louis-Cagnion/heartopia.git
-cd heartopia
-```
 
 ---
 
