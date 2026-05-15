@@ -6,7 +6,6 @@ You can access to the website here : https://louis-cagnion.github.io/Heartopia_m
 - [Description](#description)
 - [Overview](#overview)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Features](#features)
   - [Core system](#core-system)
@@ -59,20 +58,6 @@ No external dependencies are required.
 git clone https://github.com/Louis-Cagnion/heartopia.git
 cd heartopia
 ```
-
----
-
-# ▶️ Usage <a id="usage"></a>
-
-Start a local server:
-
-```bash
-python -m http.server 8000
-```
-
-Then open in your browser:
-
-http://localhost:8000
 
 ---
 
