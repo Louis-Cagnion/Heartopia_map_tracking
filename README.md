@@ -1,5 +1,7 @@
 # 🗺️ Interactive Collectibles Wiki
 
+You can access to the website here : https://louis-cagnion.github.io/Heartopia_map_tracking/
+
 ## 📋 Table of Contents
 - [Description](#description)
 - [Overview](#overview)
