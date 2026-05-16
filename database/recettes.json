@@ -629,7 +629,7 @@
   },
   {
     "name": [
-      "Tarte aux champingons",
+      "Tarte aux champignons",
       "Mushroom pie"
     ],
     "ingredients": [
@@ -655,7 +655,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 500
+    "sellPrice": 500,
+    "paliers": [
+      null,
+      null,
+      null
+    ]
   },
   {
     "name": [
