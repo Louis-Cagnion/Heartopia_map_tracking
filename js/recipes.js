@@ -639,7 +639,7 @@ function renderRecettesCalc() {
                     row.className = "recette-calc-ing-row";
 
                     const nomSlot = document.createElement("span");
-                    nomSlot.textContent = `Slot ${si + 1} : ${labelSlot(slot)} ×${nbAPreparer}`;
+                    nomSlot.textContent = `${langue === "fr" ? `Coût du slot ${si + 1} ` : `Slot ${si + 1} cost`}: ${labelSlot(slot)} ×${nbAPreparer}`;
 
                     const prixSpan = document.createElement("span");
                     prixSpan.className = "recette-calc-ing-prix";
@@ -652,7 +652,7 @@ function renderRecettesCalc() {
 
                 const totalRow = document.createElement("div");
                 totalRow.className = "recette-calc-total-row";
-                totalRow.innerHTML = `<span>${langue === "fr" ? "Total ingrédients" : "Total ingredients"}</span><span>${prixTotalPalier} 🪙</span>`;
+                totalRow.innerHTML = `<span>${langue === "fr" ? "Total de coût d'ingrédients" : "Total ingredients cost"}</span><span>${prixTotalPalier} 🪙</span>`;
                 ingDiv.appendChild(totalRow);
 
                 bloc.appendChild(ingDiv);
