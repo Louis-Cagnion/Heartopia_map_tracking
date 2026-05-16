@@ -378,6 +378,7 @@ function renderRecettesProfit() {
         rang.className = "recette-rang";
         rang.textContent = "#" + (rankIdx + 1);
 
+        header.appendChild(gauche);
         header.insertBefore(rang, gauche);
         header.appendChild(droite);
         header.appendChild(arrow); card.appendChild(header);
