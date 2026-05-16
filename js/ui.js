@@ -72,6 +72,7 @@ const UI = {
         filtres: "Filtres",
         ongletCarte: "🗺️ Carte interactive",
         ongletTab2: "📋 Faune obtenue",
+        ongletRecettes: "🍳 Recettes",
         wildlifePoisson: "🐟 Poissons",
         wildlifeOiseau: "🪶 Oiseaux",
         wildlifeInsecte: "🐛 Insectes",
@@ -89,6 +90,10 @@ const UI = {
         adminCategorieLabel: "Catégorie",
         adminEnergy: "Énergie",
         adminSellPrice: "Prix de vente",
+        adminPalier1: "Palier 1 (nombre de plats)",
+        adminPalier2: "Palier 2 (nombre de plats)",
+        adminPalier3: "Palier 3 (nombre de plats)",
+        adminPaliersLabel: "Niveaux de cuisine",
         adminIngredients: "Ingrédients",
         adminNbSlots: "Nombre de slots",
         adminSlot: "Slot",
@@ -180,6 +185,7 @@ const UI = {
         filtres: "Filters",
         ongletCarte: "🗺️ Interactive Map",
         ongletTab2: "📋 Wildlife obtained",
+        ongletRecettes: "🍳 Recipes",
         wildlifePoisson: "🐟 Fish",
         wildlifeOiseau: "🪶 Birds",
         wildlifeInsecte: "🐛 Insects",
@@ -197,6 +203,10 @@ const UI = {
         adminCategorieLabel: "Category",
         adminEnergy: "Energy",
         adminSellPrice: "Sell price",
+        adminPalier1: "Tier 1 (number of dishes)",
+        adminPalier2: "Tier 2 (number of dishes)",
+        adminPalier3: "Tier 3 (number of dishes)",
+        adminPaliersLabel: "Cooking levels",
         adminIngredients: "Ingredients",
         adminNbSlots: "Number of slots",
         adminSlot: "Slot",
@@ -286,8 +296,10 @@ function mettreAJourUI() {
     // Onglets (seulement en mode user, les éléments existent dans le DOM)
     const btnTabMap = document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]");
     const btnTabFaune = document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]");
+    const btnTabRecettes = document.querySelector(".tab-btn[onclick=\"switchTab('recettes')\"]");
     if (btnTabMap) btnTabMap.textContent = t("ongletCarte");
     if (btnTabFaune) btnTabFaune.textContent = t("ongletTab2");
+    if (btnTabRecettes) btnTabRecettes.textContent = t("ongletRecettes");
 
     const bwp = document.getElementById("btnWildlifePoisson");
     const bwo = document.getElementById("btnWildlifeOiseau");
@@ -305,6 +317,10 @@ function mettreAJourUI() {
     // Mettre à jour l'interface admin si active
     if (mode === "admin") {
         mettreAJourAdminUI();
+    }
+    // Rafraîchir l'onglet recettes si actif
+    if (currentTab === "recettes") {
+        initOngletRecettes();
     }
 }
 

@@ -3,7 +3,7 @@
 // =========================
 
 let currentTab = "map";
-const tabs = ["map", "tab2"];
+const tabs = ["map", "tab2", "recettes"];
 
 function switchTab(tabName) {
     document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
@@ -11,6 +11,7 @@ function switchTab(tabName) {
     document.getElementById("tab-" + tabName).classList.add("active");
     document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add("active");
     currentTab = tabName;
+    if (tabName === "recettes") initOngletRecettes();
 }
 
 // Flèches clavier + A/D

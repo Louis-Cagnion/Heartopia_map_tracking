@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/wildlife.css">
     <link rel="stylesheet" href="css/admin-ui.css">
+    <link rel="stylesheet" href="css/recipes.css">
 </head>
 
 <body>
@@ -47,6 +48,7 @@
     <div id="tabBar">
         <button class="tab-btn active" onclick="switchTab('map')">🗺️ Carte interactive</button>
         <button class="tab-btn" onclick="switchTab('tab2')">📋 Faune obtenue</button>
+        <button class="tab-btn" onclick="switchTab('recettes')">🍳 Recettes</button>
     </div>
 
     <div id="tabContainer">
@@ -177,6 +179,10 @@
             <div class="FenetreObtenu" id="ObtenuInsecte"></div>
         </div>
 
+        <!-- ONGLET 3 : RECETTES -->
+        <div id="tab-recettes" class="tab-content">
+        </div>
+
     </div>
     <!-- PAGE ADMIN -->
     <div id="adminPage">
@@ -190,6 +196,7 @@
     <script src="js/filters.js"></script>
     <script src="js/admin.js"></script>
     <script src="js/admin-ui.js"></script>
+    <script src="js/recipes.js"></script>
     <script src="js/wildlife.js"></script>
     <script src="js/tabs.js"></script>
     <script src="js/init.js"></script>

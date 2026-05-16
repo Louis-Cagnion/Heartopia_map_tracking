@@ -256,7 +256,7 @@
 
 .admin-export-checks {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 6px 16px;
     margin-bottom: 10px;
 }
@@ -533,4 +533,27 @@
 /* Supprimer l'ancien hint individuel (plus utilisé) */
 .admin-slot-hint {
     display: none;
+}
+
+/* =========================
+   PALIERS DE CUISINE
+   ========================= */
+
+.admin-paliers-desc {
+    font-size: calc(var(--ui-font-size) - 2px);
+    color: #777;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+.admin-paliers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.admin-palier-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }

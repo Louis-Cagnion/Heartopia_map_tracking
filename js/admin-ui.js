@@ -1,24 +1,16 @@
 // =========================
 // 🔧 ADMIN UI — NOUVELLE INTERFACE
 // =========================
-// Ce fichier gère toute la logique de la page admin :
-// sections Ajouter / Modifier / Supprimer / Import-Export
-// + carte inline pour les collectibles
-// =========================
 
 // ---- État local ----
-let adminSectionActive = null;       // "ajouter" | "modifier" | "supprimer" | "importexport"
-let adminPanneauActif = null;        // "poisson" | "insecte" | "oiseau" | "collectible" | "ingredient" | "recette"
+let adminSectionActive = null;
+let adminPanneauActif = null;
 let adminCarteVisible = false;
-let adminModeEdition = false;        // true = on est en train de modifier (vs ajouter)
-let adminElementEdite = null;        // référence à l'objet en cours d'édition
+let adminCarteSection = null;
+let adminModeEdition = false;
+let adminElementEdite = null;
 
-// ---- Types disponibles ----
 const adminTypes = ["poisson", "insecte", "oiseau", "collectible", "ingredient", "recette"];
-
-// =========================
-// 🏗️ INIT — construit la page admin
-// =========================
 
 function initAdminUI() {
     const page = document.getElementById("adminPage");
@@ -26,34 +18,55 @@ function initAdminUI() {
     renderAdminPage();
 }
 
+function creerCarteInline(sectionKey) {
+    const carteInline = document.createElement("div");
+    carteInline.id = "adminCarteInline-" + sectionKey;
+    carteInline.className = "admin-carte-inline hidden";
+
+    const carteHeader = document.createElement("div");
+    carteHeader.className = "admin-carte-header";
+    const titre = document.createElement("span");
+    titre.id = "adminCarteTitre-" + sectionKey;
+    titre.textContent = t("adminPositionsCarte");
+    const btnFermer = document.createElement("button");
+    btnFermer.textContent = "\u2716";
+    btnFermer.onclick = () => fermerCarteAdmin(sectionKey);
+    carteHeader.appendChild(titre);
+    carteHeader.appendChild(btnFermer);
+
+    const wrapper = document.createElement("div");
+    wrapper.id = "admin-map-wrapper-" + sectionKey;
+    wrapper.className = "admin-map-container-wrapper";
+
+    carteInline.appendChild(carteHeader);
+    carteInline.appendChild(wrapper);
+    return carteInline;
+}
+
 function renderAdminPage() {
     const page = document.getElementById("adminPage");
-
-    // Sauvegarder map-container dans mapColumn avant de vider la page admin
     const mapContainer = document.getElementById("map-container");
     const mapColumn = document.getElementById("mapColumn");
     if (mapContainer && mapColumn && !mapColumn.contains(mapContainer)) {
         mapColumn.appendChild(mapContainer);
     }
-
     page.innerHTML = "";
 
-    // 4 sections
     const sections = [
-        { key: "ajouter",      labelKey: "adminSectionAjouter" },
-        { key: "modifier",     labelKey: "adminSectionModifier" },
-        { key: "supprimer",    labelKey: "adminSectionSupprimer" },
-        { key: "importexport", labelKey: "adminSectionImportExport" }
+        { key: "ajouter",      labelKey: "adminSectionAjouter",     avecCarte: true },
+        { key: "modifier",     labelKey: "adminSectionModifier",     avecCarte: true },
+        { key: "supprimer",    labelKey: "adminSectionSupprimer",    avecCarte: true },
+        { key: "importexport", labelKey: "adminSectionImportExport", avecCarte: false }
     ];
 
-    sections.forEach(({ key, labelKey }) => {
+    sections.forEach(({ key, labelKey, avecCarte }) => {
         const section = document.createElement("div");
         section.className = "admin-section";
         section.id = "adminSection-" + key;
 
         const header = document.createElement("div");
         header.className = "admin-section-header";
-        header.innerHTML = `<span>${t(labelKey)}</span><span class="admin-section-arrow">▶</span>`;
+        header.innerHTML = "<span>" + t(labelKey) + "</span><span class=\"admin-section-arrow\">\u25ba</span>";
         header.addEventListener("click", () => toggleAdminSection(key));
 
         const body = document.createElement("div");
@@ -63,53 +76,23 @@ function renderAdminPage() {
         section.appendChild(header);
         section.appendChild(body);
         page.appendChild(section);
+
+        if (avecCarte) page.appendChild(creerCarteInline(key));
     });
-
-    // Carte inline pour collectibles — on crée uniquement le shell,
-    // le vrai #map-container y sera déplacé par ouvrirCarteAdmin()
-    const carteInline = document.createElement("div");
-    carteInline.id = "adminCarteInline";
-    carteInline.className = "hidden";
-
-    const carteHeader = document.createElement("div");
-    carteHeader.className = "admin-carte-header";
-    carteHeader.innerHTML = `<span id="adminCarteTitre">${t("adminPositionsCarte")}</span>`;
-    const btnFermerCarte = document.createElement("button");
-    btnFermerCarte.textContent = "✖";
-    btnFermerCarte.onclick = fermerCarteAdmin;
-    carteHeader.appendChild(btnFermerCarte);
-
-    const wrapper = document.createElement("div");
-    wrapper.id = "admin-map-container-wrapper";
-
-    carteInline.appendChild(carteHeader);
-    carteInline.appendChild(wrapper);
-    page.appendChild(carteInline);
 }
-
-// =========================
-// 🔄 TOGGLE SECTION
-// =========================
 
 function toggleAdminSection(key) {
     const body = document.getElementById("adminSectionBody-" + key);
-    const arrow = document.querySelector(`#adminSection-${key} .admin-section-arrow`);
+    const arrow = document.querySelector("#adminSection-" + key + " .admin-section-arrow");
     const isOpen = !body.classList.contains("hidden");
 
-    // Fermer toutes les sections
-    adminTypes.forEach(type => {
-        // ferme les panneaux ouverts
-    });
-    document.querySelectorAll(".admin-section-body").forEach(b => {
-        b.classList.add("hidden");
-    });
-    document.querySelectorAll(".admin-section-arrow").forEach(a => {
-        a.textContent = "▶";
-    });
+    document.querySelectorAll(".admin-section-body").forEach(b => b.classList.add("hidden"));
+    document.querySelectorAll(".admin-section-arrow").forEach(a => { a.textContent = "\u25ba"; });
+    fermerCarteAdmin();
 
     if (!isOpen) {
         body.classList.remove("hidden");
-        arrow.textContent = "▼";
+        arrow.textContent = "\u25bc";
         adminSectionActive = key;
         renderAdminSectionBody(key, body);
     } else {
@@ -118,94 +101,62 @@ function toggleAdminSection(key) {
     }
 }
 
-// =========================
-// 🖊️ RENDER SECTION BODY
-// =========================
-
 function renderAdminSectionBody(key, body) {
     body.innerHTML = "";
-
-    if (key === "ajouter") {
-        renderGrilleTypes(body, "ajouter");
-    } else if (key === "modifier") {
-        renderGrilleTypes(body, "modifier");
-    } else if (key === "supprimer") {
-        renderGrilleTypes(body, "supprimer");
-    } else if (key === "importexport") {
-        renderImportExport(body);
-    }
+    if (key === "ajouter")       renderGrilleTypes(body, "ajouter");
+    else if (key === "modifier")  renderGrilleTypes(body, "modifier");
+    else if (key === "supprimer") renderGrilleTypes(body, "supprimer");
+    else if (key === "importexport") renderImportExport(body);
 }
-
-// =========================
-// 🔲 GRILLE 2×3 DE TYPES
-// =========================
 
 function renderGrilleTypes(body, mode) {
     const grid = document.createElement("div");
     grid.className = "admin-type-grid";
 
     const types = [
-        { key: "poisson",     emoji: "🐟", labelKey: "adminAjouterPoisson",    label: { fr: "Poisson",     en: "Fish" } },
-        { key: "insecte",     emoji: "🐛", labelKey: "adminAjouterInsecte",    label: { fr: "Insecte",     en: "Insect" } },
-        { key: "oiseau",      emoji: "🪶", labelKey: "adminAjouterOiseau",     label: { fr: "Oiseau",      en: "Bird" } },
-        { key: "collectible", emoji: "🍄", labelKey: "adminAjouterCollectible",label: { fr: "Collectible", en: "Collectible" } },
-        { key: "ingredient",  emoji: "🥕", labelKey: "adminAjouterIngredient", label: { fr: "Ingrédient",  en: "Ingredient" } },
-        { key: "recette",     emoji: "📖", labelKey: "adminAjouterRecette",    label: { fr: "Recette",     en: "Recipe" } }
+        { key: "poisson",     emoji: "\ud83d\udc1f", label: { fr: "Poisson",     en: "Fish" } },
+        { key: "insecte",     emoji: "\ud83d\udc1b", label: { fr: "Insecte",     en: "Insect" } },
+        { key: "oiseau",      emoji: "\ud83e\udeb6", label: { fr: "Oiseau",      en: "Bird" } },
+        { key: "collectible", emoji: "\ud83c\udf44", label: { fr: "Collectible", en: "Collectible" } },
+        { key: "ingredient",  emoji: "\ud83e\udd55", label: { fr: "Ingr\u00e9dient",  en: "Ingredient" } },
+        { key: "recette",     emoji: "\ud83d\udcd6", label: { fr: "Recette",     en: "Recipe" } }
     ];
 
-    types.forEach(({ key, emoji, labelKey, label }) => {
+    types.forEach(({ key, emoji, label }) => {
         const btn = document.createElement("div");
         btn.className = "admin-type-btn";
-        btn.id = `adminTypeBtn-${mode}-${key}`;
-        btn.innerHTML = `<span class="admin-type-emoji">${emoji}</span><span>${label[langue] || label.fr}</span>`;
+        btn.id = "adminTypeBtn-" + mode + "-" + key;
+        const lbl = label[langue] || label.fr;
+        btn.innerHTML = "<span class=\"admin-type-emoji\">" + emoji + "</span><span>" + lbl + "</span>";
         btn.addEventListener("click", () => toggleAdminPanneau(mode, key, btn, body));
         grid.appendChild(btn);
     });
 
     body.appendChild(grid);
 
-    // Zone panneau sous la grille
     const panneauZone = document.createElement("div");
     panneauZone.className = "admin-panneau-zone";
-    panneauZone.id = `adminPanneauZone-${mode}`;
+    panneauZone.id = "adminPanneauZone-" + mode;
     body.appendChild(panneauZone);
 }
 
-// =========================
-// 🔀 TOGGLE PANNEAU TYPE
-// =========================
-
 function toggleAdminPanneau(mode, type, btn, body) {
-    const panneauZone = document.getElementById(`adminPanneauZone-${mode}`);
+    const panneauZone = document.getElementById("adminPanneauZone-" + mode);
     const alreadyOpen = btn.classList.contains("active");
 
-    // Désactiver tous les boutons de cette grille
     body.querySelectorAll(".admin-type-btn").forEach(b => b.classList.remove("active"));
     panneauZone.innerHTML = "";
+    fermerCarteAdmin(mode);
 
-    if (alreadyOpen) {
-        adminPanneauActif = null;
-        fermerCarteAdmin();
-        return;
-    }
-    // Fermer la carte si on ouvre un type différent
-    fermerCarteAdmin();
+    if (alreadyOpen) { adminPanneauActif = null; return; }
 
     btn.classList.add("active");
     adminPanneauActif = type;
 
-    if (mode === "ajouter") {
-        renderFormulaireAjouter(type, panneauZone);
-    } else if (mode === "modifier") {
-        renderFormulaireModifier(type, panneauZone);
-    } else if (mode === "supprimer") {
-        renderFormulaireSupprimer(type, panneauZone);
-    }
+    if (mode === "ajouter")       renderFormulaireAjouter(type, panneauZone);
+    else if (mode === "modifier")  renderFormulaireModifier(type, panneauZone);
+    else if (mode === "supprimer") renderFormulaireSupprimer(type, panneauZone);
 }
-
-// =========================
-// ➕ FORMULAIRES AJOUTER
-// =========================
 
 function renderFormulaireAjouter(type, zone) {
     zone.innerHTML = "";
@@ -217,39 +168,55 @@ function renderFormulaireAjouter(type, zone) {
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel")));
         form.appendChild(champSelect("lieu", t("adminLieu"), getLieuxPourType(type)));
         form.appendChild(champCheckboxes("heures", t("adminHeures"), [
-            { val: "matin", label: t("matin") },
-            { val: "après-midi", label: t("apresMidi") },
-            { val: "soir", label: t("soir") },
-            { val: "nuit", label: t("nuit") }
+            { val: "matin", label: t("matin") }, { val: "apr\u00e8s-midi", label: t("apresMidi") },
+            { val: "soir", label: t("soir") }, { val: "nuit", label: t("nuit") }
         ], true));
         form.appendChild(champCheckboxes("meteos", t("adminMeteo"), [
-            { val: "soleil", label: "☀️ " + t("meteoSoleil") },
-            { val: "pluie", label: "🌧️ " + t("meteoPluie") },
-            { val: "arc-en-ciel", label: "🌈 " + t("meteoArc") }
+            { val: "soleil", label: "\u2600\ufe0f " + t("meteoSoleil") },
+            { val: "pluie", label: "\ud83c\udf27\ufe0f " + t("meteoPluie") },
+            { val: "arc-en-ciel", label: "\ud83c\udf08 " + t("meteoArc") }
         ], true));
         form.appendChild(champNombre("niveau", t("adminNiveauHobby"), 1, 10, 1));
+
     } else if (type === "collectible") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel")));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel")));
         form.appendChild(champSelectCategorie("categorie", t("adminCategorieLabel")));
         form.appendChild(champCouleur("couleur", t("adminCouleur"), "#e67e22"));
-        // Bouton pour placer sur la carte
         const btnCarte = document.createElement("button");
         btnCarte.className = "admin-btn-secondary";
         btnCarte.textContent = t("adminAjouterPosition");
-        btnCarte.onclick = () => ouvrirCarteAdmin("ajouter", null);
+        btnCarte.onclick = () => {
+            const nomFr = form.querySelector("[data-field=\"nomFr\"]") ? form.querySelector("[data-field=\"nomFr\"]").value.trim() : "";
+            if (!nomFr) { alert(t("adminNomFrLabel") + " manquant"); return; }
+            const typeVal = form.querySelector("[data-field=\"categorie\"]") ? form.querySelector("[data-field=\"categorie\"]").value : "";
+            const color = form.querySelector("[data-field=\"couleur\"]") ? form.querySelector("[data-field=\"couleur\"]").value : "#e67e22";
+            const nomEn = form.querySelector("[data-field=\"nomEn\"]") ? form.querySelector("[data-field=\"nomEn\"]").value.trim() : "";
+            const name = nomEn ? [nomFr, nomEn] : nomFr;
+            let col = collectibles.find(c => (Array.isArray(c.name) ? c.name[0] : c.name) === nomFr);
+            if (!col) {
+                col = { name, type: typeVal, color, spawns: [] };
+                collectibles.push(col);
+                localStorage.setItem("collectibles", JSON.stringify(collectibles));
+                afficherLegende();
+            }
+            ouvrirCarteAdmin("ajouter", col, "ajouter");
+        };
         form.appendChild(btnCarte);
+
     } else if (type === "ingredient") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel")));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel")));
         form.appendChild(champTexte("categorieFr", t("adminCategorieLabel") + " (FR)"));
         form.appendChild(champTexte("categorieEn", t("adminCategorieLabel") + " (EN)"));
         form.appendChild(champNombre("prix", t("adminPrix"), 0, 99999, 0));
+
     } else if (type === "recette") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel")));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel")));
         form.appendChild(champTexteNombre("energy", t("adminEnergy"), 0));
         form.appendChild(champTexteNombre("sellPrice", t("adminSellPrice"), 0));
+        form.appendChild(renderPaliers([]));
         form.appendChild(renderSlotsIngredients([]));
     }
 
@@ -258,57 +225,41 @@ function renderFormulaireAjouter(type, zone) {
     btnSave.textContent = t("adminSauvegarder");
     btnSave.onclick = () => sauvegarderElement(type, form, false);
     form.appendChild(btnSave);
-
     zone.appendChild(form);
 }
 
-// =========================
-// ✏️ FORMULAIRES MODIFIER
-// =========================
-
 function renderFormulaireModifier(type, zone) {
     zone.innerHTML = "";
-
     const data = getDataPourType(type);
-    if (data.length === 0) {
-        zone.innerHTML = `<div class="admin-empty">${t("aucunElement")}</div>`;
-        return;
-    }
+    if (data.length === 0) { zone.innerHTML = "<div class=\"admin-empty\">" + t("aucunElement") + "</div>"; return; }
 
     const selectEl = document.createElement("div");
     selectEl.className = "admin-form";
-
     const label = document.createElement("label");
     label.className = "admin-label";
     label.textContent = t("adminElementAModifier");
-
     const sel = document.createElement("select");
     sel.className = "admin-select";
-    sel.id = `modifierSelect-${type}`;
-
+    sel.id = "modifierSelect-" + type;
     const optVide = document.createElement("option");
     optVide.value = "";
     optVide.textContent = t("adminSelectionnerElement");
     sel.appendChild(optVide);
-
-    [...data].sort((a, b) => {
-        const na = Array.isArray(a.name) ? a.name[0] : a.name;
-        const nb = Array.isArray(b.name) ? b.name[0] : b.name;
-        return na.localeCompare(nb, "fr");
+    [...data].sort((a,b)=>{
+        const na=Array.isArray(a.name)?a.name[0]:a.name;
+        const nb=Array.isArray(b.name)?b.name[0]:b.name;
+        return na.localeCompare(nb,"fr");
     }).forEach(el => {
         const opt = document.createElement("option");
         const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-        opt.value = nameFr;
-        opt.textContent = nameFr;
+        opt.value = nameFr; opt.textContent = nameFr;
         sel.appendChild(opt);
     });
-
-    selectEl.appendChild(label);
-    selectEl.appendChild(sel);
+    selectEl.appendChild(label); selectEl.appendChild(sel);
     zone.appendChild(selectEl);
 
     const formZone = document.createElement("div");
-    formZone.id = `modifierFormZone-${type}`;
+    formZone.id = "modifierFormZone-" + type;
     zone.appendChild(formZone);
 
     sel.addEventListener("change", () => {
@@ -325,7 +276,6 @@ function renderFormulaireModifierRempli(type, el, zone) {
     zone.innerHTML = "";
     const form = document.createElement("div");
     form.className = "admin-form";
-
     const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
     const nameEn = Array.isArray(el.name) ? el.name[1] || "" : "";
 
@@ -335,17 +285,16 @@ function renderFormulaireModifierRempli(type, el, zone) {
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel"), nameEn));
         form.appendChild(champSelect("lieu", t("adminLieu"), getLieuxPourType(type), lieuFr));
         form.appendChild(champCheckboxes("heures", t("adminHeures"), [
-            { val: "matin", label: t("matin") },
-            { val: "après-midi", label: t("apresMidi") },
-            { val: "soir", label: t("soir") },
-            { val: "nuit", label: t("nuit") }
+            { val: "matin", label: t("matin") }, { val: "apr\u00e8s-midi", label: t("apresMidi") },
+            { val: "soir", label: t("soir") }, { val: "nuit", label: t("nuit") }
         ], false, el.heures || []));
         form.appendChild(champCheckboxes("meteos", t("adminMeteo"), [
-            { val: "soleil", label: "☀️ " + t("meteoSoleil") },
-            { val: "pluie", label: "🌧️ " + t("meteoPluie") },
-            { val: "arc-en-ciel", label: "🌈 " + t("meteoArc") }
+            { val: "soleil", label: "\u2600\ufe0f " + t("meteoSoleil") },
+            { val: "pluie", label: "\ud83c\udf27\ufe0f " + t("meteoPluie") },
+            { val: "arc-en-ciel", label: "\ud83c\udf08 " + t("meteoArc") }
         ], false, el.meteos || []));
         form.appendChild(champNombre("niveau", t("adminNiveauHobby"), 1, 10, el.niveau_hobby || 1));
+
     } else if (type === "collectible") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel"), nameFr));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel"), nameEn));
@@ -353,9 +302,10 @@ function renderFormulaireModifierRempli(type, el, zone) {
         form.appendChild(champCouleur("couleur", t("adminCouleur"), el.color || "#e67e22"));
         const btnCarte = document.createElement("button");
         btnCarte.className = "admin-btn-secondary";
-        btnCarte.textContent = t("adminPositionsCarte") + ` (${(el.spawns || []).length})`;
-        btnCarte.onclick = () => ouvrirCarteAdmin("modifier", el);
+        btnCarte.textContent = t("adminPositionsCarte") + " (" + (el.spawns || []).length + ")";
+        btnCarte.onclick = () => ouvrirCarteAdmin("modifier", el, "modifier");
         form.appendChild(btnCarte);
+
     } else if (type === "ingredient") {
         const catFr = Array.isArray(el.category) ? el.category[0] : el.category;
         const catEn = Array.isArray(el.category) ? el.category[1] || "" : "";
@@ -364,11 +314,13 @@ function renderFormulaireModifierRempli(type, el, zone) {
         form.appendChild(champTexte("categorieFr", t("adminCategorieLabel") + " (FR)", catFr));
         form.appendChild(champTexte("categorieEn", t("adminCategorieLabel") + " (EN)", catEn));
         form.appendChild(champNombre("prix", t("adminPrix"), 0, 99999, el.price || 0));
+
     } else if (type === "recette") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel"), nameFr));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel"), nameEn));
         form.appendChild(champTexteNombre("energy", t("adminEnergy"), el.energy || 0));
         form.appendChild(champTexteNombre("sellPrice", t("adminSellPrice"), el.sellPrice || 0));
+        form.appendChild(renderPaliers(el.paliers || []));
         form.appendChild(renderSlotsIngredients(el.ingredients || []));
     }
 
@@ -377,137 +329,150 @@ function renderFormulaireModifierRempli(type, el, zone) {
     btnSave.textContent = t("adminSauvegarder");
     btnSave.onclick = () => sauvegarderElement(type, form, true);
     form.appendChild(btnSave);
-
     zone.appendChild(form);
 }
-
-// =========================
-// 🗑️ FORMULAIRES SUPPRIMER
-// =========================
 
 function renderFormulaireSupprimer(type, zone) {
     zone.innerHTML = "";
     const data = getDataPourType(type);
-
-    if (data.length === 0) {
-        zone.innerHTML = `<div class="admin-empty">${t("aucunElement")}</div>`;
-        return;
-    }
+    if (data.length === 0) { zone.innerHTML = "<div class=\"admin-empty\">" + t("aucunElement") + "</div>"; return; }
 
     const form = document.createElement("div");
     form.className = "admin-form";
 
-    const label = document.createElement("label");
-    label.className = "admin-label";
-    label.textContent = t("adminElementASupprimer");
+    const labelEl = document.createElement("div");
+    labelEl.className = "admin-label";
+    labelEl.textContent = t("adminElementASupprimer");
+    form.appendChild(labelEl);
 
     const sel = document.createElement("select");
     sel.className = "admin-select";
-
     const optVide = document.createElement("option");
     optVide.value = "";
     optVide.textContent = t("adminSelectionnerElement");
     sel.appendChild(optVide);
-
-    [...data].sort((a, b) => {
-        const na = Array.isArray(a.name) ? a.name[0] : a.name;
-        const nb = Array.isArray(b.name) ? b.name[0] : b.name;
-        return na.localeCompare(nb, "fr");
+    [...data].sort((a,b)=>{
+        const na=Array.isArray(a.name)?a.name[0]:a.name;
+        const nb=Array.isArray(b.name)?b.name[0]:b.name;
+        return na.localeCompare(nb,"fr");
     }).forEach(el => {
         const opt = document.createElement("option");
         const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-        opt.value = nameFr;
-        opt.textContent = nameFr;
+        opt.value = nameFr; opt.textContent = nameFr;
         sel.appendChild(opt);
     });
+    form.appendChild(sel);
 
     const btnSupp = document.createElement("button");
     btnSupp.className = "admin-btn-danger";
-    btnSupp.textContent = "🗑️ " + t("adminSupprimerElement");
+    btnSupp.textContent = "\ud83d\uddd1\ufe0f " + t("adminSupprimerElement");
     btnSupp.onclick = () => {
         const nom = sel.value;
         if (!nom) return;
-        if (!confirm(`${t("adminElementASupprimer")} "${nom}" ?`)) return;
+        if (!confirm(t("adminElementASupprimer") + " \"" + nom + "\" ?")) return;
         supprimerElementAdmin(type, nom);
-        renderFormulaireSupprimer(type, zone); // refresh
+        fermerCarteAdmin("supprimer");
+        renderFormulaireSupprimer(type, zone);
     };
-
-    form.appendChild(label);
-    form.appendChild(sel);
     form.appendChild(btnSupp);
+
+    if (type === "collectible") {
+        const sep = document.createElement("hr");
+        sep.className = "hobby-separator";
+        form.appendChild(sep);
+
+        const labelPos = document.createElement("div");
+        labelPos.className = "admin-label";
+        labelPos.textContent = langue === "fr" ? "G\u00e9rer les positions d'un collectible" : "Manage collectible positions";
+        form.appendChild(labelPos);
+
+        const selPos = document.createElement("select");
+        selPos.className = "admin-select";
+        const optVidePos = document.createElement("option");
+        optVidePos.value = "";
+        optVidePos.textContent = t("adminSelectionnerElement");
+        selPos.appendChild(optVidePos);
+        [...collectibles].sort((a,b)=>{
+            const na=Array.isArray(a.name)?a.name[0]:a.name;
+            const nb=Array.isArray(b.name)?b.name[0]:b.name;
+            return na.localeCompare(nb,"fr");
+        }).forEach(el => {
+            const opt = document.createElement("option");
+            const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+            opt.value = nameFr;
+            opt.textContent = nameFr + " (" + (el.spawns||[]).length + " pos.)";
+            selPos.appendChild(opt);
+        });
+        form.appendChild(selPos);
+
+        const btnSuppPos = document.createElement("button");
+        btnSuppPos.className = "admin-btn-danger";
+        btnSuppPos.textContent = "\ud83d\uddfa\ufe0f " + (langue === "fr" ? "Supprimer des positions sur la carte" : "Delete positions on map");
+        btnSuppPos.onclick = () => {
+            const nom = selPos.value;
+            if (!nom) return;
+            const col = collectibles.find(c => (Array.isArray(c.name)?c.name[0]:c.name) === nom);
+            if (!col) return;
+            ouvrirCarteAdmin("supprimer", col, "supprimer");
+        };
+        form.appendChild(btnSuppPos);
+    }
+
     zone.appendChild(form);
 }
-
-// =========================
-// 📦 IMPORT / EXPORT
-// =========================
 
 function renderImportExport(body) {
     const zone = document.createElement("div");
     zone.className = "admin-form";
 
-    // --- Import ---
     const titreImport = document.createElement("div");
     titreImport.className = "admin-sub-title";
     titreImport.textContent = langue === "fr" ? "Importer des fichiers" : "Import files";
     zone.appendChild(titreImport);
 
     const inputFile = document.createElement("input");
-    inputFile.type = "file";
-    inputFile.id = "adminImportFile";
-    inputFile.className = "hidden";
-    inputFile.multiple = true;
-    inputFile.accept = ".json";
+    inputFile.type = "file"; inputFile.id = "adminImportFile";
+    inputFile.className = "hidden"; inputFile.multiple = true; inputFile.accept = ".json";
     inputFile.addEventListener("change", (e) => importElements(e));
     zone.appendChild(inputFile);
 
     const btnImport = document.createElement("button");
     btnImport.className = "admin-btn-ie";
-    btnImport.innerHTML = `<span class="admin-ie-emoji">📂</span><span>${langue === "fr" ? "Choisissez vos fichiers" : "Choose your files"}</span>`;
+    btnImport.innerHTML = "<span class=\"admin-ie-emoji\">\ud83d\udcc2</span><span>" + (langue === "fr" ? "Choisissez vos fichiers" : "Choose your files") + "</span>";
     btnImport.onclick = () => document.getElementById("adminImportFile").click();
     zone.appendChild(btnImport);
 
-    // Séparateur
     const sep = document.createElement("hr");
     sep.className = "hobby-separator";
     zone.appendChild(sep);
 
-    // --- Export ---
     const titreExport = document.createElement("div");
     titreExport.className = "admin-sub-title";
     titreExport.textContent = langue === "fr" ? "Exporter des fichiers" : "Export files";
     zone.appendChild(titreExport);
 
     const fichiers = [
-        { key: "lieux",        label: "lieux.json" },
-        { key: "poissons",     label: "poissons.json" },
-        { key: "insectes",     label: "insectes.json" },
-        { key: "oiseaux",      label: "oiseaux.json" },
-        { key: "collectibles", label: "collectibles.json" },
-        { key: "ingredients",  label: "ingredients.json" },
-        { key: "recettes",     label: "recettes.json" }
+        { key: "lieux", label: "lieux.json" }, { key: "poissons", label: "poissons.json" },
+        { key: "insectes", label: "insectes.json" }, { key: "oiseaux", label: "oiseaux.json" },
+        { key: "collectibles", label: "collectibles.json" }, { key: "ingredients", label: "ingredients.json" },
+        { key: "recettes", label: "recettes.json" }
     ];
 
     const checkZone = document.createElement("div");
     checkZone.className = "admin-export-checks";
-
     fichiers.forEach(({ key, label }) => {
         const lbl = document.createElement("label");
         lbl.className = "admin-export-label";
         const cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.checked = true;
-        cb.dataset.exportKey = key;
-        lbl.appendChild(cb);
-        lbl.appendChild(document.createTextNode(" " + label));
+        cb.type = "checkbox"; cb.checked = true; cb.dataset.exportKey = key;
+        lbl.appendChild(cb); lbl.appendChild(document.createTextNode(" " + label));
         checkZone.appendChild(lbl);
     });
-
     zone.appendChild(checkZone);
 
     const btnExport = document.createElement("button");
     btnExport.className = "admin-btn-ie";
-    btnExport.innerHTML = `<span class="admin-ie-emoji">📤</span><span>${langue === "fr" ? "Exporter les fichiers" : "Export files"}</span>`;
+    btnExport.innerHTML = "<span class=\"admin-ie-emoji\">\ud83d\udce4</span><span>" + (langue === "fr" ? "Exporter les fichiers" : "Export files") + "</span>";
     btnExport.onclick = () => exportSelectionne(checkZone);
     zone.appendChild(btnExport);
 
@@ -515,135 +480,95 @@ function renderImportExport(body) {
 }
 
 function exportSelectionne(checkZone) {
-    const checks = checkZone.querySelectorAll("input[type='checkbox']");
-    checks.forEach(cb => {
+    checkZone.querySelectorAll("input[type='checkbox']").forEach(cb => {
         if (!cb.checked) return;
         const key = cb.dataset.exportKey;
         let data;
-        if (key === "lieux")        data = places.map(p => ({ name: p.name, x: Math.round(p.x), y: Math.round(p.y), level: p.level || 1 }));
+        if (key === "lieux") data = places.map(p => ({ name: p.name, x: Math.round(p.x), y: Math.round(p.y), level: p.level || 1 }));
         else if (key === "poissons") data = poissons;
         else if (key === "insectes") data = insectes;
-        else if (key === "oiseaux")  data = oiseaux;
-        else if (key === "collectibles") data = collectibles.map(c => ({ name: c.name, type: c.type, color: c.color || "#e67e22", spawns: c.spawns.map(s => ({ x: Math.round(s.x * 100) / 100, y: Math.round(s.y * 100) / 100 })) }));
+        else if (key === "oiseaux") data = oiseaux;
+        else if (key === "collectibles") data = collectibles.map(c => ({ name: c.name, type: c.type, color: c.color || "#e67e22", spawns: c.spawns.map(s => ({ x: Math.round(s.x*100)/100, y: Math.round(s.y*100)/100 })) }));
         else if (key === "ingredients") data = ingredients;
         else if (key === "recettes") data = recettes;
         if (!data) return;
-        const blob = new Blob(["\uFEFF" + JSON.stringify(data, null, 2)], { type: "application/json;charset=utf-8" });
+        const blob = new Blob(["\ufeff" + JSON.stringify(data, null, 2)], { type: "application/json;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-        a.href = url;
-        a.download = key === "lieux" ? "lieux.json" : key + ".json";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        a.href = url; a.download = key + ".json";
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(url);
     });
 }
 
-// =========================
-// 💾 SAUVEGARDE
-// =========================
-
 function sauvegarderElement(type, form, estModification) {
-    const get = (id) => {
-        const el = form.querySelector(`[data-field="${id}"]`);
-        return el ? el.value.trim() : "";
-    };
-    const getChecked = (name) => {
-        return [...form.querySelectorAll(`[data-group="${name}"] input:checked`)].map(cb => cb.value);
-    };
+    const get = (id) => { const el = form.querySelector("[data-field=\"" + id + "\"]"); return el ? el.value.trim() : ""; };
+    const getChecked = (name) => [...form.querySelectorAll("[data-group=\"" + name + "\"] input:checked")].map(cb => cb.value);
 
     const nomFr = get("nomFr");
     const nomEn = get("nomEn");
     if (!nomFr) { alert(t("adminNomFrLabel") + " manquant"); return; }
-
     const name = nomEn ? [nomFr, nomEn] : nomFr;
 
     if (type === "poisson" || type === "insecte" || type === "oiseau") {
         const lieuVal = get("lieu");
-        const lieuPlace = places.find(p => (Array.isArray(p.name) ? p.name[0] : p.name) === lieuVal);
+        const lieuPlace = places.find(p => (Array.isArray(p.name)?p.name[0]:p.name) === lieuVal);
         const lieu = lieuPlace && Array.isArray(lieuPlace.name) ? [lieuPlace.name[0], lieuPlace.name[1]] : lieuVal;
-        const heures = getChecked("heures");
-        const meteos = getChecked("meteos");
-        const niveau = parseInt(get("niveau")) || 1;
-        const element = { name, lieu, heures, meteos, niveau_hobby: niveau };
-
-        if (estModification) {
-            modifierDansTableau(type, adminElementEdite, element);
-        } else {
+        const element = { name, lieu, heures: getChecked("heures"), meteos: getChecked("meteos"), niveau_hobby: parseInt(get("niveau")) || 1 };
+        if (estModification) modifierDansTableau(type, adminElementEdite, element);
+        else {
             if (type === "poisson") poissons.push(element);
             else if (type === "insecte") insectes.push(element);
             else oiseaux.push(element);
         }
-        localStorage.setItem(type === "poisson" ? "poissons" : type === "insecte" ? "insectes" : "oiseaux",
-            JSON.stringify(type === "poisson" ? poissons : type === "insecte" ? insectes : oiseaux));
+        const clef = type === "poisson" ? "poissons" : type === "insecte" ? "insectes" : "oiseaux";
+        localStorage.setItem(clef, JSON.stringify(type === "poisson" ? poissons : type === "insecte" ? insectes : oiseaux));
 
     } else if (type === "collectible") {
         const typeVal = get("categorie");
         const color = get("couleur");
         if (!typeVal) { alert(t("adminCategorieLabel") + " manquant"); return; }
         if (estModification && adminElementEdite) {
-            adminElementEdite.name = name;
-            adminElementEdite.type = typeVal;
-            adminElementEdite.color = color;
-            // Ouvrir la carte pour modifier les positions
-            ouvrirCarteAdmin("modifier", adminElementEdite);
+            adminElementEdite.name = name; adminElementEdite.type = typeVal; adminElementEdite.color = color;
         } else {
-            const element = { name, type: typeVal, color, spawns: [] };
-            collectibles.push(element);
-            // Ouvrir la carte pour placer
-            ouvrirCarteAdmin("ajouter", element);
+            const existing = collectibles.find(c => (Array.isArray(c.name)?c.name[0]:c.name) === nomFr);
+            if (!existing) collectibles.push({ name, type: typeVal, color, spawns: [] });
+            else { existing.name = name; existing.type = typeVal; existing.color = color; }
         }
         localStorage.setItem("collectibles", JSON.stringify(collectibles));
         afficherLegende();
 
     } else if (type === "ingredient") {
-        const catFr = get("categorieFr");
-        const catEn = get("categorieEn");
-        const price = parseInt(get("prix")) || 0;
-        const category = catEn ? [catFr, catEn] : catFr;
-        const element = { name, category, price };
-        if (estModification && adminElementEdite) {
-            Object.assign(adminElementEdite, element);
-        } else {
-            ingredients.push(element);
-        }
+        const catFr = get("categorieFr"); const catEn = get("categorieEn");
+        const element = { name, category: catEn ? [catFr, catEn] : catFr, price: parseInt(get("prix")) || 0 };
+        if (estModification && adminElementEdite) Object.assign(adminElementEdite, element);
+        else ingredients.push(element);
         localStorage.setItem("ingredients", JSON.stringify(ingredients));
 
     } else if (type === "recette") {
-        const energy = parseInt(get("energy")) || 0;
-        const sellPrice = parseInt(get("sellPrice")) || 0;
-        const ingredientsSlots = lireSlots(form);
-        const element = { name, ingredients: ingredientsSlots, energy, sellPrice };
-        if (estModification && adminElementEdite) {
-            Object.assign(adminElementEdite, element);
-        } else {
-            recettes.push(element);
-        }
+        const paliers = lirePaliers(form);
+        const element = { name, ingredients: lireSlots(form), energy: parseInt(get("energy")) || 0, sellPrice: parseInt(get("sellPrice")) || 0, paliers };
+        if (estModification && adminElementEdite) Object.assign(adminElementEdite, element);
+        else recettes.push(element);
         localStorage.setItem("recettes", JSON.stringify(recettes));
     }
 
-    const msgFr = estModification ? "modifié" : "sauvegardé";
+    const msgFr = estModification ? "modifi\u00e9" : "sauvegard\u00e9";
     const msgEn = estModification ? "modified" : "saved";
-    alert(`✅ ${nomFr} ${langue === "fr" ? msgFr : msgEn} !`);
+    alert("\u2705 " + nomFr + " " + (langue === "fr" ? msgFr : msgEn) + " !");
 
-    // Reset formulaire si ajout
     if (!estModification) {
         form.querySelectorAll("input[type='text']").forEach(inp => { inp.value = ""; });
         form.querySelectorAll("input[type='number']").forEach(inp => { inp.value = inp.min || 0; });
         form.querySelectorAll("input[type='color']").forEach(inp => { inp.value = "#e67e22"; });
         form.querySelectorAll("input[type='checkbox']").forEach(cb => { cb.checked = true; });
-        form.querySelectorAll("select:not([multiple])").forEach(sel => { sel.selectedIndex = 0; });
+        form.querySelectorAll("select:not([multiple])").forEach(s => { s.selectedIndex = 0; });
         form.querySelectorAll("select[multiple] option").forEach(opt => { opt.selected = false; });
     }
-
-    // Refresh si modification
     if (estModification) {
-        const sel = document.getElementById(`modifierSelect-${type}`);
-        if (sel) {
-            const zone = document.getElementById(`modifierFormZone-${type}`);
-            if (zone) renderFormulaireModifierRempli(type, adminElementEdite, zone);
-        }
+        const selMod = document.getElementById("modifierSelect-" + type);
+        const zoneForm = document.getElementById("modifierFormZone-" + type);
+        if (selMod && zoneForm) renderFormulaireModifierRempli(type, adminElementEdite, zoneForm);
     }
 }
 
@@ -653,97 +578,59 @@ function modifierDansTableau(type, original, nouveau) {
     if (idx !== -1) tableau[idx] = { ...original, ...nouveau };
 }
 
-// =========================
-// 🗑️ SUPPRIMER
-// =========================
-
 function supprimerElementAdmin(type, nom) {
-    if (type === "poisson") {
-        poissons = poissons.filter(p => (Array.isArray(p.name) ? p.name[0] : p.name) !== nom);
-        localStorage.setItem("poissons", JSON.stringify(poissons));
-    } else if (type === "insecte") {
-        insectes = insectes.filter(i => (Array.isArray(i.name) ? i.name[0] : i.name) !== nom);
-        localStorage.setItem("insectes", JSON.stringify(insectes));
-    } else if (type === "oiseau") {
-        oiseaux = oiseaux.filter(o => (Array.isArray(o.name) ? o.name[0] : o.name) !== nom);
-        localStorage.setItem("oiseaux", JSON.stringify(oiseaux));
-    } else if (type === "collectible") {
-        document.querySelectorAll(".collectible-marker").forEach(el => {
-            if (el.dataset.collectibleName === nom) el.remove();
-        });
-        collectibles = collectibles.filter(c => (Array.isArray(c.name) ? c.name[0] : c.name) !== nom);
-        localStorage.setItem("collectibles", JSON.stringify(collectibles));
-        afficherLegende();
-    } else if (type === "ingredient") {
-        ingredients = ingredients.filter(i => (Array.isArray(i.name) ? i.name[0] : i.name) !== nom);
-        localStorage.setItem("ingredients", JSON.stringify(ingredients));
-    } else if (type === "recette") {
-        recettes = recettes.filter(r => (Array.isArray(r.name) ? r.name[0] : r.name) !== nom);
-        localStorage.setItem("recettes", JSON.stringify(recettes));
+    const filtre = arr => arr.filter(x => (Array.isArray(x.name)?x.name[0]:x.name) !== nom);
+    if (type === "poisson") { poissons = filtre(poissons); localStorage.setItem("poissons", JSON.stringify(poissons)); }
+    else if (type === "insecte") { insectes = filtre(insectes); localStorage.setItem("insectes", JSON.stringify(insectes)); }
+    else if (type === "oiseau") { oiseaux = filtre(oiseaux); localStorage.setItem("oiseaux", JSON.stringify(oiseaux)); }
+    else if (type === "collectible") {
+        document.querySelectorAll(".collectible-marker").forEach(el => { if (el.dataset.collectibleName === nom) el.remove(); });
+        collectibles = filtre(collectibles); localStorage.setItem("collectibles", JSON.stringify(collectibles)); afficherLegende();
     }
+    else if (type === "ingredient") { ingredients = filtre(ingredients); localStorage.setItem("ingredients", JSON.stringify(ingredients)); }
+    else if (type === "recette") { recettes = filtre(recettes); localStorage.setItem("recettes", JSON.stringify(recettes)); }
 }
 
-// =========================
-// 🗺️ CARTE INLINE
-// =========================
-
-function ouvrirCarteAdmin(modeAction, collectible) {
-    const carteInline = document.getElementById("adminCarteInline");
+function ouvrirCarteAdmin(modeAction, collectible, sectionKey) {
+    document.querySelectorAll(".admin-carte-inline").forEach(el => el.classList.add("hidden"));
+    const carteInline = document.getElementById("adminCarteInline-" + sectionKey);
     if (!carteInline) return;
 
     currentCollectible = collectible;
-    // En mode ajouter ET modifier, on peut placer des positions
     collectiblePlacementMode = (modeAction === "ajouter" || modeAction === "modifier");
-    suppressionCollectibleMode = modeAction === "supprimer";
+    suppressionCollectibleMode = (modeAction === "supprimer");
 
     carteInline.classList.remove("hidden");
-    adminCarteVisible = true;
+    adminCarteVisible = true; adminCarteSection = sectionKey;
 
-    // Déplacer le map-container dans la carte inline admin
-    const wrapper = document.getElementById("admin-map-container-wrapper");
+    const wrapper = document.getElementById("admin-map-wrapper-" + sectionKey);
     const mapContainer = document.getElementById("map-container");
-    if (mapContainer && wrapper && !wrapper.contains(mapContainer)) {
-        wrapper.appendChild(mapContainer);
-    }
+    if (mapContainer && wrapper && !wrapper.contains(mapContainer)) wrapper.appendChild(mapContainer);
 
-    // Titre
-    const titre = document.getElementById("adminCarteTitre");
+    const titre = document.getElementById("adminCarteTitre-" + sectionKey);
     const nom = collectible ? (Array.isArray(collectible.name) ? collectible.name[0] : collectible.name) : "";
-    if (titre) titre.textContent = t("adminPositionsCarte") + (nom ? ` — ${nom}` : "");
-
-    // Curseur
+    if (titre) titre.textContent = t("adminPositionsCarte") + (nom ? " \u2014 " + nom : "");
     if (mapContainer) mapContainer.style.cursor = "crosshair";
 
     setTimeout(() => {
-        applyTransform();
-        updateMarkerVisibility();
-        repositionLabels();
-        clampLabels();
-        // Scroller jusqu'à la carte
-        const carteEl = document.getElementById("adminCarteInline");
-        if (carteEl) carteEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        applyTransform(); updateMarkerVisibility(); repositionLabels(); clampLabels();
+        carteInline.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, 80);
 }
 
-function fermerCarteAdmin() {
-    const carteInline = document.getElementById("adminCarteInline");
-    if (carteInline) carteInline.classList.add("hidden");
-    collectiblePlacementMode = false;
-    suppressionCollectibleMode = false;
-    adminCarteVisible = false;
-
-    // Remettre map-container dans mapColumn
+function fermerCarteAdmin(sectionKey) {
+    if (sectionKey) {
+        const ci = document.getElementById("adminCarteInline-" + sectionKey);
+        if (ci) ci.classList.add("hidden");
+    } else {
+        document.querySelectorAll(".admin-carte-inline").forEach(el => el.classList.add("hidden"));
+    }
+    collectiblePlacementMode = false; suppressionCollectibleMode = false; adminCarteVisible = false;
     const mapContainer = document.getElementById("map-container");
     const mapColumn = document.getElementById("mapColumn");
-    if (mapContainer && mapColumn && !mapColumn.contains(mapContainer)) {
-        mapColumn.appendChild(mapContainer);
-    }
+    if (mapContainer && mapColumn && !mapColumn.contains(mapContainer)) mapColumn.appendChild(mapContainer);
     if (mapContainer) mapContainer.style.cursor = "crosshair";
 }
-
-// =========================
-// 🧩 SLOTS INGRÉDIENTS (RECETTES)
-// =========================
 
 function renderSlotsIngredients(existingSlots) {
     const wrapper = document.createElement("div");
@@ -755,66 +642,36 @@ function renderSlotsIngredients(existingSlots) {
     titre.textContent = t("adminIngredients");
     wrapper.appendChild(titre);
 
-    // Hint commun (une seule fois, avant les slots)
     const hint = document.createElement("div");
     hint.className = "admin-slot-hint-global";
-    hint.textContent = langue === "fr"
-        ? "Ctrl+clic pour sélectionner plusieurs ingrédients dans les slots"
-        : "Ctrl+click to select multiple ingredients in the slots";
+    hint.textContent = langue === "fr" ? "Ctrl+clic pour s\u00e9lectionner plusieurs ingr\u00e9dients dans les slots" : "Ctrl+click to select multiple ingredients in the slots";
     wrapper.appendChild(hint);
 
     const slotsContainer = document.createElement("div");
     slotsContainer.className = "admin-slots-container";
-    slotsContainer.id = "adminSlotsContainer";
     wrapper.appendChild(slotsContainer);
 
     const btnRow = document.createElement("div");
     btnRow.className = "admin-slots-btns";
-
     const btnAdd = document.createElement("button");
-    btnAdd.type = "button";
-    btnAdd.className = "admin-btn-secondary admin-btn-small";
+    btnAdd.type = "button"; btnAdd.className = "admin-btn-secondary admin-btn-small";
     btnAdd.textContent = t("adminAjouterSlot");
-    btnAdd.onclick = () => {
-        const slots = slotsContainer.querySelectorAll(".admin-slot");
-        if (slots.length >= 4) return;
-        ajouterSlot(slotsContainer, []);
-        mettreAJourNumeroSlots(slotsContainer);
-    };
-
+    btnAdd.onclick = () => { if (slotsContainer.querySelectorAll(".admin-slot").length >= 4) return; ajouterSlot(slotsContainer, []); mettreAJourNumeroSlots(slotsContainer); };
     const btnRemove = document.createElement("button");
-    btnRemove.type = "button";
-    btnRemove.className = "admin-btn-danger admin-btn-small";
+    btnRemove.type = "button"; btnRemove.className = "admin-btn-danger admin-btn-small";
     btnRemove.textContent = t("adminRetirerSlot");
-    btnRemove.onclick = () => {
-        const slots = slotsContainer.querySelectorAll(".admin-slot");
-        if (slots.length <= 2) return;
-        slots[slots.length - 1].remove();
-        mettreAJourNumeroSlots(slotsContainer);
-    };
-
-    btnRow.appendChild(btnAdd);
-    btnRow.appendChild(btnRemove);
+    btnRemove.onclick = () => { const slots = slotsContainer.querySelectorAll(".admin-slot"); if (slots.length <= 2) return; slots[slots.length-1].remove(); mettreAJourNumeroSlots(slotsContainer); };
+    btnRow.appendChild(btnAdd); btnRow.appendChild(btnRemove);
     wrapper.appendChild(btnRow);
 
-    // Pré-remplir les slots existants
-    if (existingSlots && existingSlots.length > 0) {
-        existingSlots.forEach(slot => ajouterSlot(slotsContainer, slot));
-    } else {
-        // 4 slots par défaut
-        ajouterSlot(slotsContainer, []);
-        ajouterSlot(slotsContainer, []);
-        ajouterSlot(slotsContainer, []);
-        ajouterSlot(slotsContainer, []);
-    }
+    if (existingSlots && existingSlots.length > 0) existingSlots.forEach(s => ajouterSlot(slotsContainer, s));
+    else { for (let i=0;i<4;i++) ajouterSlot(slotsContainer, []); }
 
     return wrapper;
 }
 
 function mettreAJourNumeroSlots(container) {
-    container.querySelectorAll(".admin-slot-label").forEach((lbl, i) => {
-        lbl.textContent = `${t("adminSlot")} ${i + 1}`;
-    });
+    container.querySelectorAll(".admin-slot-label").forEach((lbl, i) => { lbl.textContent = t("adminSlot") + " " + (i+1); });
 }
 
 function ajouterSlot(container, selectedItems) {
@@ -822,119 +679,100 @@ function ajouterSlot(container, selectedItems) {
     const slot = document.createElement("div");
     slot.className = "admin-slot";
 
-    // Header slot : label + bouton dupliquer
     const slotHeader = document.createElement("div");
     slotHeader.className = "admin-slot-header";
-
     const slotLabel = document.createElement("div");
     slotLabel.className = "admin-slot-label";
-    slotLabel.textContent = `${t("adminSlot")} ${slotIdx}`;
+    slotLabel.textContent = t("adminSlot") + " " + slotIdx;
+    slotLabel.title = langue === "fr" ? "Maintenir pour d\u00e9placer" : "Hold to drag";
+    slotLabel.style.cursor = "grab";
 
     const btnDup = document.createElement("button");
-    btnDup.type = "button";
-    btnDup.className = "admin-btn-dup";
+    btnDup.type = "button"; btnDup.className = "admin-btn-dup";
     btnDup.title = langue === "fr" ? "Dupliquer ce slot" : "Duplicate this slot";
-    btnDup.textContent = "⧉";
+    btnDup.textContent = "\u29c9";
     btnDup.onclick = () => {
-        const slots = container.querySelectorAll(".admin-slot");
-        if (slots.length >= 4) return;
+        if (container.querySelectorAll(".admin-slot").length >= 4) return;
         const sel = slot.querySelector(".admin-slot-select");
         const selected = sel ? [...sel.selectedOptions].map(o => o.value) : [];
-        ajouterSlot(container, selected);
-        mettreAJourNumeroSlots(container);
+        ajouterSlot(container, selected); mettreAJourNumeroSlots(container);
     };
 
-    slotHeader.appendChild(slotLabel);
-    slotHeader.appendChild(btnDup);
+    slotHeader.appendChild(slotLabel); slotHeader.appendChild(btnDup);
     slot.appendChild(slotHeader);
 
-    // Filtre catégorie rapide
-    const allCats = ["— " + (langue === "fr" ? "Toutes catégories" : "All categories")];
-    const cats = [...new Set([
-        ...ingredients.map(i => Array.isArray(i.category) ? i.category[li()] : i.category),
-        ...poissons.map(() => t("adminPoissonsDisponibles")),
-        ...collectibles.map(c => Array.isArray(c.type) ? c.type[li()] : c.type),
-        ...recettes.map(() => langue === "fr" ? "Recettes" : "Recipes")
-    ])].sort();
-    
     const filterRow = document.createElement("div");
     filterRow.className = "admin-slot-filter-row";
     const filterSel = document.createElement("select");
     filterSel.className = "admin-slot-filter-select";
-    ["", ...cats].forEach((cat, idx) => {
-        const opt = document.createElement("option");
-        opt.value = cat;
-        opt.textContent = idx === 0 ? (langue === "fr" ? "— Toutes catégories" : "— All categories") : cat;
-        filterSel.appendChild(opt);
-    });
+    const allCats = [...new Set([
+        ...ingredients.map(i => Array.isArray(i.category) ? i.category[li()] : i.category),
+        ...( poissons.length ? [t("adminPoissonsDisponibles")] : [] ),
+        ...collectibles.map(co => Array.isArray(co.type) ? co.type[li()] : co.type),
+        ...( recettes.length ? [langue === "fr" ? "Recettes" : "Recipes"] : [] )
+    ])].sort();
+    const optAll = document.createElement("option");
+    optAll.value = ""; optAll.textContent = langue === "fr" ? "\u2014 Toutes cat\u00e9gories" : "\u2014 All categories";
+    filterSel.appendChild(optAll);
+    allCats.forEach(cat => { const opt = document.createElement("option"); opt.value = cat; opt.textContent = cat; filterSel.appendChild(opt); });
     filterRow.appendChild(filterSel);
     slot.appendChild(filterRow);
 
-    // Multi-select des ingrédients autorisés
-    const selectWrapper = document.createElement("div");
-    selectWrapper.className = "admin-slot-select-wrapper";
-
     const select = document.createElement("select");
     select.className = "admin-slot-select";
-    select.multiple = true;
-    select.size = 7;
+    select.multiple = true; select.size = 7;
 
     const buildAll = (filter) => {
         select.innerHTML = "";
-
-        const ingItems = ingredients.map(i => ({
-            value: "ing:" + (Array.isArray(i.name) ? i.name[0] : i.name),
-            label: Array.isArray(i.name) ? i.name[li()] : i.name,
-            category: Array.isArray(i.category) ? i.category[li()] : i.category
-        }));
-        const poiItems = poissons.map(p => ({
-            value: "poi:" + (Array.isArray(p.name) ? p.name[0] : p.name),
-            label: Array.isArray(p.name) ? p.name[li()] : p.name,
-            category: t("adminPoissonsDisponibles")
-        }));
-        const colItems = collectibles.map(co => ({
-            value: "col:" + (Array.isArray(co.name) ? co.name[0] : co.name),
-            label: Array.isArray(co.name) ? co.name[li()] : co.name,
-            category: Array.isArray(co.type) ? co.type[li()] : co.type
-        }));
-        const recItems = recettes.map(r => ({
-            value: "rec:" + (Array.isArray(r.name) ? r.name[0] : r.name),
-            label: Array.isArray(r.name) ? r.name[li()] : r.name,
-            category: langue === "fr" ? "Recettes" : "Recipes"
-        }));
-
-        const allItems = [...ingItems, ...poiItems, ...colItems, ...recItems];
+        const allItems = [
+            ...ingredients.map(i => ({ value: "ing:" + (Array.isArray(i.name)?i.name[0]:i.name), label: Array.isArray(i.name)?i.name[li()]:i.name, category: Array.isArray(i.category)?i.category[li()]:i.category })),
+            ...poissons.map(p => ({ value: "poi:" + (Array.isArray(p.name)?p.name[0]:p.name), label: Array.isArray(p.name)?p.name[li()]:p.name, category: t("adminPoissonsDisponibles") })),
+            ...collectibles.map(co => ({ value: "col:" + (Array.isArray(co.name)?co.name[0]:co.name), label: Array.isArray(co.name)?co.name[li()]:co.name, category: Array.isArray(co.type)?co.type[li()]:co.type })),
+            ...recettes.map(r => ({ value: "rec:" + (Array.isArray(r.name)?r.name[0]:r.name), label: Array.isArray(r.name)?r.name[li()]:r.name, category: langue === "fr" ? "Recettes" : "Recipes" }))
+        ];
         const filtered = filter ? allItems.filter(it => it.category === filter) : allItems;
-
-        buildOptgroup(select, "", filtered, selectedItems);
+        buildOptgroup(select, filtered, selectedItems);
     };
-
     buildAll("");
     filterSel.addEventListener("change", () => buildAll(filterSel.value));
+    slot.appendChild(select);
 
-    selectWrapper.appendChild(select);
-    slot.appendChild(selectWrapper);
+    slotLabel.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        slotLabel.style.cursor = "grabbing";
+        slot.style.opacity = "0.6";
+        const onMove = (ev) => {
+            const els = document.elementsFromPoint(ev.clientX, ev.clientY);
+            const target = els.find(el => el.classList.contains("admin-slot") && el !== slot);
+            if (target) {
+                const slots = [...container.querySelectorAll(".admin-slot")];
+                if (slots.indexOf(target) > slots.indexOf(slot)) container.insertBefore(slot, target.nextSibling);
+                else container.insertBefore(slot, target);
+            }
+        };
+        const onUp = () => {
+            slot.style.opacity = "1"; slotLabel.style.cursor = "grab";
+            mettreAJourNumeroSlots(container);
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+        };
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
+    });
 
     container.appendChild(slot);
 }
 
-function buildOptgroup(select, label, items, selectedItems) {
-    // Grouper par catégorie
+function buildOptgroup(select, items, selectedItems) {
     const grouped = {};
-    items.forEach(item => {
-        const cat = item.category || label;
-        if (!grouped[cat]) grouped[cat] = [];
-        grouped[cat].push(item);
-    });
-
+    items.forEach(item => { const cat = item.category || "\u2014"; if (!grouped[cat]) grouped[cat]=[]; grouped[cat].push(item); });
     Object.entries(grouped).forEach(([cat, catItems]) => {
         const og = document.createElement("optgroup");
-        og.label = label ? `${label} — ${cat}` : cat;
-        catItems.forEach(({ value, label: itemLabel }) => {
+        og.label = cat;
+        catItems.forEach(({ value, label }) => {
             const opt = document.createElement("option");
-            opt.value = value;
-            opt.textContent = itemLabel;
-            if (selectedItems.includes(value)) opt.selected = true;
+            opt.value = value; opt.textContent = label;
+            if (selectedItems && selectedItems.includes(value)) opt.selected = true;
             og.appendChild(opt);
         });
         select.appendChild(og);
@@ -942,284 +780,174 @@ function buildOptgroup(select, label, items, selectedItems) {
 }
 
 function lireSlots(form) {
-    const slots = form.querySelectorAll(".admin-slot");
-    return [...slots].map(slot => {
+    return [...form.querySelectorAll(".admin-slot")].map(slot => {
         const sel = slot.querySelector(".admin-slot-select");
-        if (!sel) return [];
-        return [...sel.selectedOptions].map(opt => opt.value);
+        return sel ? [...sel.selectedOptions].map(opt => opt.value) : [];
     });
 }
 
 // =========================
-// 🧱 HELPERS FORMULAIRE
+// 🍳 PALIERS DE CUISINE
 // =========================
 
+function renderPaliers(existingPaliers) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "admin-champ";
+    wrapper.dataset.field = "paliers";
+
+    const titre = document.createElement("div");
+    titre.className = "admin-label";
+    titre.textContent = t("adminPaliersLabel");
+    wrapper.appendChild(titre);
+
+    const desc = document.createElement("div");
+    desc.className = "admin-paliers-desc";
+    desc.textContent = langue === "fr"
+        ? "Nombre de plats à cuisiner pour débloquer chaque niveau"
+        : "Number of dishes to cook to unlock each level";
+    wrapper.appendChild(desc);
+
+    const grid = document.createElement("div");
+    grid.className = "admin-paliers-grid";
+
+    [1, 2, 3].forEach((num, idx) => {
+        const group = document.createElement("div");
+        group.className = "admin-palier-group";
+
+        const lbl = document.createElement("label");
+        lbl.className = "admin-label";
+        lbl.textContent = t("adminPalier" + num);
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.inputMode = "numeric";
+        input.pattern = "[0-9]*";
+        input.className = "admin-input admin-input-number";
+        input.dataset.field = "palier" + num;
+        input.value = (existingPaliers && existingPaliers[idx] != null) ? existingPaliers[idx] : "";
+        input.placeholder = "—";
+        input.addEventListener("input", () => {
+            input.value = input.value.replace(/[^0-9]/g, "");
+        });
+
+        group.appendChild(lbl);
+        group.appendChild(input);
+        grid.appendChild(group);
+    });
+
+    wrapper.appendChild(grid);
+    return wrapper;
+}
+
+function lirePaliers(form) {
+    const paliers = [];
+    [1, 2, 3].forEach(num => {
+        const input = form.querySelector('[data-field="palier' + num + '"]');
+        const val = input ? parseInt(input.value) : NaN;
+        paliers.push(isNaN(val) ? null : val);
+    });
+    return paliers;
+}
+
 function champTexte(field, label, valeur = "") {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "admin-input";
-    input.value = valeur;
-    input.dataset.field = field;
-    div.appendChild(lbl);
-    div.appendChild(input);
-    return div;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
+    const input = document.createElement("input"); input.type = "text"; input.className = "admin-input"; input.value = valeur; input.dataset.field = field;
+    div.appendChild(lbl); div.appendChild(input); return div;
 }
 
 function champNombre(field, label, min, max, valeur) {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-    const input = document.createElement("input");
-    input.type = "number";
-    input.className = "admin-input admin-input-number";
-    input.min = min;
-    input.max = max;
-    input.value = valeur;
-    input.dataset.field = field;
-    div.appendChild(lbl);
-    div.appendChild(input);
-    return div;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
+    const input = document.createElement("input"); input.type = "number"; input.className = "admin-input admin-input-number"; input.min = min; input.max = max; input.value = valeur; input.dataset.field = field;
+    div.appendChild(lbl); div.appendChild(input); return div;
 }
 
 function champTexteNombre(field, label, valeur = 0) {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-    const input = document.createElement("input");
-    input.type = "text";
-    input.inputMode = "numeric";
-    input.pattern = "[0-9]*";
-    input.className = "admin-input admin-input-number";
-    input.value = valeur;
-    input.dataset.field = field;
-    input.addEventListener("input", () => {
-        input.value = input.value.replace(/[^0-9]/g, "");
-    });
-    div.appendChild(lbl);
-    div.appendChild(input);
-    return div;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
+    const input = document.createElement("input"); input.type = "text"; input.inputMode = "numeric"; input.pattern = "[0-9]*"; input.className = "admin-input admin-input-number"; input.value = valeur; input.dataset.field = field;
+    input.addEventListener("input", () => { input.value = input.value.replace(/[^0-9]/g, ""); });
+    div.appendChild(lbl); div.appendChild(input); return div;
 }
 
 function champCouleur(field, label, valeur = "#e67e22") {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-    const input = document.createElement("input");
-    input.type = "color";
-    input.className = "admin-input admin-input-color";
-    input.value = valeur;
-    input.dataset.field = field;
-    div.appendChild(lbl);
-    div.appendChild(input);
-    return div;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
+    const input = document.createElement("input"); input.type = "color"; input.className = "admin-input admin-input-color"; input.value = valeur; input.dataset.field = field;
+    div.appendChild(lbl); div.appendChild(input); return div;
 }
 
 function champSelect(field, label, options, valeurSelectionnee = "") {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-    const sel = document.createElement("select");
-    sel.className = "admin-select";
-    sel.dataset.field = field;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
+    const sel = document.createElement("select"); sel.className = "admin-select"; sel.dataset.field = field;
     options.forEach(({ value, text, disabled }) => {
-        const opt = document.createElement("option");
-        opt.value = value;
-        opt.textContent = text;
-        if (disabled) opt.disabled = true;
-        if (value === valeurSelectionnee) opt.selected = true;
+        const opt = document.createElement("option"); opt.value = value; opt.textContent = text;
+        if (disabled) opt.disabled = true; if (value === valeurSelectionnee) opt.selected = true;
         sel.appendChild(opt);
     });
-    div.appendChild(lbl);
-    div.appendChild(sel);
-    return div;
+    div.appendChild(lbl); div.appendChild(sel); return div;
 }
 
 function champSelectCategorie(field, label, valeurSelectionnee = "") {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-
-    const row = document.createElement("div");
-    row.style.display = "flex";
-    row.style.gap = "8px";
-    row.style.alignItems = "center";
-
-    const sel = document.createElement("select");
-    sel.className = "admin-select";
-    sel.dataset.field = field;
-
-    // Option nouvelle catégorie
-    const optNew = document.createElement("option");
-    optNew.value = "__new__";
-    optNew.textContent = "➕ " + t("adminNouvelleCategorie");
-    sel.appendChild(optNew);
-
-    // Catégories existantes (déduplication sur le nom FR/EN selon langue)
-    const typesRaw = [...new Set(collectibles.map(c => {
-        if (Array.isArray(c.type)) return c.type[0]; // stocké en FR
-        return c.type;
-    }))].sort();
-    typesRaw.forEach(tp => {
-        const opt = document.createElement("option");
-        opt.value = tp; // toujours la valeur FR pour la cohérence
-        opt.textContent = tp;
-        if (tp === valeurSelectionnee) opt.selected = true;
-        sel.appendChild(opt);
-    });
-
-    const inputNew = document.createElement("input");
-    inputNew.type = "text";
-    inputNew.className = "admin-input";
-    inputNew.placeholder = t("adminNouvelleCategorie") + "...";
-    inputNew.dataset.field = field + "_new";
-    inputNew.style.display = sel.value === "__new__" ? "" : "none";
-
-    sel.addEventListener("change", () => {
-        inputNew.style.display = sel.value === "__new__" ? "" : "none";
-        if (sel.value !== "__new__") inputNew.dataset.field = "";
-        else inputNew.dataset.field = field + "_new";
-    });
-
-    // Surcharge du get pour retourner la bonne valeur
-    // On va utiliser un champ hidden
-    const hiddenField = document.createElement("input");
-    hiddenField.type = "hidden";
-    hiddenField.dataset.field = field;
-    hiddenField.value = valeurSelectionnee || "";
-
-    sel.addEventListener("change", () => {
-        hiddenField.value = sel.value === "__new__" ? inputNew.value : sel.value;
-    });
-    inputNew.addEventListener("input", () => {
-        hiddenField.value = inputNew.value;
-    });
-
-    row.appendChild(sel);
-    row.appendChild(inputNew);
-    div.appendChild(lbl);
-    div.appendChild(row);
-    div.appendChild(hiddenField);
-    return div;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
+    const row = document.createElement("div"); row.style.cssText = "display:flex;gap:8px;align-items:center;";
+    const sel = document.createElement("select"); sel.className = "admin-select";
+    const optNew = document.createElement("option"); optNew.value = "__new__"; optNew.textContent = "\u2795 " + t("adminNouvelleCategorie"); sel.appendChild(optNew);
+    const typesRaw = [...new Set(collectibles.map(c => Array.isArray(c.type)?c.type[0]:c.type))].sort();
+    typesRaw.forEach(tp => { const opt = document.createElement("option"); opt.value = tp; opt.textContent = tp; if (tp === valeurSelectionnee) opt.selected = true; sel.appendChild(opt); });
+    const inputNew = document.createElement("input"); inputNew.type = "text"; inputNew.className = "admin-input"; inputNew.placeholder = t("adminNouvelleCategorie") + "..."; inputNew.style.display = sel.value === "__new__" ? "" : "none";
+    const hiddenField = document.createElement("input"); hiddenField.type = "hidden"; hiddenField.dataset.field = field; hiddenField.value = valeurSelectionnee || "";
+    sel.addEventListener("change", () => { const isNew = sel.value === "__new__"; inputNew.style.display = isNew ? "" : "none"; hiddenField.value = isNew ? inputNew.value : sel.value; });
+    inputNew.addEventListener("input", () => { hiddenField.value = inputNew.value; });
+    row.appendChild(sel); row.appendChild(inputNew);
+    div.appendChild(lbl); div.appendChild(row); div.appendChild(hiddenField); return div;
 }
 
 function champCheckboxes(field, label, options, toutCoche = false, cochesInitiales = []) {
-    const div = document.createElement("div");
-    div.className = "admin-champ";
-    const lbl = document.createElement("label");
-    lbl.className = "admin-label";
-    lbl.textContent = label;
-    div.appendChild(lbl);
-    const group = document.createElement("div");
-    group.className = "admin-checkbox-group";
-    group.dataset.group = field;
+    const div = document.createElement("div"); div.className = "admin-champ";
+    const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label; div.appendChild(lbl);
+    const group = document.createElement("div"); group.className = "admin-checkbox-group"; group.dataset.group = field;
     options.forEach(({ val, label: optLabel }) => {
-        const lbEl = document.createElement("label");
-        lbEl.className = "admin-checkbox-label";
-        const cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.value = val;
-        cb.checked = toutCoche || cochesInitiales.includes(val);
-        lbEl.appendChild(cb);
-        lbEl.appendChild(document.createTextNode(" " + optLabel));
-        group.appendChild(lbEl);
+        const lbEl = document.createElement("label"); lbEl.className = "admin-checkbox-label";
+        const cb = document.createElement("input"); cb.type = "checkbox"; cb.value = val; cb.checked = toutCoche || cochesInitiales.includes(val);
+        lbEl.appendChild(cb); lbEl.appendChild(document.createTextNode(" " + optLabel)); group.appendChild(lbEl);
     });
-    div.appendChild(group);
-    return div;
+    div.appendChild(group); return div;
 }
 
-// =========================
-// 🔧 HELPERS DONNÉES
-// =========================
-
 function getDataPourType(type) {
-    if (type === "poisson") return poissons;
-    if (type === "insecte") return insectes;
-    if (type === "oiseau") return oiseaux;
-    if (type === "collectible") return collectibles;
-    if (type === "ingredient") return ingredients;
-    if (type === "recette") return recettes;
+    if (type === "poisson") return poissons; if (type === "insecte") return insectes;
+    if (type === "oiseau") return oiseaux; if (type === "collectible") return collectibles;
+    if (type === "ingredient") return ingredients; if (type === "recette") return recettes;
     return [];
 }
 
 function getLieuxPourType(type) {
     const options = [];
-
     let generiques = [...lieuxGeneriques];
-    if (type === "poisson") generiques = generiques.filter(l => ["Lacs", "Rivières", "Mers"].includes(l));
-    else if (type === "insecte") generiques = generiques.filter(l => !["Mers", "Au sommet de la tête de Blanc"].includes(l));
-
-    generiques.forEach(l => options.push({ value: l, text: "🌍 " + l }));
-    options.push({ value: "", text: "──────────", disabled: true });
-
-    let lieux = [...places].sort((a, b) => {
-        const na = Array.isArray(a.name) ? a.name[0] : a.name;
-        const nb = Array.isArray(b.name) ? b.name[0] : b.name;
-        return na.localeCompare(nb, "fr");
-    });
-
-    if (type === "poisson") {
-        const mots = ["lac", "mer", "rivière", "fleuve"];
-        lieux = lieux.filter(p => {
-            const n = Array.isArray(p.name) ? p.name[0] : p.name;
-            return mots.some(mot => new RegExp(`\\b${mot}`, "i").test(n));
-        });
-    } else if (type === "oiseau") {
-        lieux = lieux.filter(p => {
-            const n = Array.isArray(p.name) ? p.name[0] : p.name;
-            return !["insectes", "Événement : pêche"].some(m => n.includes(m));
-        });
-    } else if (type === "insecte") {
-        lieux = lieux.filter(p => {
-            const n = Array.isArray(p.name) ? p.name[0] : p.name;
-            return !["mer", "oiseaux"].some(mot => new RegExp(`\\b${mot}`, "i").test(n));
-        });
-    }
-
-    lieux.forEach(p => {
-        const nameFr = Array.isArray(p.name) ? p.name[0] : p.name;
-        options.push({ value: nameFr, text: nameFr });
-    });
-
+    if (type === "poisson") generiques = generiques.filter(l => ["Lacs","Rivi\u00e8res","Mers"].includes(l));
+    else if (type === "insecte") generiques = generiques.filter(l => !["Mers","Au sommet de la t\u00eate de Blanc"].includes(l));
+    generiques.forEach(l => options.push({ value: l, text: "\ud83c\udf0d " + l }));
+    options.push({ value: "", text: "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", disabled: true });
+    let lieux = [...places].sort((a,b) => { const na=Array.isArray(a.name)?a.name[0]:a.name; const nb=Array.isArray(b.name)?b.name[0]:b.name; return na.localeCompare(nb,"fr"); });
+    if (type === "poisson") lieux = lieux.filter(p => { const n=Array.isArray(p.name)?p.name[0]:p.name; return ["lac","mer","rivi\u00e8re","fleuve"].some(m => new RegExp("\\b"+m,"i").test(n)); });
+    else if (type === "oiseau") lieux = lieux.filter(p => { const n=Array.isArray(p.name)?p.name[0]:p.name; return !["insectes","\u00c9v\u00e9nement : p\u00eache"].some(m => n.includes(m)); });
+    else if (type === "insecte") lieux = lieux.filter(p => { const n=Array.isArray(p.name)?p.name[0]:p.name; return !["mer","oiseaux"].some(m => new RegExp("\\b"+m,"i").test(n)); });
+    lieux.forEach(p => { const nameFr=Array.isArray(p.name)?p.name[0]:p.name; options.push({ value: nameFr, text: nameFr }); });
     return options;
 }
 
-// =========================
-// 🔄 MISE À JOUR UI ADMIN
-// =========================
-
 function mettreAJourAdminUI() {
-    // Re-render les sections ouvertes si admin actif
     if (mode !== "admin") return;
     if (adminSectionActive) {
-        const body = document.getElementById(`adminSectionBody-${adminSectionActive}`);
-        if (body && !body.classList.contains("hidden")) {
-            renderAdminSectionBody(adminSectionActive, body);
-        }
+        const body = document.getElementById("adminSectionBody-" + adminSectionActive);
+        if (body && !body.classList.contains("hidden")) renderAdminSectionBody(adminSectionActive, body);
     }
-    // Mettre à jour les labels des sections
-    const sectionLabels = [
-        { key: "ajouter", labelKey: "adminSectionAjouter" },
-        { key: "modifier", labelKey: "adminSectionModifier" },
-        { key: "supprimer", labelKey: "adminSectionSupprimer" },
-        { key: "importexport", labelKey: "adminSectionImportExport" }
-    ];
-    sectionLabels.forEach(({ key, labelKey }) => {
-        const header = document.querySelector(`#adminSection-${key} .admin-section-header span`);
+    [{ key:"ajouter",labelKey:"adminSectionAjouter" },{ key:"modifier",labelKey:"adminSectionModifier" },{ key:"supprimer",labelKey:"adminSectionSupprimer" },{ key:"importexport",labelKey:"adminSectionImportExport" }].forEach(({ key, labelKey }) => {
+        const header = document.querySelector("#adminSection-" + key + " .admin-section-header span");
         if (header) header.textContent = t(labelKey);
     });
 }
