@@ -1,6 +1,8 @@
 // =========================
 // 🍳 ONGLET RECETTES
 // =========================
+
+let currentRecettesSubTab = "liste"; // mémorise le sous-onglet actif
 // 3 sous-onglets :
 //  1. recettes   — liste + détails + prix par étoile
 //  2. profit     — classement décroissant profit
@@ -124,6 +126,7 @@ function switchTabRecettes(subTab) {
     document.querySelectorAll(".tab-btn-recettes").forEach(b => b.classList.remove("active"));
     document.getElementById("recettes-sub-" + subTab).classList.add("active");
     document.querySelector(`.tab-btn-recettes[data-sub="${subTab}"]`).classList.add("active");
+    currentRecettesSubTab = subTab;
     renderRecettesSubTab(subTab);
 }
 
@@ -149,15 +152,15 @@ function initOngletRecettes() {
     bar.className = "tabbar-recettes";
 
     const subTabs = [
-        { key: "liste",   labelFr: "📖 Infos",                        labelEn: "📖 Infos" },
-        { key: "profit",  labelFr: "💰 Classement de profit",                          labelEn: "💰 Profit ranking" },
-        { key: "energie", labelFr: "⚡ Classement d'énergie",                          labelEn: "⚡ Energy ranking" },
-        { key: "calc",    labelFr: "🧮 Calculateur de maîtrise de cuisine", labelEn: "🧮 Cooking mastery calculator" }
+        { key: "liste",   labelFr: "📖 Infos",                                labelEn: "📖 Infos" },
+        { key: "profit",  labelFr: "💰 Classement de profit",                 labelEn: "💰 Profit ranking" },
+        { key: "energie", labelFr: "⚡ Classement d'énergie",                labelEn: "⚡ Energy ranking" },
+        { key: "calc",    labelFr: "🧮 Calculateur de maîtrise de cuisine",   labelEn: "🧮 Cooking mastery calculator" }
     ];
 
     subTabs.forEach(({ key, labelFr, labelEn }, idx) => {
         const btn = document.createElement("button");
-        btn.className = "tab-btn-recettes" + (idx === 0 ? " active" : "");
+        btn.className = "tab-btn-recettes" + (key === currentRecettesSubTab ? " active" : "");
         btn.dataset.sub = key;
         btn.textContent = langue === "fr" ? labelFr : labelEn;
         btn.onclick = () => switchTabRecettes(key);
@@ -166,14 +169,15 @@ function initOngletRecettes() {
     container.appendChild(bar);
 
     // Zones de contenu
-    subTabs.forEach(({ key }, idx) => {
+    subTabs.forEach(({ key }) => {
         const div = document.createElement("div");
-        div.className = "recettes-sub-content" + (idx === 0 ? " active" : "");
+        div.className = "recettes-sub-content" + (key === currentRecettesSubTab ? " active" : "");
         div.id = "recettes-sub-" + key;
         container.appendChild(div);
     });
 
-    renderRecettesListe();
+    // Restaurer le sous-onglet actif
+    renderRecettesSubTab(currentRecettesSubTab);
 }
 
 // =========================
@@ -191,6 +195,19 @@ function renderRecettesListe() {
     }
 
     const sorted = [...recettes].sort((a, b) => getNomRecette(a).localeCompare(getNomRecette(b), "fr"));
+    const listContent = document.createElement("div");
+
+    const barre = creerBarreRecherche(
+        langue === "fr" ? "Rechercher une recette..." : "Search a recipe...",
+        (q) => {
+            listContent.querySelectorAll(".recette-card").forEach(card => {
+                const nom = card.querySelector(".recette-card-nom");
+                card.style.display = (nom && matchSearch(nom.textContent, q)) ? "" : "none";
+            });
+        }
+    );
+    zone.appendChild(barre);
+    zone.appendChild(listContent);
 
     sorted.forEach(r => {
         const card = document.createElement("div");
@@ -227,7 +244,7 @@ function renderRecettesListe() {
         });
 
         card.appendChild(details);
-        zone.appendChild(card);
+        listContent.appendChild(card);
     });
 }
 
@@ -311,6 +328,19 @@ function renderRecettesProfit() {
         return;
     }
 
+    const profitContent = document.createElement("div");
+    const barreProfit = creerBarreRecherche(
+        langue === "fr" ? "Rechercher une recette..." : "Search a recipe...",
+        (q) => {
+            profitContent.querySelectorAll(".recette-card").forEach(card => {
+                const nom = card.querySelector(".recette-card-nom");
+                card.style.display = (nom && matchSearch(nom.textContent, q)) ? "" : "none";
+            });
+        }
+    );
+    zone.appendChild(barreProfit);
+    zone.appendChild(profitContent);
+
     // Calculer profit pour chaque recette (étoile 1)
     const withProfit = recettes.map(r => {
         const vente = r.sellPrice || 0;
@@ -325,7 +355,7 @@ function renderRecettesProfit() {
 
     withProfit.sort((a, b) => b.profit - a.profit);
 
-    withProfit.forEach(({ r, vente, couts, totalCout, profit }) => {
+    withProfit.forEach(({ r, vente, couts, totalCout, profit }, rankIdx) => {
         const card = document.createElement("div");
         card.className = "recette-card";
 
@@ -344,10 +374,13 @@ function renderRecettesProfit() {
         arrow.className = "recette-card-arrow";
         arrow.textContent = "▶";
 
-        header.appendChild(gauche);
+                const rang = document.createElement("span");
+        rang.className = "recette-rang";
+        rang.textContent = "#" + (rankIdx + 1);
+
+        header.insertBefore(rang, gauche);
         header.appendChild(droite);
-        header.appendChild(arrow);
-        card.appendChild(header);
+        header.appendChild(arrow); card.appendChild(header);
 
         const details = document.createElement("div");
         details.className = "recette-card-details hidden";
@@ -374,6 +407,9 @@ function renderRecettesProfit() {
                 venteVal.textContent = vente + " 🪙";
                 colVente.appendChild(venteVal);
 
+                const separateur = document.createElement("div");
+                separateur.className = "recette-profit-sep";
+
                 const colCout = document.createElement("div");
                 colCout.className = "recette-profit-col";
                 colCout.innerHTML = `<div class="recette-detail-titre">${langue === "fr" ? "Coût des ingrédients" : "Ingredient cost"}</div>`;
@@ -391,13 +427,14 @@ function renderRecettesProfit() {
                 colCout.appendChild(totalRow);
 
                 cols.appendChild(colVente);
+                cols.appendChild(separateur);
                 cols.appendChild(colCout);
                 details.appendChild(cols);
             }
         });
 
         card.appendChild(details);
-        zone.appendChild(card);
+        profitContent.appendChild(card);
     });
 }
 
@@ -415,40 +452,64 @@ function renderRecettesEnergie() {
         return;
     }
 
-    // Trier par énergie décroissante, ignorer les recettes sans énergie
-    const sorted = [...recettes]
-        .filter(r => r.energy && r.energy > 0)
-        .sort((a, b) => (b.energy || 0) - (a.energy || 0));
-
-    if (sorted.length === 0) {
+    const withEnergy = [...recettes].filter(r => r.energy && r.energy > 0);
+    if (withEnergy.length === 0) {
         zone.innerHTML = `<div class="recettes-empty">${langue === "fr" ? "Aucune recette avec une valeur d'énergie." : "No recipes with an energy value."}</div>`;
         return;
     }
 
-    sorted.forEach((r, rank) => {
+    // Grouper par valeur d'énergie
+    const groups = {};
+    withEnergy.forEach(r => {
+        const e = r.energy;
+        if (!groups[e]) groups[e] = [];
+        groups[e].push(r);
+    });
+
+    // Trier les groupes par énergie décroissante
+    const sortedKeys = Object.keys(groups).map(Number).sort((a, b) => b - a);
+
+    const energieContent = document.createElement("div");
+    const barreEnergie = creerBarreRecherche(
+        langue === "fr" ? "Rechercher une recette..." : "Search a recipe...",
+        (q) => {
+            energieContent.querySelectorAll(".recette-energie-group").forEach(card => {
+                const nom = card.querySelector(".recette-energie-noms");
+                card.style.display = (nom && matchSearch(nom.textContent, q)) ? "" : "none";
+            });
+        }
+    );
+    zone.appendChild(barreEnergie);
+    zone.appendChild(energieContent);
+
+    let rank = 1;
+    sortedKeys.forEach(energie => {
+        const noms = groups[energie].map(r => getNomRecette(r)).sort((a, b) => a.localeCompare(b, "fr"));
         const card = document.createElement("div");
-        card.className = "recette-card";
+        card.className = "recette-card recette-energie-group";
 
         const header = document.createElement("div");
         header.className = "recette-card-header";
 
         const rang = document.createElement("span");
         rang.className = "recette-rang";
-        rang.textContent = "#" + (rank + 1);
+        rang.textContent = "#" + rank;
 
-        const nom = document.createElement("span");
-        nom.className = "recette-card-nom";
-        nom.textContent = getNomRecette(r);
+        const nomSpan = document.createElement("span");
+        nomSpan.className = "recette-card-nom recette-energie-noms";
+        nomSpan.textContent = noms.join(" / ");
 
         const badge = document.createElement("span");
         badge.className = "recette-energie-badge";
-        badge.textContent = "⚡ " + r.energy;
+        badge.textContent = "⚡ " + energie;
 
         header.appendChild(rang);
-        header.appendChild(nom);
+        header.appendChild(nomSpan);
         header.appendChild(badge);
         card.appendChild(header);
-        zone.appendChild(card);
+        energieContent.appendChild(card);
+
+        rank += groups[energie].length;
     });
 }
 

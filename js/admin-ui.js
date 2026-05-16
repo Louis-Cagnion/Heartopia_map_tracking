@@ -214,9 +214,11 @@ function renderFormulaireAjouter(type, zone) {
     } else if (type === "recette") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel")));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel")));
-        form.appendChild(champTexteNombre("energy", t("adminEnergy"), 0));
-        form.appendChild(champTexteNombre("sellPrice", t("adminSellPrice"), 0));
-        form.appendChild(renderPaliers([]));
+        form.appendChild(recetteRow3Cols(
+            champTexteNombre("energy", t("adminEnergy"), 0),
+            champTexteNombre("sellPrice", t("adminSellPrice"), 0),
+            renderPaliers([])
+        ));
         form.appendChild(renderSlotsIngredients([]));
     }
 
@@ -318,9 +320,11 @@ function renderFormulaireModifierRempli(type, el, zone) {
     } else if (type === "recette") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel"), nameFr));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel"), nameEn));
-        form.appendChild(champTexteNombre("energy", t("adminEnergy"), el.energy || 0));
-        form.appendChild(champTexteNombre("sellPrice", t("adminSellPrice"), el.sellPrice || 0));
-        form.appendChild(renderPaliers(el.paliers || []));
+        form.appendChild(recetteRow3Cols(
+            champTexteNombre("energy", t("adminEnergy"), el.energy || 0),
+            champTexteNombre("sellPrice", t("adminSellPrice"), el.sellPrice || 0),
+            renderPaliers(el.paliers || [])
+        ));
         form.appendChild(renderSlotsIngredients(el.ingredients || []));
     }
 
@@ -568,7 +572,30 @@ function sauvegarderElement(type, form, estModification) {
     if (estModification) {
         const selMod = document.getElementById("modifierSelect-" + type);
         const zoneForm = document.getElementById("modifierFormZone-" + type);
-        if (selMod && zoneForm) renderFormulaireModifierRempli(type, adminElementEdite, zoneForm);
+        if (selMod && zoneForm) {
+            // Actualiser la liste déroulante si le nom a changé
+            const nouvNomFr = Array.isArray(adminElementEdite.name) ? adminElementEdite.name[0] : adminElementEdite.name;
+            const optExist = [...selMod.options].find(o => o.value === nouvNomFr);
+            if (!optExist) {
+                // Reconstruire toutes les options
+                const data = getDataPourType(type);
+                const valeurPrecedente = selMod.value;
+                while (selMod.options.length > 1) selMod.remove(1);
+                [...data].sort((a, b) => {
+                    const na = Array.isArray(a.name) ? a.name[0] : a.name;
+                    const nb = Array.isArray(b.name) ? b.name[0] : b.name;
+                    return na.localeCompare(nb, "fr");
+                }).forEach(el => {
+                    const opt = document.createElement("option");
+                    const nFr = Array.isArray(el.name) ? el.name[0] : el.name;
+                    opt.value = nFr;
+                    opt.textContent = nFr;
+                    selMod.appendChild(opt);
+                });
+                selMod.value = nouvNomFr;
+            }
+            renderFormulaireModifierRempli(type, adminElementEdite, zoneForm);
+        }
     }
 }
 
@@ -790,7 +817,17 @@ function lireSlots(form) {
 // 🍳 PALIERS DE CUISINE
 // =========================
 
+function recetteRow3Cols(el1, el2, el3) {
+    const row = document.createElement("div");
+    row.className = "admin-recette-row3";
+    row.appendChild(el1);
+    row.appendChild(el2);
+    row.appendChild(el3);
+    return row;
+}
+
 function renderPaliers(existingPaliers) {
+    // existingPaliers = [p1, p2, p3] — on n'affiche que palier1, les 2 autres sont calculés
     const wrapper = document.createElement("div");
     wrapper.className = "admin-champ";
     wrapper.dataset.field = "paliers";
@@ -800,53 +837,58 @@ function renderPaliers(existingPaliers) {
     titre.textContent = t("adminPaliersLabel");
     wrapper.appendChild(titre);
 
-    const desc = document.createElement("div");
-    desc.className = "admin-paliers-desc";
-    desc.textContent = langue === "fr"
-        ? "Nombre de plats à cuisiner pour débloquer chaque niveau"
-        : "Number of dishes to cook to unlock each level";
-    wrapper.appendChild(desc);
+    // Un seul champ : palier 1 (les paliers 2 et 3 = ×3 et ×6)
+    const row = document.createElement("div");
+    row.className = "admin-paliers-single-row";
 
-    const grid = document.createElement("div");
-    grid.className = "admin-paliers-grid";
+    const lbl = document.createElement("label");
+    lbl.className = "admin-label";
+    lbl.textContent = t("adminPalier1");
 
-    [1, 2, 3].forEach((num, idx) => {
-        const group = document.createElement("div");
-        group.className = "admin-palier-group";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.pattern = "[0-9]*";
+    input.className = "admin-input admin-input-number";
+    input.dataset.field = "palier1";
+    const p1val = (existingPaliers && existingPaliers[0] != null) ? existingPaliers[0] : "";
+    input.value = p1val;
+    input.placeholder = "—";
 
-        const lbl = document.createElement("label");
-        lbl.className = "admin-label";
-        lbl.textContent = t("adminPalier" + num);
+    const preview = document.createElement("div");
+    preview.className = "admin-paliers-preview";
 
-        const input = document.createElement("input");
-        input.type = "text";
-        input.inputMode = "numeric";
-        input.pattern = "[0-9]*";
-        input.className = "admin-input admin-input-number";
-        input.dataset.field = "palier" + num;
-        input.value = (existingPaliers && existingPaliers[idx] != null) ? existingPaliers[idx] : "";
-        input.placeholder = "—";
-        input.addEventListener("input", () => {
-            input.value = input.value.replace(/[^0-9]/g, "");
-        });
+    const updatePreview = () => {
+        const p1 = parseInt(input.value);
+        if (isNaN(p1) || p1 <= 0) {
+            preview.textContent = "";
+            return;
+        }
+        const p2 = p1 * 3;
+        const p3 = p1 * 6;
+        preview.textContent = langue === "fr"
+            ? `→ Palier 2 : ${p2} plats  |  Palier 3 : ${p3} plats`
+            : `→ Tier 2: ${p2} dishes  |  Tier 3: ${p3} dishes`;
+    };
 
-        group.appendChild(lbl);
-        group.appendChild(input);
-        grid.appendChild(group);
+    input.addEventListener("input", () => {
+        input.value = input.value.replace(/[^0-9]/g, "");
+        updatePreview();
     });
+    updatePreview();
 
-    wrapper.appendChild(grid);
+    row.appendChild(lbl);
+    row.appendChild(input);
+    wrapper.appendChild(row);
+    wrapper.appendChild(preview);
     return wrapper;
 }
 
 function lirePaliers(form) {
-    const paliers = [];
-    [1, 2, 3].forEach(num => {
-        const input = form.querySelector('[data-field="palier' + num + '"]');
-        const val = input ? parseInt(input.value) : NaN;
-        paliers.push(isNaN(val) ? null : val);
-    });
-    return paliers;
+    const input = form.querySelector('[data-field="palier1"]');
+    const p1 = input ? parseInt(input.value) : NaN;
+    if (isNaN(p1) || p1 <= 0) return [null, null, null];
+    return [p1, p1 * 3, p1 * 6];
 }
 
 function champTexte(field, label, valeur = "") {

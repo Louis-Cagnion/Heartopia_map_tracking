@@ -141,11 +141,7 @@
 .profit-positif { background: #1a3a1a; color: #2ecc71; }
 .profit-negatif { background: #3a1a1a; color: #e74c3c; }
 
-.recette-profit-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
+/* recette-profit-cols défini plus bas avec séparateur */
 
 .recette-profit-col { display: flex; flex-direction: column; gap: 4px; }
 
@@ -312,4 +308,32 @@
     padding: 2px 10px;
     border-radius: 12px;
     flex-shrink: 0;
+}
+
+/* =========================
+   SÉPARATEUR PROFIT
+   ========================= */
+
+.recette-profit-cols {
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr;
+    gap: 0 16px;
+    align-items: start;
+}
+
+.recette-profit-sep {
+    background: #333;
+    width: 2px;
+    min-height: 60px;
+    border-radius: 1px;
+    align-self: stretch;
+}
+
+/* Énergie groupée */
+.recette-energie-noms {
+    flex: 1;
+    text-align: left;
+    font-weight: normal;
+    font-size: calc(var(--ui-font-size) - 1px);
+    color: #ccc;
 }

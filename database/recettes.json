@@ -25,7 +25,12 @@
       ]
     ],
     "energy": 15,
-    "sellPrice": 90
+    "sellPrice": 90,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -75,7 +80,12 @@
       ]
     ],
     "energy": 22,
-    "sellPrice": 160
+    "sellPrice": 160,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -97,7 +107,12 @@
       ]
     ],
     "energy": 30,
-    "sellPrice": 250
+    "sellPrice": 250,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -119,7 +134,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 180
+    "sellPrice": 180,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -141,7 +161,12 @@
       ]
     ],
     "energy": 22,
-    "sellPrice": 170
+    "sellPrice": 170,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -163,7 +188,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 270
+    "sellPrice": 270,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -185,7 +215,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 270
+    "sellPrice": 270,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -207,7 +242,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 1580
+    "sellPrice": 1580,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -229,7 +269,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 280
+    "sellPrice": 280,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -251,7 +296,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 2020
+    "sellPrice": 2020,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -417,7 +467,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 250
+    "sellPrice": 250,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -436,7 +491,12 @@
       ]
     ],
     "energy": 50,
-    "sellPrice": 480
+    "sellPrice": 480,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -471,7 +531,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 550
+    "sellPrice": 550,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -493,7 +558,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 670
+    "sellPrice": 670,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -515,7 +585,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 670
+    "sellPrice": 670,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -537,7 +612,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 670
+    "sellPrice": 670,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -559,7 +639,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 670
+    "sellPrice": 670,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -581,7 +666,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 570
+    "sellPrice": 570,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -603,7 +693,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 570
+    "sellPrice": 570,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -625,7 +720,12 @@
       ]
     ],
     "energy": 48,
-    "sellPrice": 570
+    "sellPrice": 570,
+    "paliers": [
+      45,
+      135,
+      270
+    ]
   },
   {
     "name": [
@@ -657,9 +757,9 @@
     "energy": 35,
     "sellPrice": 500,
     "paliers": [
-      null,
-      null,
-      null
+      120,
+      360,
+      720
     ]
   },
   {
@@ -682,7 +782,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 500
+    "sellPrice": 500,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -704,7 +809,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 500
+    "sellPrice": 500,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -726,7 +836,12 @@
       ]
     ],
     "energy": 35,
-    "sellPrice": 500
+    "sellPrice": 500,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -748,7 +863,12 @@
       ]
     ],
     "energy": 80,
-    "sellPrice": 830
+    "sellPrice": 830,
+    "paliers": [
+      80,
+      240,
+      480
+    ]
   },
   {
     "name": [
@@ -788,7 +908,12 @@
       ]
     ],
     "energy": 15,
-    "sellPrice": 180
+    "sellPrice": 180,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -810,7 +935,12 @@
       ]
     ],
     "energy": 15,
-    "sellPrice": 180
+    "sellPrice": 180,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -832,7 +962,12 @@
       ]
     ],
     "energy": 15,
-    "sellPrice": 180
+    "sellPrice": 180,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -854,7 +989,12 @@
       ]
     ],
     "energy": 15,
-    "sellPrice": 180
+    "sellPrice": 180,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -876,7 +1016,12 @@
       ]
     ],
     "energy": 15,
-    "sellPrice": 180
+    "sellPrice": 180,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -898,7 +1043,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 290
+    "sellPrice": 290,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -920,7 +1070,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 300
+    "sellPrice": 300,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -1020,7 +1175,12 @@
       ]
     ],
     "energy": 50,
-    "sellPrice": 520
+    "sellPrice": 520,
+    "paliers": [
+      160,
+      480,
+      960
+    ]
   },
   {
     "name": [
@@ -1209,7 +1369,12 @@
       ]
     ],
     "energy": 40,
-    "sellPrice": 490
+    "sellPrice": 490,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -1228,7 +1393,12 @@
       ]
     ],
     "energy": 60,
-    "sellPrice": 640
+    "sellPrice": 640,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -1250,7 +1420,12 @@
       ]
     ],
     "energy": 90,
-    "sellPrice": 900
+    "sellPrice": 900,
+    "paliers": [
+      80,
+      240,
+      480
+    ]
   },
   {
     "name": [
@@ -1355,7 +1530,12 @@
       ]
     ],
     "energy": 70,
-    "sellPrice": 780
+    "sellPrice": 780,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -1377,7 +1557,12 @@
       ]
     ],
     "energy": 80,
-    "sellPrice": 670
+    "sellPrice": 670,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -1399,29 +1584,12 @@
       ]
     ],
     "energy": 70,
-    "sellPrice": 730
-  },
-  {
-    "name": [
-      "Bateau à la carotte",
-      "Carot cake"
-    ],
-    "ingredients": [
-      [
-        "ing:Oeufs"
-      ],
-      [
-        "ing:Blé"
-      ],
-      [
-        "ing:Carotte"
-      ],
-      [
-        "ing:Carotte"
-      ]
-    ],
-    "energy": 55,
-    "sellPrice": 840
+    "sellPrice": 730,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -1443,7 +1611,12 @@
       ]
     ],
     "energy": 80,
-    "sellPrice": 1340
+    "sellPrice": 1340,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   },
   {
     "name": [
@@ -1631,7 +1804,12 @@
       ]
     ],
     "energy": 65,
-    "sellPrice": 410
+    "sellPrice": 410,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   },
   {
     "name": [
@@ -1653,7 +1831,12 @@
       ]
     ],
     "energy": 65,
-    "sellPrice": 530
+    "sellPrice": 530,
+    "paliers": [
+      80,
+      240,
+      480
+    ]
   },
   {
     "name": [
@@ -1676,7 +1859,12 @@
       ]
     ],
     "energy": 100,
-    "sellPrice": 2260
+    "sellPrice": 2260,
+    "paliers": [
+      80,
+      240,
+      480
+    ]
   },
   {
     "name": [
@@ -1699,7 +1887,12 @@
       ]
     ],
     "energy": 25,
-    "sellPrice": 710
+    "sellPrice": 710,
+    "paliers": [
+      80,
+      240,
+      480
+    ]
   },
   {
     "name": [
@@ -1721,11 +1914,16 @@
       ]
     ],
     "energy": 75,
-    "sellPrice": 1350
+    "sellPrice": 1350,
+    "paliers": [
+      80,
+      240,
+      480
+    ]
   },
   {
     "name": [
-      "Plateau écrevisses",
+      "Plateau d'écrevisses",
       "Crayfish sashimi"
     ],
     "ingredients": [
@@ -1746,7 +1944,12 @@
       ]
     ],
     "energy": 30,
-    "sellPrice": 850
+    "sellPrice": 850,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   },
   {
     "name": [
@@ -1768,11 +1971,16 @@
       ]
     ],
     "energy": 60,
-    "sellPrice": 1310
+    "sellPrice": 1310,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   },
   {
     "name": [
-      "Aubergines gratinées a la bolognaise",
+      "Aubergines gratinées à la bolognaise",
       "Baked eggplant w/ meat"
     ],
     "ingredients": [
@@ -1790,7 +1998,12 @@
       ]
     ],
     "energy": 75,
-    "sellPrice": 1230
+    "sellPrice": 1230,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   },
   {
     "name": [
@@ -1812,7 +2025,12 @@
       ]
     ],
     "energy": 75,
-    "sellPrice": 1760
+    "sellPrice": 1760,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   },
   {
     "name": [
@@ -1837,7 +2055,12 @@
       ]
     ],
     "energy": 90,
-    "sellPrice": 1990
+    "sellPrice": 1990,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   },
   {
     "name": [
@@ -1859,6 +2082,65 @@
       ]
     ],
     "energy": 100,
-    "sellPrice": 2980
+    "sellPrice": 2980,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Tarte aux cèpes de Bordeaux",
+      "Penny bun pie"
+    ],
+    "ingredients": [
+      [
+        "col:Cèpes de Bordeaux"
+      ],
+      [
+        "col:Cèpes de Bordeaux"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Oeufs"
+      ]
+    ],
+    "energy": 35,
+    "sellPrice": 500,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
+  },
+  {
+    "name": [
+      "Gâteau à la carotte",
+      "Carrot cake"
+    ],
+    "ingredients": [
+      [
+        "ing:Oeufs"
+      ],
+      [
+        "ing:Blé"
+      ],
+      [
+        "ing:Carotte"
+      ],
+      [
+        "ing:Carotte"
+      ]
+    ],
+    "energy": 55,
+    "sellPrice": 840,
+    "paliers": [
+      120,
+      360,
+      720
+    ]
   }
 ]

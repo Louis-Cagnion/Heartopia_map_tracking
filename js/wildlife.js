@@ -19,6 +19,22 @@ function construireFenetreObtenu(type, containerId) {
 
     const data = type === "poisson" ? poissons : type === "oiseau" ? oiseaux : insectes;
 
+    // Barre de recherche
+    const barre = creerBarreRecherche(
+        langue === "fr" ? "Rechercher..." : "Search...",
+        (q) => {
+            containerEl.querySelectorAll(".faune-item").forEach(item => {
+                item.style.display = matchSearch(item.textContent, q) ? "" : "none";
+            });
+            // Masquer les niveaux vides
+            containerEl.querySelectorAll(".niveau-bloc").forEach(bloc => {
+                const visible = [...bloc.querySelectorAll(".faune-item")].some(i => i.style.display !== "none");
+                bloc.style.display = visible ? "" : "none";
+            });
+        }
+    );
+    containerEl.appendChild(barre);
+
     const parNiveau = {};
     data.forEach(el => {
         const niv = el.niveau_hobby || 1;

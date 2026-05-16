@@ -318,9 +318,26 @@ function mettreAJourUI() {
     if (mode === "admin") {
         mettreAJourAdminUI();
     }
-    // Rafraîchir l'onglet recettes si actif
+    // Rafraîchir l'onglet recettes si actif — sans reconstruire tout le DOM
     if (currentTab === "recettes") {
-        initOngletRecettes();
+        const subZone = document.getElementById("recettes-sub-" + currentRecettesSubTab);
+        if (subZone) {
+            // Mettre à jour les labels des boutons sans recréer la structure
+            document.querySelectorAll(".tab-btn-recettes").forEach(btn => {
+                const key = btn.dataset.sub;
+                const labels = {
+                    liste:   { fr: "📖 Infos",                               en: "📖 Infos" },
+                    profit:  { fr: "💰 Classement de profit",                en: "💰 Profit ranking" },
+                    energie: { fr: "⚡ Classement d'énergie",               en: "⚡ Energy ranking" },
+                    calc:    { fr: "🧮 Calculateur de maîtrise de cuisine",  en: "🧮 Cooking mastery calculator" }
+                };
+                if (labels[key]) btn.textContent = labels[key][langue] || labels[key].fr;
+            });
+            // Re-render le contenu du sous-onglet actif (textes traduits)
+            renderRecettesSubTab(currentRecettesSubTab);
+        } else {
+            initOngletRecettes();
+        }
     }
 }
 
