@@ -310,7 +310,6 @@
     ],
     "ingredients": [
       [
-        "ing:Raisin",
         "poi:Perche de rivière",
         "poi:Carpe argentée",
         "poi:Loche des fleurs",
@@ -384,7 +383,6 @@
         "poi:Requin marteau"
       ],
       [
-        "ing:Raisin",
         "poi:Perche de rivière",
         "poi:Carpe argentée",
         "poi:Loche des fleurs",
@@ -517,8 +515,7 @@
         "ing:Sucre vert",
         "ing:Sucre Cyan",
         "ing:Sucre bleu",
-        "ing:Sucre violet",
-        "ing:Blé"
+        "ing:Sucre violet"
       ],
       [
         "ing:Sucre rouge",
@@ -1084,7 +1081,6 @@
     ],
     "ingredients": [
       [
-        "ing:Grains de café",
         "poi:Perche de rivière",
         "poi:Carpe argentée",
         "poi:Loche des fleurs",
@@ -1161,7 +1157,6 @@
         "ing:Fromage"
       ],
       [
-        "ing:Lait",
         "ing:Tomate",
         "ing:Pomme de terre",
         "ing:Blé",
@@ -1170,7 +1165,6 @@
         "ing:Aubergine"
       ],
       [
-        "ing:Lait",
         "ing:Blé"
       ]
     ],
@@ -1189,7 +1183,6 @@
     ],
     "ingredients": [
       [
-        "ing:Grains de café",
         "poi:Perche de rivière",
         "poi:Grenouille européenne",
         "poi:Carpe argentée",
@@ -1276,7 +1269,6 @@
         "poi:Requin marteau"
       ],
       [
-        "ing:Fromage",
         "poi:Perche de rivière",
         "poi:Carpe argentée",
         "poi:Loche des fleurs",
