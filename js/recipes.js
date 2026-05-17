@@ -54,7 +54,10 @@ function getCategorieSlotItem(valeurSlot) {
     if (type === "ing") {
         const ing = ingredients.find(i => (Array.isArray(i.name) ? i.name[0] : i.name) === nomFr);
         if (!ing) return null;
-        return Array.isArray(ing.category) ? ing.category[idx] || ing.category[0] : ing.category;
+        const cat = Array.isArray(ing.category) ? ing.category[idx] || ing.category[0] : ing.category;
+        if (cat === "Magasin de chance de Doris") return "Sucres du magasin de chance de Doris";
+        if (cat === "Doris's lucky shop") return "Sugars from Doris's lucky shop";
+        return cat;
     }
     if (type === "poi") return langue === "fr" ? "Poissons" : "Fish";
     if (type === "col") {
