@@ -310,6 +310,10 @@ function mettreAJourUI() {
 
     setFilterToggleText();
 
+    // Mettre à jour le placeholder de la recherche faune
+    const fauneInput = document.getElementById("fauneSearchInput");
+    if (fauneInput) fauneInput.placeholder = langue === "fr" ? "Filtrer la faune..." : "Filter wildlife...";
+
     if (!selectedPlace) {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }

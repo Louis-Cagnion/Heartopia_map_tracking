@@ -144,6 +144,10 @@ function afficherGroupeElements(elements, container) {
 
         if (!visible && !afficherNonDebloques) return;
         if (obtenu && cacherObtenus && !afficherNonDebloques) return;
+        // Filtre barre de recherche (uniquement quand un lieu est sélectionné)
+        if (typeof fauneSearchQuery !== "undefined" && fauneSearchQuery.length > 0 && selectedPlace) {
+            if (!matchSearch(name, fauneSearchQuery)) return;
+        }
 
         auMoinsUn = true;
         const li = document.createElement("li");

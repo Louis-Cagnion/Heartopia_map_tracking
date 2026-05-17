@@ -233,3 +233,39 @@ button {
     display: none;
     font-size: var(--ui-font-size);
 }
+
+/* ========================= */
+/* RECHERCHE FAUNE CARTE     */
+/* ========================= */
+
+#fauneSearchWrapper {
+    position: relative;
+    width: 675px;
+    box-sizing: border-box;
+}
+
+#fauneSearchBar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 6px 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#fauneSearchInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: var(--ui-font-size);
+    min-width: 0;
+}
+
+#fauneSearchInput::placeholder { color: #666; }
+
+
