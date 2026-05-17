@@ -4,6 +4,12 @@
 
 let currentRecettesSubTab = "liste";
 
+// Formate un nombre avec séparateur de milliers selon la langue
+function formatNombre(n) {
+    if (langue === "fr") return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 // ---- Helpers ----
 
 // Coût récursif : pour une rec:, on calcule le coût de ses ingrédients
@@ -407,7 +413,7 @@ function renderDetailsRecette(r, zone) {
             row.className = "recette-detail-row";
             const stars = "⭐".repeat(e);
             const prix = prixVenteEtoile(r.sellPrice, e);
-            row.textContent = `${stars} : ${prix} 🪙`;
+            row.textContent = `${stars} : ${formatNombre(prix)} 🪙`;
             colPrix.appendChild(row);
         }
     }
@@ -513,8 +519,8 @@ function renderRecettesProfit() {
             gauche.textContent = gn.label;
 
             // Badge : +(profit1)-(profit5) 🪙
-            const p1str = (profit1 >= 0 ? "+" : "") + profit1;
-            const p5str = (profit5 >= 0 ? "+" : "") + profit5;
+            const p1str = (profit1 > 0 ? "+" : "") + formatNombre(profit1);
+            const p5str = (profit5 >= 0 ? "+" : "") + formatNombre(profit5);
             const droite = document.createElement("span");
             droite.className = "recette-profit-badge" + (profit1 >= 0 ? " profit-positif" : " profit-negatif");
             droite.textContent = `${p1str} → ${p5str} 🪙`;
@@ -553,8 +559,8 @@ function renderRecettesProfit() {
                         const pv = document.createElement("div");
                         pv.className = "recette-profit-ing-row";
                         const profitE = prix - totalCout;
-                        const profitStr = (profitE >= 0 ? "+" : "") + profitE;
-                        pv.innerHTML = `<span>${"⭐".repeat(e)}</span><span class="recette-profit-vente">${prix} 🪙</span><span class="${profitE >= 0 ? "profit-positif" : "profit-negatif"}" style="padding:1px 6px;border-radius:8px;font-size:calc(var(--ui-font-size) - 2px)">${profitStr} 🪙</span>`;
+                        const profitStr = (profitE > 0 ? "+" : "") + formatNombre(profitE);
+                        pv.innerHTML = `<span>${"⭐".repeat(e)}</span><span class="recette-profit-vente">${formatNombre(prix)} 🪙</span><span class="${profitE >= 0 ? "profit-positif" : "profit-negatif"}" style="padding:1px 6px;border-radius:8px;font-size:calc(var(--ui-font-size) - 2px)">${profitStr} 🪙</span>`;
                         colVente.appendChild(pv);
                     }
 
@@ -571,13 +577,13 @@ function renderRecettesProfit() {
                     labelsSlots.forEach(({ label, prix }) => {
                         const row = document.createElement("div");
                         row.className = "recette-profit-ing-row";
-                        row.innerHTML = `<span>${label}</span><span class="recette-profit-prix-ing">${prix} 🪙</span>`;
+                        row.innerHTML = `<span>${label}</span><span class="recette-profit-prix-ing">${formatNombre(prix)} 🪙</span>`;
                         colCout.appendChild(row);
                     });
 
                     const totalRow = document.createElement("div");
                     totalRow.className = "recette-profit-total-row";
-                    totalRow.innerHTML = `<span>${langue === "fr" ? "Total" : "Total"}</span><span>${totalCout} 🪙</span>`;
+                    totalRow.innerHTML = `<span>${langue === "fr" ? "Total" : "Total"}</span><span>${formatNombre(totalCout)} 🪙</span>`;
                     colCout.appendChild(totalRow);
 
                     cols.appendChild(colVente);
@@ -850,7 +856,7 @@ function renderRecettesCalc() {
 
                     const prixSpan = document.createElement("span");
                     prixSpan.className = "recette-calc-ing-prix";
-                    prixSpan.textContent = prixSlot + " 🪙";
+                    prixSpan.textContent = formatNombre(prixSlot) + " 🪙";
 
                     row.appendChild(nomSlot);
                     row.appendChild(prixSpan);
@@ -874,7 +880,7 @@ function renderRecettesCalc() {
                         nomSpan.textContent = `${nom} ×${quantite}`;
                         const prixSpan = document.createElement("span");
                         prixSpan.className = "recette-calc-ing-prix";
-                        prixSpan.textContent = (prix * quantite) + " 🪙";
+                        prixSpan.textContent = formatNombre(prix * quantite) + " 🪙";
                         row.appendChild(nomSpan);
                         row.appendChild(prixSpan);
                         ingDiv.appendChild(row);
@@ -883,7 +889,7 @@ function renderRecettesCalc() {
 
                 const totalRow = document.createElement("div");
                 totalRow.className = "recette-calc-total-row";
-                totalRow.innerHTML = `<span>${langue === "fr" ? "Total coût" : "Total cost"}</span><span>${prixTotalPalier} 🪙</span>`;
+                totalRow.innerHTML = `<span>${langue === "fr" ? "Total coût" : "Total cost"}</span><span>${formatNombre(prixTotalPalier)} 🪙</span>`;
                 ingDiv.appendChild(totalRow);
 
                 bloc.appendChild(ingDiv);
