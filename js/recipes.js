@@ -7,7 +7,7 @@ let currentRecettesSubTab = "liste";
 // Formate un nombre avec séparateur de milliers selon la langue
 function formatNombre(n) {
     if (langue === "fr") return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // ---- Helpers ----
@@ -519,7 +519,7 @@ function renderRecettesProfit() {
             gauche.textContent = gn.label;
 
             // Badge : +(profit1)-(profit5) 🪙
-            const p1str = (profit1 > 0 ? "+" : "") + formatNombre(profit1);
+            const p1str = (profit1 >= 0 ? "+" : "") + formatNombre(profit1);
             const p5str = (profit5 >= 0 ? "+" : "") + formatNombre(profit5);
             const droite = document.createElement("span");
             droite.className = "recette-profit-badge" + (profit1 >= 0 ? " profit-positif" : " profit-negatif");
@@ -553,14 +553,18 @@ function renderRecettesProfit() {
                     // Colonne vente : prix par étoile
                     const colVente = document.createElement("div");
                     colVente.className = "recette-profit-col";
-                    colVente.innerHTML = `<div class="recette-detail-titre">${langue === "fr" ? "Prix de vente" : "Sell price"}</div>`;
+                    // En-tête des 3 colonnes
+                    const header = document.createElement("div");
+                    header.className = "recette-profit-ing-row recette-profit-col-header";
+                    header.innerHTML = `<span style="text-align:left">${langue === "fr" ? "Étoiles" : "Stars"}</span><span style="text-align:center">${langue === "fr" ? "Prix de vente" : "Sell price"}</span><span style="text-align:right">${langue === "fr" ? "Profit" : "Profit"}</span>`;
+                    colVente.appendChild(header);
                     for (let e = 1; e <= 5; e++) {
                         const prix = prixVenteEtoile(vente, e);
                         const pv = document.createElement("div");
                         pv.className = "recette-profit-ing-row";
                         const profitE = prix - totalCout;
-                        const profitStr = (profitE > 0 ? "+" : "") + formatNombre(profitE);
-                        pv.innerHTML = `<span>${"⭐".repeat(e)}</span><span class="recette-profit-vente">${formatNombre(prix)} 🪙</span><span class="${profitE >= 0 ? "profit-positif" : "profit-negatif"}" style="padding:1px 6px;border-radius:8px;font-size:calc(var(--ui-font-size) - 2px)">${profitStr} 🪙</span>`;
+                        const profitStr = (profitE >= 0 ? "+" : "") + formatNombre(profitE);
+                        pv.innerHTML = `<span style="text-align:left">${"⭐".repeat(e)}</span><span class="recette-profit-vente" style="text-align:center">${formatNombre(prix)} 🪙</span><span class="${profitE >= 0 ? "profit-positif" : "profit-negatif"}" style="text-align:right;padding:1px 6px;border-radius:8px;font-size:calc(var(--ui-font-size) - 2px)">${profitStr} 🪙</span>`;
                         colVente.appendChild(pv);
                     }
 

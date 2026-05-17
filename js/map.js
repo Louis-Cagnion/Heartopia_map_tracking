@@ -63,6 +63,7 @@ function createPlaceMarker(name, x, y, level = 1) {
 
     const handleClick = function(e) {
         e.stopPropagation();
+        if (mode === "admin") return;
         if (selectedPlace === name) {
             selectedPlace = null;
             selectedElement = null;
@@ -89,28 +90,13 @@ function createPlaceMarker(name, x, y, level = 1) {
     hitArea.onclick = handleClick;
 
     const handleMousedown = function(e) {
-        if (mode === "admin") {
-            draggingPlace = el;
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
         e.stopPropagation();
     };
     el.onmousedown = handleMousedown;
     hitArea.onmousedown = handleMousedown;
 
     el.oncontextmenu = function(e) {
-        if (mode !== "admin") return;
-        e.preventDefault();
-        if (!confirm("Supprimer ce lieu ?")) return;
-        places = places.filter(p => p.name !== name);
-        savePlaces();
-        el.remove();
-        if (selectedPlace === name) {
-            selectedPlace = null;
-            document.getElementById("placeTitle").textContent = "";
-        }
+        // Suppression désactivée en admin
     };
 
     el.appendChild(hitArea);
@@ -144,7 +130,7 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
         if (!confirm("Supprimer cette position ?")) return;
         const name = el.dataset.collectibleName;
         const idx = parseInt(el.dataset.spawnIndex);
-        const collectible = collectibles.find(c => c.name === name);
+        const collectible = collectibles.find(c => (Array.isArray(c.name) ? c.name[0] : c.name) === name);
         if (collectible) {
             collectible.spawns.splice(idx, 1);
             document.querySelectorAll(".collectible-marker").forEach(m => {
@@ -272,11 +258,7 @@ container.addEventListener("mousedown", function(e) {
 
 container.addEventListener("contextmenu", function(e) {
     e.preventDefault();
-    if (collectiblePlacementMode) {
-        collectiblePlacementMode = false;
-        currentCollectible = null;
-        container.style.cursor = "default";
-    }
+    // Le clic droit sert au pan, on ne quitte pas collectiblePlacementMode
 });
 
 container.addEventListener("click", function(e) {
@@ -290,31 +272,12 @@ container.addEventListener("click", function(e) {
         createCollectibleMarker(x, y, currentCollectible.type, currentCollectible.name, spawnIndex, currentCollectible.color || "#e67e22");
         return;
     }
-    if (mode !== "admin") return;
-    if (e.target.classList.contains("marker")) return;
-    const name = prompt("Nom du lieu ?");
-    if (!name) return;
-    const rect = container.getBoundingClientRect();
-    const x = ((e.clientX - rect.left - panX) / (rect.width * zoom)) * 100;
-    const y = ((e.clientY - rect.top - panY) / (rect.height * zoom)) * 100;
-    const levelStr = prompt("Niveau (1 ou 2) ?");
-    const level = parseInt(levelStr) === 2 ? 2 : 1;
-    const place = { name, x, y, level };
-    places.push(place);
-    savePlaces();
-    createPlaceMarker(name, x, y, level);
+    // Création de lieux désactivée
 });
 
 document.addEventListener("mousemove", function(e) {
     const rect = container.getBoundingClientRect();
-    if (draggingPlace && mode === "admin") {
-        let x = ((e.clientX - rect.left - panX) / (rect.width * zoom)) * 100;
-        let y = ((e.clientY - rect.top - panY) / (rect.height * zoom)) * 100;
-        x = Math.max(0, Math.min(100, x));
-        y = Math.max(0, Math.min(100, y));
-        draggingPlace.style.left = x + "%";
-        draggingPlace.style.top = y + "%";
-    }
+    // Drag lieux désactivé
     if (draggingCollectible && mode === "admin") {
         let x = ((e.clientX - rect.left - panX) / (rect.width * zoom)) * 100;
         let y = ((e.clientY - rect.top - panY) / (rect.height * zoom)) * 100;
@@ -331,20 +294,13 @@ document.addEventListener("mousemove", function(e) {
 });
 
 document.addEventListener("mouseup", function() {
-    if (draggingPlace && mode === "admin") {
-        const name = draggingPlace.dataset.name;
-        const x = parseFloat(draggingPlace.style.left);
-        const y = parseFloat(draggingPlace.style.top);
-        const place = places.find(p => p.name === name);
-        if (place) { place.x = x; place.y = y; savePlaces(); }
-        draggingPlace = null;
-    }
+    // Drag lieux désactivé
     if (draggingCollectible && mode === "admin") {
         const name = draggingCollectible.dataset.collectibleName;
         const idx = parseInt(draggingCollectible.dataset.spawnIndex);
         const x = Math.round(parseFloat(draggingCollectible.style.left) * 100) / 100;
         const y = Math.round(parseFloat(draggingCollectible.style.top) * 100) / 100;
-        const collectible = collectibles.find(c => c.name === name);
+        const collectible = collectibles.find(c => (Array.isArray(c.name) ? c.name[0] : c.name) === name);
         if (collectible) {
             collectible.spawns[idx] = { x, y };
             localStorage.setItem("collectibles", JSON.stringify(collectibles));

@@ -387,7 +387,48 @@
 
 .recette-profit-ing-row {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.recette-profit-ing-row span:first-child {
+    flex: 1;
+    text-align: left;
+}
+
+.recette-profit-ing-row span:last-child {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+/* Colonne vente uniquement : 3 colonnes fixes */
+.recette-profit-col:first-child .recette-profit-ing-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 4px;
+}
+
+.recette-profit-col:first-child .recette-profit-ing-row span:first-child {
+    text-align: left;
+    flex: unset;
+}
+
+.recette-profit-col:first-child .recette-profit-ing-row span:nth-child(2) {
+    text-align: center;
+}
+
+.recette-profit-col:first-child .recette-profit-ing-row span:last-child {
+    justify-self: end;
+    text-align: right;
+    flex-shrink: unset;
+}
+
+.recette-profit-col-header {
+    color: #aaa;
+    font-size: calc(var(--ui-font-size) - 2px);
+    font-weight: bold;
+    border-bottom: 1px solid #444;
+    padding-bottom: 4px;
+    margin-bottom: 2px;
 }

@@ -3,6 +3,9 @@
 // =========================
 
 function setMode(newMode) {
+    zoom = 1; panX = 0; panY = 0;
+    applyTransform();
+    updateMarkerVisibility();
     if (newMode === "admin") {
         const pass = prompt("Mot de passe admin ?");
         if (pass !== "admin") {

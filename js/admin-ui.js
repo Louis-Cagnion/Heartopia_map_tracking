@@ -300,7 +300,7 @@ function renderFormulaireModifierRempli(type, el, zone) {
     } else if (type === "collectible") {
         form.appendChild(champTexte("nomFr", t("adminNomFrLabel"), nameFr));
         form.appendChild(champTexte("nomEn", t("adminNomEnLabel"), nameEn));
-        form.appendChild(champSelectCategorie("categorie", t("adminCategorieLabel"), el.type));
+        form.appendChild(champSelectCategorie("categorie", t("adminCategorieLabel"), Array.isArray(el.type) ? el.type[0] : el.type));
         form.appendChild(champCouleur("couleur", t("adminCouleur"), el.color || "#e67e22"));
         const btnCarte = document.createElement("button");
         btnCarte.className = "admin-btn-secondary";
@@ -369,7 +369,7 @@ function renderFormulaireSupprimer(type, zone) {
 
     const btnSupp = document.createElement("button");
     btnSupp.className = "admin-btn-danger";
-    btnSupp.textContent = "\ud83d\uddd1\ufe0f " + t("adminSupprimerElement");
+    btnSupp.textContent = t("adminSupprimerElement");
     btnSupp.onclick = () => {
         const nom = sel.value;
         if (!nom) return;
@@ -378,24 +378,17 @@ function renderFormulaireSupprimer(type, zone) {
         fermerCarteAdmin("supprimer");
         renderFormulaireSupprimer(type, zone);
     };
-    form.appendChild(btnSupp);
-
     if (type === "collectible") {
-        const sep = document.createElement("hr");
-        sep.className = "hobby-separator";
-        form.appendChild(sep);
+        // Pour les collectibles : un seul select + 2 boutons sur la même ligne
+        // Remplacer le bouton de suppression générique par la logique collectible
+        // (btnSupp déjà ajouté, on retire et on refait)
+        form.removeChild(btnSupp);
 
-        const labelPos = document.createElement("div");
-        labelPos.className = "admin-label";
-        labelPos.textContent = langue === "fr" ? "G\u00e9rer les positions d'un collectible" : "Manage collectible positions";
-        form.appendChild(labelPos);
-
-        const selPos = document.createElement("select");
-        selPos.className = "admin-select";
-        const optVidePos = document.createElement("option");
-        optVidePos.value = "";
-        optVidePos.textContent = t("adminSelectionnerElement");
-        selPos.appendChild(optVidePos);
+        const selC = document.createElement("select");
+        selC.className = "admin-select";
+        const optVideC = document.createElement("option");
+        optVideC.value = ""; optVideC.textContent = t("adminSelectionnerElement");
+        selC.appendChild(optVideC);
         [...collectibles].sort((a,b)=>{
             const na=Array.isArray(a.name)?a.name[0]:a.name;
             const nb=Array.isArray(b.name)?b.name[0]:b.name;
@@ -405,21 +398,39 @@ function renderFormulaireSupprimer(type, zone) {
             const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
             opt.value = nameFr;
             opt.textContent = nameFr + " (" + (el.spawns||[]).length + " pos.)";
-            selPos.appendChild(opt);
+            selC.appendChild(opt);
         });
-        form.appendChild(selPos);
+        form.appendChild(selC);
+
+        const btnRow = document.createElement("div");
+        btnRow.style.cssText = "display:flex;gap:8px;";
+
+        const btnSuppC = document.createElement("button");
+        btnSuppC.className = "admin-btn-danger";
+        btnSuppC.textContent = langue === "fr" ? "Supprimer le collectible" : "Delete collectible";
+        btnSuppC.onclick = () => {
+            const nom = selC.value;
+            if (!nom) return;
+            if (!confirm((langue === "fr" ? "Supprimer" : "Delete") + " \"" + nom + "\" ?")) return;
+            supprimerElementAdmin(type, nom);
+            fermerCarteAdmin("supprimer");
+            renderFormulaireSupprimer(type, zone);
+        };
 
         const btnSuppPos = document.createElement("button");
-        btnSuppPos.className = "admin-btn-danger";
-        btnSuppPos.textContent = "\ud83d\uddfa\ufe0f " + (langue === "fr" ? "Supprimer des positions sur la carte" : "Delete positions on map");
+        btnSuppPos.className = "admin-btn-secondary";
+        btnSuppPos.textContent = langue === "fr" ? "Supprimer une position" : "Delete a position";
         btnSuppPos.onclick = () => {
-            const nom = selPos.value;
+            const nom = selC.value;
             if (!nom) return;
             const col = collectibles.find(c => (Array.isArray(c.name)?c.name[0]:c.name) === nom);
             if (!col) return;
             ouvrirCarteAdmin("supprimer", col, "supprimer");
         };
-        form.appendChild(btnSuppPos);
+
+        btnRow.appendChild(btnSuppC);
+        btnRow.appendChild(btnSuppPos);
+        form.appendChild(btnRow);
     }
 
     zone.appendChild(form);
@@ -528,17 +539,6 @@ function sauvegarderElement(type, form, estModification) {
         const clef = type === "poisson" ? "poissons" : type === "insecte" ? "insectes" : "oiseaux";
         localStorage.setItem(clef, JSON.stringify(type === "poisson" ? poissons : type === "insecte" ? insectes : oiseaux));
 
-    } else if (type === "collectible") {
-        const typeVal = get("categorie");
-        const color = get("couleur");
-        if (!typeVal) { alert(t("adminCategorieLabel") + " manquant"); return; }
-        if (estModification && adminElementEdite) {
-            adminElementEdite.name = name; adminElementEdite.type = typeVal; adminElementEdite.color = color;
-        } else {
-            const existing = collectibles.find(c => (Array.isArray(c.name)?c.name[0]:c.name) === nomFr);
-            if (!existing) collectibles.push({ name, type: typeVal, color, spawns: [] });
-            else { existing.name = name; existing.type = typeVal; existing.color = color; }
-        }
         localStorage.setItem("collectibles", JSON.stringify(collectibles));
         afficherLegende();
 
@@ -610,10 +610,6 @@ function supprimerElementAdmin(type, nom) {
     if (type === "poisson") { poissons = filtre(poissons); localStorage.setItem("poissons", JSON.stringify(poissons)); }
     else if (type === "insecte") { insectes = filtre(insectes); localStorage.setItem("insectes", JSON.stringify(insectes)); }
     else if (type === "oiseau") { oiseaux = filtre(oiseaux); localStorage.setItem("oiseaux", JSON.stringify(oiseaux)); }
-    else if (type === "collectible") {
-        document.querySelectorAll(".collectible-marker").forEach(el => { if (el.dataset.collectibleName === nom) el.remove(); });
-        collectibles = filtre(collectibles); localStorage.setItem("collectibles", JSON.stringify(collectibles)); afficherLegende();
-    }
     else if (type === "ingredient") { ingredients = filtre(ingredients); localStorage.setItem("ingredients", JSON.stringify(ingredients)); }
     else if (type === "recette") { recettes = filtre(recettes); localStorage.setItem("recettes", JSON.stringify(recettes)); }
 }
@@ -938,8 +934,15 @@ function champSelectCategorie(field, label, valeurSelectionnee = "") {
     const row = document.createElement("div"); row.style.cssText = "display:flex;gap:8px;align-items:center;";
     const sel = document.createElement("select"); sel.className = "admin-select";
     const optNew = document.createElement("option"); optNew.value = "__new__"; optNew.textContent = "\u2795 " + t("adminNouvelleCategorie"); sel.appendChild(optNew);
-    const typesRaw = [...new Set(collectibles.map(c => Array.isArray(c.type)?c.type[0]:c.type))].sort();
-    typesRaw.forEach(tp => { const opt = document.createElement("option"); opt.value = tp; opt.textContent = tp; if (tp === valeurSelectionnee) opt.selected = true; sel.appendChild(opt); });
+    // Construire la liste {valueFr, label traduit}
+    const typesMap = {};
+    collectibles.forEach(c => {
+        const fr = Array.isArray(c.type) ? c.type[0] : c.type;
+        const label = Array.isArray(c.type) ? (c.type[li()] || c.type[0]) : c.type;
+        typesMap[fr] = label;
+    });
+    const typesRaw = Object.keys(typesMap).sort();
+    typesRaw.forEach(tp => { const opt = document.createElement("option"); opt.value = tp; opt.textContent = typesMap[tp]; if (tp === valeurSelectionnee) opt.selected = true; sel.appendChild(opt); });
     const inputNew = document.createElement("input"); inputNew.type = "text"; inputNew.className = "admin-input"; inputNew.placeholder = t("adminNouvelleCategorie") + "..."; inputNew.style.display = sel.value === "__new__" ? "" : "none";
     const hiddenField = document.createElement("input"); hiddenField.type = "hidden"; hiddenField.dataset.field = field; hiddenField.value = valeurSelectionnee || "";
     sel.addEventListener("change", () => { const isNew = sel.value === "__new__"; inputNew.style.display = isNew ? "" : "none"; hiddenField.value = isNew ? inputNew.value : sel.value; });
