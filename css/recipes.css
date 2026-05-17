@@ -337,3 +337,57 @@
     font-size: calc(var(--ui-font-size) - 1px);
     color: #ccc;
 }
+
+/* =========================
+   INFOS : 3 COLONNES
+   ========================= */
+
+.recette-details-3cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 16px;
+    align-items: start;
+    margin-top: 6px;
+}
+
+.recette-details-col {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+/* =========================
+   CALCULATEUR : 3 COLONNES
+   ========================= */
+
+.recette-calc-paliers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: start;
+}
+
+.recette-calc-palier-bloc.palier-vide {
+    display: none;
+}
+
+.recette-calc-ing-sep {
+    text-align: center;
+    color: #666;
+    font-size: calc(var(--ui-font-size) - 3px);
+    font-style: italic;
+    margin: 4px 0 2px 0;
+    border-top: 1px dashed #333;
+    padding-top: 4px;
+}
+
+/* =========================
+   PROFIT : LIGNE ETOILE
+   ========================= */
+
+.recette-profit-ing-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
