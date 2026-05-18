@@ -342,9 +342,9 @@
    INFOS : 3 COLONNES
    ========================= */
 
-.recette-details-3cols {
+.recette-details-4cols {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 0 16px;
     align-items: start;
     margin-top: 6px;
@@ -354,6 +354,12 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
+    align-items: center;
+    text-align: center;
+}
+
+.recette-details-col .recette-detail-row {
+    text-align: center;
 }
 
 /* =========================

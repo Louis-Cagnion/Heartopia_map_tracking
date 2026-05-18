@@ -355,42 +355,30 @@ function renderRecettesListe() {
 function renderDetailsRecette(r, zone) {
     zone.innerHTML = "";
 
-    // Ligne énergie au-dessus des colonnes
-    if (r.energy) {
-        const rowEnergy = document.createElement("div");
-        rowEnergy.className = "recette-detail-row";
-        rowEnergy.textContent = (langue === "fr" ? "⚡ Énergie : " : "⚡ Energy: ") + r.energy;
-        zone.appendChild(rowEnergy);
-    }
-
     const cols = document.createElement("div");
-    cols.className = "recette-details-3cols";
+    cols.className = "recette-details-4cols";
 
-    // --- COL 1 : Ingrédients ---
-    const colIng = document.createElement("div");
-    colIng.className = "recette-details-col";
-    if (r.ingredients && r.ingredients.length > 0) {
-        const titreIng = document.createElement("div");
-        titreIng.className = "recette-detail-titre";
-        titreIng.textContent = langue === "fr" ? "Ingrédients :" : "Ingredients:";
-        colIng.appendChild(titreIng);
-        r.ingredients.forEach((slot, i) => {
-            const row = document.createElement("div");
-            row.className = "recette-detail-row";
-            row.textContent = `Slot ${i + 1} : ${labelSlot(slot)}`;
-            colIng.appendChild(row);
-        });
-    }
+    // --- COL 1 : Énergie ---
+    const colEnergie = document.createElement("div");
+    colEnergie.className = "recette-details-col recette-details-col-center";
+    const titreEnergie = document.createElement("div");
+    titreEnergie.className = "recette-detail-titre";
+    titreEnergie.textContent = langue === "fr" ? "⚡ Énergie" : "⚡ Energy";
+    colEnergie.appendChild(titreEnergie);
+    const valEnergie = document.createElement("div");
+    valEnergie.className = "recette-detail-row";
+    valEnergie.textContent = r.energy || "—";
+    colEnergie.appendChild(valEnergie);
 
     // --- COL 2 : Paliers ---
     const colPaliers = document.createElement("div");
-    colPaliers.className = "recette-details-col";
+    colPaliers.className = "recette-details-col recette-details-col-center";
     const paliers = r.paliers || [];
+    const titrePaliers = document.createElement("div");
+    titrePaliers.className = "recette-detail-titre";
+    titrePaliers.textContent = langue === "fr" ? "Niveaux de cuisine" : "Cooking levels";
+    colPaliers.appendChild(titrePaliers);
     if (paliers.some(p => p != null)) {
-        const titrePaliers = document.createElement("div");
-        titrePaliers.className = "recette-detail-titre";
-        titrePaliers.textContent = langue === "fr" ? "Niveaux de cuisine :" : "Cooking levels:";
-        colPaliers.appendChild(titrePaliers);
         paliers.forEach((p, i) => {
             if (p == null) return;
             const row = document.createElement("div");
@@ -398,28 +386,59 @@ function renderDetailsRecette(r, zone) {
             row.textContent = `${langue === "fr" ? "Palier" : "Tier"} ${i + 1} : ${p} ${langue === "fr" ? "plats" : "dishes"}`;
             colPaliers.appendChild(row);
         });
+    } else {
+        const row = document.createElement("div");
+        row.className = "recette-detail-row";
+        row.textContent = "—";
+        colPaliers.appendChild(row);
     }
 
-    // --- COL 3 : Prix par étoile ---
+    // --- COL 3 : Ingrédients ---
+    const colIng = document.createElement("div");
+    colIng.className = "recette-details-col recette-details-col-center";
+    const titreIng = document.createElement("div");
+    titreIng.className = "recette-detail-titre";
+    titreIng.textContent = langue === "fr" ? "Ingrédients" : "Ingredients";
+    colIng.appendChild(titreIng);
+    if (r.ingredients && r.ingredients.length > 0) {
+        r.ingredients.forEach((slot, i) => {
+            const row = document.createElement("div");
+            row.className = "recette-detail-row";
+            row.textContent = `Slot ${i + 1} : ${labelSlot(slot)}`;
+            colIng.appendChild(row);
+        });
+    } else {
+        const row = document.createElement("div");
+        row.className = "recette-detail-row";
+        row.textContent = "—";
+        colIng.appendChild(row);
+    }
+
+    // --- COL 4 : Prix par étoile ---
     const colPrix = document.createElement("div");
-    colPrix.className = "recette-details-col";
+    colPrix.className = "recette-details-col recette-details-col-center";
+    const titrePrix = document.createElement("div");
+    titrePrix.className = "recette-detail-titre";
+    titrePrix.textContent = langue === "fr" ? "Prix de vente" : "Sell price";
+    colPrix.appendChild(titrePrix);
     if (r.sellPrice) {
-        const titrePrix = document.createElement("div");
-        titrePrix.className = "recette-detail-titre";
-        titrePrix.textContent = langue === "fr" ? "Prix de vente :" : "Sell price:";
-        colPrix.appendChild(titrePrix);
         for (let e = 1; e <= 5; e++) {
             const row = document.createElement("div");
             row.className = "recette-detail-row";
-            const stars = "⭐".repeat(e);
             const prix = prixVenteEtoile(r.sellPrice, e);
-            row.textContent = `${stars} : ${formatNombre(prix)} 🪙`;
+            row.textContent = `${"⭐".repeat(e)} : ${formatNombre(prix)} 🪙`;
             colPrix.appendChild(row);
         }
+    } else {
+        const row = document.createElement("div");
+        row.className = "recette-detail-row";
+        row.textContent = "—";
+        colPrix.appendChild(row);
     }
 
-    cols.appendChild(colIng);
+    cols.appendChild(colEnergie);
     cols.appendChild(colPaliers);
+    cols.appendChild(colIng);
     cols.appendChild(colPrix);
     zone.appendChild(cols);
 }
