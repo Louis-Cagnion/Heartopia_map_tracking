@@ -3,6 +3,8 @@
 // =========================
 
 let currentRecettesSubTab = "liste";
+let calcSelectedRecette = "";
+let calcDejaCooked = "0";
 
 // Formate un nombre avec séparateur de milliers selon la langue
 function formatNombre(n) {
@@ -775,6 +777,8 @@ function renderRecettesCalc() {
         opt.textContent = getNomRecette(r);
         sel.appendChild(opt);
     });
+    // Restaurer la sélection précédente
+    if (calcSelectedRecette) sel.value = calcSelectedRecette;
 
     const dejaCuisinéLabel = document.createElement("label");
     dejaCuisinéLabel.className = "recette-calc-label";
@@ -784,11 +788,12 @@ function renderRecettesCalc() {
     dejaCuisiné.type = "text";
     dejaCuisiné.inputMode = "numeric";
     dejaCuisiné.className = "recette-calc-input";
-    dejaCuisiné.value = "0";
+    dejaCuisiné.value = calcDejaCooked;
     // Bloquer les flèches clavier pour éviter changement d'onglet
     dejaCuisiné.addEventListener("keydown", e => { e.stopPropagation(); });
     dejaCuisiné.addEventListener("input", () => {
         dejaCuisiné.value = dejaCuisiné.value.replace(/[^0-9]/g, "");
+        calcDejaCooked = dejaCuisiné.value;
         afficherCalcResultat();
     });
 
@@ -802,7 +807,13 @@ function renderRecettesCalc() {
     resultZone.id = "recette-calc-result";
     zone.appendChild(resultZone);
 
-    sel.addEventListener("change", afficherCalcResultat);
+    // Si une recette était sélectionnée, afficher le résultat immédiatement
+    if (calcSelectedRecette) afficherCalcResultat();
+
+    sel.addEventListener("change", () => {
+        calcSelectedRecette = sel.value;
+        afficherCalcResultat();
+    });
 
     function afficherCalcResultat() {
         const nomFr = sel.value;
@@ -887,10 +898,12 @@ function renderRecettesCalc() {
                 });
 
                 // Total agrégé des ingrédients de base
+                // N'afficher que si au moins un ingrédient apparaît dans plusieurs slots
                 const totaux = getIngredientsBase(r, nbAPreparer);
-                const totalIngredients = Object.values(totaux).filter(v => v.prix > 0);
+                const totalIngredients = Object.values(totaux);
+                const aDesDoublons = totalIngredients.some(v => v.quantite > nbAPreparer);
 
-                if (totalIngredients.length > 0) {
+                if (aDesDoublons) {
                     const sepDiv = document.createElement("div");
                     sepDiv.className = "recette-calc-ing-sep";
                     sepDiv.textContent = langue === "fr" ? "— Ingrédients totaux —" : "— Total ingredients —";
