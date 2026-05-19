@@ -20,8 +20,27 @@ function appliquerFiltres() {
 
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
-        toggleSpeciaux();
+        rafraichirSpeciaux();
     }
+}
+
+function rafraichirSpeciaux() {
+    const list = document.getElementById("speciauxList");
+    list.innerHTML = "";
+    lieuxSpeciaux.forEach(lieu => {
+        const elements = [
+            ...poissons.filter(p => (Array.isArray(p.lieu) ? p.lieu[0] : p.lieu) === lieu).map(p => Array.isArray(p.name) ? p.name[0] : p.name),
+            ...oiseaux.filter(o => (Array.isArray(o.lieu) ? o.lieu[0] : o.lieu) === lieu).map(o => Array.isArray(o.name) ? o.name[0] : o.name),
+            ...insectes.filter(i => (Array.isArray(i.lieu) ? i.lieu[0] : i.lieu) === lieu).map(i => Array.isArray(i.name) ? i.name[0] : i.name)
+        ];
+        if (elements.length > 0) {
+            const div = document.createElement("div");
+            div.className = "elements-lieu";
+            div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
+            afficherGroupeElements(elements, div);
+            list.appendChild(div);
+        }
+    });
 }
 
 // =========================
@@ -298,8 +317,27 @@ function rafraichirAffichage() {
     }
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
-        toggleSpeciaux();
+        rafraichirSpeciaux();
     }
+}
+
+function rafraichirSpeciaux() {
+    const list = document.getElementById("speciauxList");
+    list.innerHTML = "";
+    lieuxSpeciaux.forEach(lieu => {
+        const elements = [
+            ...poissons.filter(p => (Array.isArray(p.lieu) ? p.lieu[0] : p.lieu) === lieu).map(p => Array.isArray(p.name) ? p.name[0] : p.name),
+            ...oiseaux.filter(o => (Array.isArray(o.lieu) ? o.lieu[0] : o.lieu) === lieu).map(o => Array.isArray(o.name) ? o.name[0] : o.name),
+            ...insectes.filter(i => (Array.isArray(i.lieu) ? i.lieu[0] : i.lieu) === lieu).map(i => Array.isArray(i.name) ? i.name[0] : i.name)
+        ];
+        if (elements.length > 0) {
+            const div = document.createElement("div");
+            div.className = "elements-lieu";
+            div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
+            afficherGroupeElements(elements, div);
+            list.appendChild(div);
+        }
+    });
 }
 
 // =========================

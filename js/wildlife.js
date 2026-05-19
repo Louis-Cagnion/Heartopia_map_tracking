@@ -2,6 +2,9 @@
 // 🐟 SWITCH TAB WILDLIFE
 // =========================
 
+// Mémorise les niveaux réduits par type (ex: { poisson: new Set([2,3]) })
+const niveauxReduits = { poisson: new Set(), oiseau: new Set(), insecte: new Set() };
+
 function switchTabWildlife(type) {
     document.querySelectorAll(".FenetreObtenu").forEach(f => f.classList.remove("active"));
     document.querySelectorAll(".tab-btn-wildlife").forEach(b => b.classList.remove("active"));
@@ -82,7 +85,7 @@ function construireFenetreObtenu(type, containerId) {
 
         const toggleBtn = document.createElement("span");
         toggleBtn.className = "niveau-toggle";
-        toggleBtn.textContent = "▼";
+        toggleBtn.textContent = (niveauxReduits[type] && niveauxReduits[type].has(parseInt(niv))) ? "▶" : "▼";
 
         const labelNiv = document.createElement("span");
         labelNiv.className = "niveau-label";
@@ -95,6 +98,10 @@ function construireFenetreObtenu(type, containerId) {
 
         const content = document.createElement("div");
         content.className = "niveau-content";
+        // Restaurer l'état réduit
+        if (niveauxReduits[type] && niveauxReduits[type].has(parseInt(niv))) {
+            content.classList.add("hidden");
+        }
 
         const grid = document.createElement("div");
         grid.className = "faune-grid";
@@ -135,7 +142,10 @@ function construireFenetreObtenu(type, containerId) {
         header.addEventListener("click", (e) => {
             if (e.target.type === "checkbox" || e.target.closest("input[type='checkbox']")) return;
             content.classList.toggle("hidden");
-            toggleBtn.textContent = content.classList.contains("hidden") ? "▶" : "▼";
+            const isHidden = content.classList.contains("hidden");
+            toggleBtn.textContent = isHidden ? "▶" : "▼";
+            if (isHidden) niveauxReduits[type].add(parseInt(niv));
+            else niveauxReduits[type].delete(parseInt(niv));
         });
 
         containerEl.appendChild(nivDiv);
