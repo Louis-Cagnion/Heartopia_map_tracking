@@ -10,24 +10,24 @@
 }
 
 .tab-btn-recettes {
-    background: black;
+    background: var(--bg-panel);
     border: none;
     border-radius: 6px;
-    color: white;
+    color: var(--color-text);
     padding: 6px 16px;
     cursor: pointer;
     font-size: var(--ui-font-size);
     transition: background 0.2s;
 }
 
-.tab-btn-recettes:hover { background: #555; }
-.tab-btn-recettes.active { background: white; color: #333; }
+.tab-btn-recettes:hover { background: var(--bg-hover); }
+.tab-btn-recettes.active { background: var(--bg-tab-active); color: var(--color-tab-active); }
 
 .recettes-sub-content { display: none; }
 .recettes-sub-content.active { display: block; }
 
 .recettes-empty {
-    color: #666;
+    color: var(--color-text-dimmer);
     font-style: italic;
     padding: 20px;
     text-align: center;
@@ -38,7 +38,7 @@
    ========================= */
 
 .recette-card {
-    background: #111;
+    background: var(--bg-card);
     border-radius: 8px;
     margin-bottom: 8px;
     overflow: hidden;
@@ -50,12 +50,12 @@
     justify-content: space-between;
     padding: 10px 14px;
     cursor: pointer;
-    background: #1a1a1a;
+    background: var(--bg-card-header);
     user-select: none;
     gap: 10px;
 }
 
-.recette-card-header:hover { background: #222; }
+.recette-card-header:hover { background: var(--bg-card-hover); }
 
 .recette-card-nom {
     font-weight: bold;
@@ -66,19 +66,19 @@
 
 .recette-card-arrow {
     font-size: 12px;
-    color: #aaa;
+    color: var(--color-text-dim);
     flex-shrink: 0;
 }
 
 .recette-card-details {
     padding: 10px 14px;
-    background: #0d0d0d;
-    border-top: 1px solid #2a2a2a;
+    background: var(--bg-card-body);
+    border-top: 1px solid var(--color-separator);
     font-size: var(--ui-font-size);
 }
 
 .recette-detail-titre {
-    color: #e8a44a;
+    color: var(--color-accent);
     font-weight: bold;
     margin: 8px 0 4px 0;
     font-size: calc(var(--ui-font-size) - 1px);
@@ -87,7 +87,7 @@
 .recette-detail-titre:first-child { margin-top: 0; }
 
 .recette-detail-row {
-    color: #ccc;
+    color: var(--color-text-muted);
     padding: 2px 0;
     font-size: calc(var(--ui-font-size) - 1px);
 }
@@ -104,7 +104,7 @@
 }
 
 .recette-etoile-cell {
-    background: #1a1a1a;
+    background: var(--bg-panel-alt);
     border-radius: 6px;
     padding: 6px 4px;
     display: flex;
@@ -121,7 +121,7 @@
 }
 
 .recette-etoile-prix {
-    color: #f1c40f;
+    color: var(--color-gold);
     font-weight: bold;
     font-size: calc(var(--ui-font-size) - 2px);
 }
@@ -138,8 +138,8 @@
     flex-shrink: 0;
 }
 
-.profit-positif { background: #1a3a1a; color: #2ecc71; }
-.profit-negatif { background: #3a1a1a; color: #e74c3c; }
+.profit-positif { background: var(--color-profit-pos-bg); color: var(--color-profit-pos); }
+.profit-negatif { background: var(--color-profit-neg-bg); color: var(--color-profit-neg); }
 
 /* recette-profit-cols défini plus bas avec séparateur */
 
@@ -151,29 +151,29 @@
     padding: 4px 0;
 }
 
-.recette-profit-vente { color: #2ecc71; }
+.recette-profit-vente { color: var(--color-profit-pos); }
 
 .recette-profit-ing-row {
     display: flex;
     justify-content: space-between;
     font-size: calc(var(--ui-font-size) - 1px);
-    color: #bbb;
+    color: var(--color-text-muted);
     padding: 2px 0;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid var(--color-separator);
     gap: 8px;
 }
 
-.recette-profit-prix-ing { color: #e74c3c; flex-shrink: 0; }
+.recette-profit-prix-ing { color: var(--color-danger); flex-shrink: 0; }
 
 .recette-profit-total-row {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
     font-size: var(--ui-font-size);
-    color: #e74c3c;
+    color: var(--color-danger);
     padding: 4px 0;
     margin-top: 2px;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--color-border);
 }
 
 /* =========================
@@ -185,22 +185,22 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 10px 20px;
-    background: #111;
+    background: var(--bg-card);
     padding: 12px 14px;
     border-radius: 8px;
     margin-bottom: 12px;
 }
 
 .recette-calc-label {
-    color: #aaa;
+    color: var(--color-text-dim);
     font-weight: bold;
     font-size: calc(var(--ui-font-size) - 1px);
 }
 
 .recette-calc-select {
-    background: #222;
-    border: 1px solid #555;
-    color: white;
+    background: var(--bg-input);
+    border: 1px solid var(--color-border-alt);
+    color: var(--color-text);
     padding: 6px 8px;
     border-radius: 4px;
     font-size: var(--ui-font-size);
@@ -208,9 +208,9 @@
 }
 
 .recette-calc-input {
-    background: #222;
-    border: 1px solid #555;
-    color: white;
+    background: var(--bg-input);
+    border: 1px solid var(--color-border-alt);
+    color: var(--color-text);
     padding: 6px 8px;
     border-radius: 4px;
     font-size: var(--ui-font-size);
@@ -230,14 +230,14 @@
 }
 
 .palier-atteint {
-    background: #0d1f0d;
-    border-left: 3px solid #2ecc71;
+    background: var(--color-palier-ok-bg);
+    border-left: 3px solid var(--color-palier-ok);
     opacity: 0.85;
 }
 
 .palier-manquant {
-    background: #111;
-    border-left: 3px solid #555;
+    background: var(--bg-card);
+    border-left: 3px solid var(--color-border);
 }
 
 .recette-calc-palier-titre {
@@ -246,11 +246,11 @@
     margin-bottom: 6px;
 }
 
-.palier-atteint .recette-calc-palier-titre { color: #2ecc71; }
-.palier-manquant .recette-calc-palier-titre { color: #888; }
+.palier-atteint .recette-calc-palier-titre { color: var(--color-palier-ok); }
+.palier-manquant .recette-calc-palier-titre { color: var(--color-text-dim); }
 
 .recette-calc-manque {
-    color: #e8a44a;
+    color: var(--color-accent);
     font-size: calc(var(--ui-font-size) - 1px);
     margin-bottom: 8px;
     font-style: italic;
@@ -267,25 +267,25 @@
     display: flex;
     justify-content: space-between;
     font-size: calc(var(--ui-font-size) - 1px);
-    color: #bbb;
+    color: var(--color-text-muted);
     padding: 2px 0;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid var(--color-separator);
     gap: 8px;
 }
 
 .palier-atteint .recette-calc-ing-row { opacity: 0.6; }
 
-.recette-calc-ing-prix { color: #e8a44a; flex-shrink: 0; }
+.recette-calc-ing-prix { color: var(--color-accent); flex-shrink: 0; }
 
 .recette-calc-total-row {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
     font-size: var(--ui-font-size);
-    color: #f1c40f;
+    color: var(--color-gold);
     padding: 4px 0;
     margin-top: 4px;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--color-separator);
 }
 
 /* =========================
@@ -293,7 +293,7 @@
    ========================= */
 
 .recette-rang {
-    color: #aaa;
+    color: var(--color-text-dim);
     font-weight: bold;
     font-size: calc(var(--ui-font-size) - 1px);
     min-width: 32px;
@@ -301,8 +301,8 @@
 }
 
 .recette-energie-badge {
-    background: #1a2a3a;
-    color: #3498db;
+    background: var(--color-energie-bg);
+    color: var(--color-energie);
     font-weight: bold;
     font-size: var(--ui-font-size);
     padding: 2px 10px;
@@ -322,7 +322,7 @@
 }
 
 .recette-profit-sep {
-    background: #333;
+    background: var(--color-separator);
     width: 2px;
     min-height: 60px;
     border-radius: 1px;
@@ -335,7 +335,7 @@
     text-align: left;
     font-weight: normal;
     font-size: calc(var(--ui-font-size) - 1px);
-    color: #ccc;
+    color: var(--color-text-muted);
 }
 
 /* =========================
@@ -379,11 +379,11 @@
 
 .recette-calc-ing-sep {
     text-align: center;
-    color: #666;
+    color: var(--color-text-dimmer);
     font-size: calc(var(--ui-font-size) - 3px);
     font-style: italic;
     margin: 4px 0 2px 0;
-    border-top: 1px dashed #333;
+    border-top: 1px dashed var(--color-separator);
     padding-top: 4px;
 }
 
@@ -431,10 +431,10 @@
 }
 
 .recette-profit-col-header {
-    color: #aaa;
+    color: var(--color-text-dim);
     font-size: calc(var(--ui-font-size) - 2px);
     font-weight: bold;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 4px;
     margin-bottom: 2px;
 }

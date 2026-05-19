@@ -1,4 +1,29 @@
 // =========================
+// ☀️ THEME
+// =========================
+
+let themeMode = localStorage.getItem("themeMode") || "dark";
+
+function applyTheme() {
+    if (themeMode === "light") {
+        document.body.classList.add("light-mode");
+        document.getElementById("btnTheme").textContent = langue === "fr" ? "🌙 Mode sombre" : "🌙 Dark mode";
+    } else {
+        document.body.classList.remove("light-mode");
+        document.getElementById("btnTheme").textContent = langue === "fr" ? "☀️ Mode clair" : "☀️ Light mode";
+    }
+}
+
+function toggleTheme() {
+    themeMode = themeMode === "dark" ? "light" : "dark";
+    localStorage.setItem("themeMode", themeMode);
+    applyTheme();
+}
+
+// Appliquer au chargement
+document.addEventListener("DOMContentLoaded", () => { applyTheme(); });
+
+// =========================
 // 🌍 UI STRINGS
 // =========================
 
@@ -257,6 +282,7 @@ function mettreAJourUI() {
     document.title = t("titreWebsite");
     document.getElementById("btnUser").textContent = t("modeUser");
     document.getElementById("btnAdmin").textContent = t("modeAdmin");
+    applyTheme();
     document.getElementById("labelNiveauPassion").textContent = t("niveauPassion");
     document.getElementById("labelPeche").textContent = t("peche");
     document.getElementById("labelObservation").textContent = t("observation");

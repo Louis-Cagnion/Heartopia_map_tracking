@@ -6,12 +6,12 @@
     position: fixed;
     right: 20px;
     bottom: 20px;
-    background: #111;
+    background: var(--bg-panel);
     padding: 12px;
     border-radius: 10px;
     width: 180px;
     text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    box-shadow: 0 0 10px var(--shadow-marker);
 }
 
 #adminPanel button {
@@ -20,21 +20,21 @@
     padding: 6px;
     border: none;
     border-radius: 6px;
-    background: #333;
-    color: white;
+    background: var(--bg-tab-btn);
+    color: var(--color-text);
     cursor: pointer;
     transition: 0.2s;
 }
 
 #adminPanel button:hover {
-    background: #555;
+    background: var(--bg-hover);
 }
 
 #adminPanel input[type="file"] {
     width: 100%;
     margin-top: 5px;
     font-size: var(--ui-font-size);
-    color: white;
+    color: var(--color-text);
 }
 
 /* ========================= */
@@ -45,13 +45,13 @@
     position: fixed;
     left: 20px;
     top: 20px;
-    background: #111;
+    background: var(--bg-panel);
     padding: 14px;
     border-radius: 10px;
     width: 220px;
     text-align: left;
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    color: white;
+    box-shadow: 0 0 10px var(--shadow-marker);
+    color: var(--color-text);
     font-size: var(--ui-font-size);
     z-index: 100;
 }
@@ -70,9 +70,9 @@
 .element-panel select {
     width: 100%;
     margin-top: 3px;
-    background: #222;
-    border: 1px solid #555;
-    color: white;
+    background: var(--bg-input);
+    border: 1px solid var(--color-border-alt);
+    color: var(--color-text);
     padding: 4px;
     border-radius: 4px;
     font-size: var(--ui-font-size);
@@ -84,14 +84,14 @@
     padding: 6px;
     border: none;
     border-radius: 6px;
-    background: #333;
-    color: white;
+    background: var(--bg-tab-btn);
+    color: var(--color-text);
     cursor: pointer;
     font-size: var(--ui-font-size);
 }
 
 .element-panel button:hover {
-    background: #555;
+    background: var(--bg-hover);
 }
 
 /* ========================= */
@@ -121,5 +121,5 @@
 .collectible-section strong {
     display: block;
     margin-bottom: 6px;
-    color: #aaa;
+    color: var(--color-text-dim);
 }

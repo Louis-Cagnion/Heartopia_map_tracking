@@ -18,21 +18,21 @@
     position: static;
     max-height: 600px;
     overflow-y: auto;
-    background: black;
+    background: var(--bg-panel);
     padding: 10px;
     border-radius: 8px;
-    color: white;
+    color: var(--color-text);
     font-size: var(--ui-font-size);
 }
 
 #placeTitle {
     cursor: pointer;
     margin: 0;
-    color: red;
+    color: var(--color-place-title);
 }
 
 #placeTitle:hover {
-    color: red;
+    color: var(--color-place-title);
 }
 
 #elementsList {
@@ -45,13 +45,13 @@
 }
 
 .elements-lieu-titre {
-    color: red;
+    color: var(--color-place-title);
     font-size: var(--ui-font-size);
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 3px;
     padding-bottom: 2px;
-    border-left: 3px solid red;
+    border-left: 3px solid var(--color-place-border);
     padding-left: 6px;
 }
 
@@ -63,26 +63,26 @@
 
 .elements-lieu-liste li {
     padding: 2px 0;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid var(--color-separator);
     cursor: pointer;
 }
 
 .elements-lieu-liste li:hover {
-    color: #e8a44a;
+    color: var(--color-accent);
 }
 
 .elements-lieu-liste li.selected {
-    color: #e8a44a;
+    color: var(--color-accent);
 }
 
 .element-details {
-    background: #1a1a1a;
-    border-left: 3px solid #e8a44a;
+    background: var(--bg-panel-alt);
+    border-left: 3px solid var(--color-accent);
     border-radius: 4px;
     padding: 6px 8px;
     margin-top: 4px;
     font-size: var(--ui-font-size);
-    color: #ccc;
+    color: var(--color-text-muted);
 }
 
 .element-details-row {
@@ -95,10 +95,10 @@
 
 #panelSpeciaux {
     position: static;
-    background: #111;
+    background: var(--color-panel-speciaux);
     padding: 12px;
     border-radius: 8px;
-    color: white;
+    color: var(--color-text);
     max-width: 400px;
     max-height: 60vh;
     overflow-y: auto;
@@ -115,7 +115,7 @@
 #panelSpeciaux h3 button {
     background: none;
     border: none;
-    color: white;
+    color: var(--color-text);
     cursor: pointer;
     font-size: var(--ui-font-size);
     padding: 0;
@@ -125,10 +125,10 @@
 #btnSpeciaux {
     position: static;
     width: 100%;
-    background: black;
+    background: var(--bg-panel);
     border: none;
     border-radius: 6px;
-    color: white;
+    color: var(--color-text);
     padding: 6px 10px;
     cursor: pointer;
     font-size: var(--ui-font-size);
@@ -136,5 +136,5 @@
 }
 
 #btnSpeciaux:hover {
-    background: #555;
+    background: var(--bg-hover);
 }

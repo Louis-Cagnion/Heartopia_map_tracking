@@ -10,10 +10,10 @@
 }
 
 .tab-btn-wildlife {
-    background: black;
+    background: var(--bg-panel);
     border: none;
     border-radius: 6px;
-    color: white;
+    color: var(--color-text);
     padding: 6px 16px;
     cursor: pointer;
     font-size: var(--ui-font-size);
@@ -21,12 +21,12 @@
 }
 
 .tab-btn-wildlife:hover {
-    background: #555;
+    background: var(--bg-hover);
 }
 
 .tab-btn-wildlife.active {
-    background: white;
-    color: #333;
+    background: var(--bg-tab-active);
+    color: var(--color-tab-active);
 }
 
 /* ========================= */
@@ -46,7 +46,7 @@
 /* ========================= */
 
 .niveau-bloc {
-    background: #111;
+    background: var(--bg-niveau);
     border-radius: 8px;
     margin-bottom: 8px;
     overflow: hidden;
@@ -59,11 +59,11 @@
     padding: 8px 12px;
     cursor: pointer;
     user-select: none;
-    background: #1a1a1a;
+    background: var(--bg-niveau-header);
 }
 
 .niveau-header:hover {
-    background: #222;
+    background: var(--bg-niveau-header-hover);
 }
 
 .niveau-toggle {
@@ -98,5 +98,5 @@
 }
 
 .faune-item:hover {
-    color: #e8a44a;
+    color: var(--color-accent);
 }
