@@ -5,8 +5,7 @@
 let currentRecettesSubTab = "liste";
 let calcSelectedRecette = "";
 let calcDejaCooked = "0";
-let listeOpenRecette = "";
-let profitOpenRecette = "";
+
 
 // Formate un nombre avec séparateur de milliers selon la langue
 function formatNombre(n) {
@@ -295,6 +294,7 @@ function initOngletRecettes() {
 function renderRecettesListe() {
     const zone = document.getElementById("recettes-sub-liste");
     if (!zone) return;
+    const openedListe = new Set([...zone.querySelectorAll(".recette-card.opened")].map(c => c.dataset.namefr));
     zone.innerHTML = "";
 
     if (recettes.length === 0) {
@@ -318,8 +318,11 @@ function renderRecettesListe() {
     zone.appendChild(listContent);
 
     sorted.forEach(r => {
+        const nameFr = Array.isArray(r.name) ? r.name[0] : r.name;
+
         const card = document.createElement("div");
         card.className = "recette-card";
+        card.dataset.namefr = nameFr;
 
         const header = document.createElement("div");
         header.className = "recette-card-header";
@@ -339,10 +342,9 @@ function renderRecettesListe() {
         const details = document.createElement("div");
         details.className = "recette-card-details hidden";
 
-        const nameFrListe = Array.isArray(r.name) ? r.name[0] : r.name;
-
         // Restaurer l'état ouvert
-        if (listeOpenRecette && listeOpenRecette === nameFrListe) {
+        if (openedListe.has(nameFr)) {
+            card.classList.add("opened");
             details.classList.remove("hidden");
             arrow.textContent = "▼";
             renderDetailsRecette(r, details);
@@ -352,13 +354,12 @@ function renderRecettesListe() {
             const isOpen = !details.classList.contains("hidden");
             zone.querySelectorAll(".recette-card-details").forEach(d => d.classList.add("hidden"));
             zone.querySelectorAll(".recette-card-arrow").forEach(a => { a.textContent = "▶"; });
+            zone.querySelectorAll(".recette-card").forEach(c => c.classList.remove("opened"));
             if (!isOpen) {
                 details.classList.remove("hidden");
                 arrow.textContent = "▼";
+                card.classList.add("opened");
                 renderDetailsRecette(r, details);
-                listeOpenRecette = nameFrListe;
-            } else {
-                listeOpenRecette = "";
             }
         });
 
@@ -466,6 +467,7 @@ function renderDetailsRecette(r, zone) {
 function renderRecettesProfit() {
     const zone = document.getElementById("recettes-sub-profit");
     if (!zone) return;
+    const openedProfit = new Set([...zone.querySelectorAll(".recette-card.opened")].map(c => c.dataset.namefr));
     zone.innerHTML = "";
 
     if (recettes.length === 0) {
@@ -573,8 +575,8 @@ function renderRecettesProfit() {
             const details = document.createElement("div");
             details.className = "recette-card-details hidden";
 
-            // Clé stable indépendante de la langue : les nameFr (index 0) des membres triés
             const nameFrProfit = membresItems.map(it => Array.isArray(it.r.name) ? it.r.name[0] : it.r.name).sort().join("|");
+            card.dataset.namefr = nameFrProfit;
 
             function renderContenuProfit() {
                 details.innerHTML = "";
@@ -627,26 +629,26 @@ function renderRecettesProfit() {
                 details.appendChild(cols);
             }
 
-            header.addEventListener("click", () => {
-                const isOpen = !details.classList.contains("hidden");
-                zone.querySelectorAll(".recette-card-details").forEach(d => d.classList.add("hidden"));
-                zone.querySelectorAll(".recette-card-arrow").forEach(a => { a.textContent = "▶"; });
-                if (!isOpen) {
-                    details.classList.remove("hidden");
-                    arrow.textContent = "▼";
-                    profitOpenRecette = nameFrProfit;
-                    renderContenuProfit();
-                } else {
-                    profitOpenRecette = "";
-                }
-            });
-
-            // Restaurer l'état ouvert sans passer par le click
-            if (profitOpenRecette && profitOpenRecette === nameFrProfit) {
+            // Restaurer l'état ouvert
+            if (openedProfit.has(nameFrProfit)) {
+                card.classList.add("opened");
                 details.classList.remove("hidden");
                 arrow.textContent = "▼";
                 renderContenuProfit();
             }
+
+            header.addEventListener("click", () => {
+                const isOpen = !details.classList.contains("hidden");
+                zone.querySelectorAll(".recette-card-details").forEach(d => d.classList.add("hidden"));
+                zone.querySelectorAll(".recette-card-arrow").forEach(a => { a.textContent = "▶"; });
+                zone.querySelectorAll(".recette-card").forEach(c => c.classList.remove("opened"));
+                if (!isOpen) {
+                    details.classList.remove("hidden");
+                    arrow.textContent = "▼";
+                    card.classList.add("opened");
+                    renderContenuProfit();
+                }
+            });
 
             card.appendChild(details);
             profitContent.appendChild(card);

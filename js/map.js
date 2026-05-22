@@ -114,7 +114,7 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
     el.style.top = y + "%";
     el.style.background = color;
     el.dataset.type = type;
-    el.dataset.collectibleName = collectibleName;
+    el.dataset.collectibleName = Array.isArray(collectibleName) ? collectibleName[0] : collectibleName;
     el.dataset.spawnIndex = spawnIndex;
 
     el.onmousedown = function(e) {
@@ -127,6 +127,9 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
     el.onclick = function(e) {
         if (mode !== "admin" || !suppressionCollectibleMode) return;
         e.stopPropagation();
+        // Vérifier que ce marqueur appartient au collectible sélectionné
+        const currentName = currentCollectible ? (Array.isArray(currentCollectible.name) ? currentCollectible.name[0] : currentCollectible.name) : null;
+        if (!currentName || el.dataset.collectibleName !== currentName) return;
         if (!confirm("Supprimer cette position ?")) return;
         const name = el.dataset.collectibleName;
         const idx = parseInt(el.dataset.spawnIndex);

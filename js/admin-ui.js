@@ -349,46 +349,12 @@ function renderFormulaireSupprimer(type, zone) {
     labelEl.textContent = t("adminElementASupprimer");
     form.appendChild(labelEl);
 
-    const sel = document.createElement("select");
-    sel.className = "admin-select";
-    const optVide = document.createElement("option");
-    optVide.value = "";
-    optVide.textContent = t("adminSelectionnerElement");
-    sel.appendChild(optVide);
-    [...data].sort((a,b)=>{
-        const na=Array.isArray(a.name)?a.name[0]:a.name;
-        const nb=Array.isArray(b.name)?b.name[0]:b.name;
-        return na.localeCompare(nb,"fr");
-    }).forEach(el => {
-        const opt = document.createElement("option");
-        const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-        opt.value = nameFr; opt.textContent = nameFr;
-        sel.appendChild(opt);
-    });
-    form.appendChild(sel);
-
-    const btnSupp = document.createElement("button");
-    btnSupp.className = "admin-btn-danger";
-    btnSupp.textContent = t("adminSupprimerElement");
-    btnSupp.onclick = () => {
-        const nom = sel.value;
-        if (!nom) return;
-        if (!confirm(t("adminElementASupprimer") + " \"" + nom + "\" ?")) return;
-        supprimerElementAdmin(type, nom);
-        fermerCarteAdmin("supprimer");
-        renderFormulaireSupprimer(type, zone);
-    };
     if (type === "collectible") {
-        // Pour les collectibles : un seul select + 2 boutons sur la même ligne
-        // Remplacer le bouton de suppression générique par la logique collectible
-        // (btnSupp déjà ajouté, on retire et on refait)
-        form.removeChild(btnSupp);
-
-        const selC = document.createElement("select");
-        selC.className = "admin-select";
-        const optVideC = document.createElement("option");
-        optVideC.value = ""; optVideC.textContent = t("adminSelectionnerElement");
-        selC.appendChild(optVideC);
+        const sel = document.createElement("select");
+        sel.className = "admin-select";
+        const optVide = document.createElement("option");
+        optVide.value = ""; optVide.textContent = t("adminSelectionnerElement");
+        sel.appendChild(optVide);
         [...collectibles].sort((a,b)=>{
             const na=Array.isArray(a.name)?a.name[0]:a.name;
             const nb=Array.isArray(b.name)?b.name[0]:b.name;
@@ -398,9 +364,9 @@ function renderFormulaireSupprimer(type, zone) {
             const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
             opt.value = nameFr;
             opt.textContent = nameFr + " (" + (el.spawns||[]).length + " pos.)";
-            selC.appendChild(opt);
+            sel.appendChild(opt);
         });
-        form.appendChild(selC);
+        form.appendChild(sel);
 
         const btnRow = document.createElement("div");
         btnRow.style.cssText = "display:flex;gap:8px;";
@@ -409,7 +375,7 @@ function renderFormulaireSupprimer(type, zone) {
         btnSuppC.className = "admin-btn-danger";
         btnSuppC.textContent = langue === "fr" ? "Supprimer le collectible" : "Delete collectible";
         btnSuppC.onclick = () => {
-            const nom = selC.value;
+            const nom = sel.value;
             if (!nom) return;
             if (!confirm((langue === "fr" ? "Supprimer" : "Delete") + " \"" + nom + "\" ?")) return;
             supprimerElementAdmin(type, nom);
@@ -421,7 +387,7 @@ function renderFormulaireSupprimer(type, zone) {
         btnSuppPos.className = "admin-btn-secondary";
         btnSuppPos.textContent = langue === "fr" ? "Supprimer une position" : "Delete a position";
         btnSuppPos.onclick = () => {
-            const nom = selC.value;
+            const nom = sel.value;
             if (!nom) return;
             const col = collectibles.find(c => (Array.isArray(c.name)?c.name[0]:c.name) === nom);
             if (!col) return;
@@ -431,6 +397,38 @@ function renderFormulaireSupprimer(type, zone) {
         btnRow.appendChild(btnSuppC);
         btnRow.appendChild(btnSuppPos);
         form.appendChild(btnRow);
+
+    } else {
+        const sel = document.createElement("select");
+        sel.className = "admin-select";
+        const optVide = document.createElement("option");
+        optVide.value = "";
+        optVide.textContent = t("adminSelectionnerElement");
+        sel.appendChild(optVide);
+        [...data].sort((a,b)=>{
+            const na=Array.isArray(a.name)?a.name[0]:a.name;
+            const nb=Array.isArray(b.name)?b.name[0]:b.name;
+            return na.localeCompare(nb,"fr");
+        }).forEach(el => {
+            const opt = document.createElement("option");
+            const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+            opt.value = nameFr; opt.textContent = nameFr;
+            sel.appendChild(opt);
+        });
+        form.appendChild(sel);
+
+        const btnSupp = document.createElement("button");
+        btnSupp.className = "admin-btn-danger";
+        btnSupp.textContent = t("adminSupprimerElement");
+        btnSupp.onclick = () => {
+            const nom = sel.value;
+            if (!nom) return;
+            if (!confirm(t("adminElementASupprimer") + " \"" + nom + "\" ?")) return;
+            supprimerElementAdmin(type, nom);
+            fermerCarteAdmin("supprimer");
+            renderFormulaireSupprimer(type, zone);
+        };
+        form.appendChild(btnSupp);
     }
 
     zone.appendChild(form);
