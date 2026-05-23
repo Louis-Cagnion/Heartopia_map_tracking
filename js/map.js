@@ -10,15 +10,32 @@ container.classList.add("add-mode");
 // 🖱️ DRAG COLLECTIBLES
 // =========================
 
+/** @type {HTMLElement|null} Marqueur collectible en cours de déplacement. */
 let draggingCollectible = null;
+/** @type {boolean} Vrai si le mode placement de collectible est actif. */
 let collectiblePlacementMode = false;
+/**
+ * Collectible courant sélectionné pour placement ou suppression.
+ * @type {{ name: string|[string,string], type: string|[string,string], color: string, spawns: Array<{x:number, y:number}> }|null}
+ */
 let currentCollectible = null;
+/** @type {boolean} Vrai si le mode suppression de position de collectible est actif. */
 let suppressionCollectibleMode = false;
 
 // =========================
 // 📍 CREATE PLACE MARKER
 // =========================
 
+/**
+ * Crée et ajoute dans `#map-inner` un marqueur de lieu avec son label.
+ * En mode utilisateur, un clic sélectionne/désélectionne le lieu et affiche sa faune.
+ * En mode admin, double-clic sur le label permet de renommer le lieu.
+ * @param {string} name - Nom français du lieu (utilisé comme identifiant `data-name`).
+ * @param {number} x - Position horizontale en pourcentage (0–100).
+ * @param {number} y - Position verticale en pourcentage (0–100).
+ * @param {number} [level=1] - Niveau d'affichage : 1 = visible au zoom normal, 2 = visible au zoom ≥ 2.
+ * @returns {void}
+ */
 function createPlaceMarker(name, x, y, level = 1) {
     const el = document.createElement("div");
     el.className = "marker place-marker";
@@ -107,6 +124,19 @@ function createPlaceMarker(name, x, y, level = 1) {
 // 🍄 CREATE COLLECTIBLE MARKER
 // =========================
 
+/**
+ * Crée et ajoute dans `#map-inner` un marqueur de position de collectible.
+ * En mode admin avec `draggingCollectible`, peut être déplacé à la souris.
+ * En mode admin avec `suppressionCollectibleMode`, un clic supprime la position
+ * du tableau `collectibles[].spawns` (mutation en place) et du DOM.
+ * @param {number} x - Position horizontale en pourcentage (0–100).
+ * @param {number} y - Position verticale en pourcentage (0–100).
+ * @param {string|[string,string]} type - Type du collectible (utilisé comme `data-type`).
+ * @param {string|[string,string]} collectibleName - Nom du collectible ; seul l'index 0 est utilisé.
+ * @param {number} spawnIndex - Index du spawn dans `collectible.spawns` (utilisé pour la suppression).
+ * @param {string} [color="#e67e22"] - Couleur CSS de fond du marqueur.
+ * @returns {void}
+ */
 function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color = "#e67e22") {
     const el = document.createElement("div");
     el.className = "marker collectible-marker";
@@ -127,7 +157,6 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
     el.onclick = function(e) {
         if (mode !== "admin" || !suppressionCollectibleMode) return;
         e.stopPropagation();
-        // Vérifier que ce marqueur appartient au collectible sélectionné
         const currentName = currentCollectible ? (Array.isArray(currentCollectible.name) ? currentCollectible.name[0] : currentCollectible.name) : null;
         if (!currentName || el.dataset.collectibleName !== currentName) return;
         if (!confirm("Supprimer cette position ?")) return;
@@ -135,7 +164,9 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
         const idx = parseInt(el.dataset.spawnIndex);
         const collectible = collectibles.find(c => (Array.isArray(c.name) ? c.name[0] : c.name) === name);
         if (collectible) {
+            // ⚠️ Mutation du tableau collectible.spawns en place
             collectible.spawns.splice(idx, 1);
+            // Mettre à jour les indices des marqueurs suivants
             document.querySelectorAll(".collectible-marker").forEach(m => {
                 if (m.dataset.collectibleName === name) {
                     const mIdx = parseInt(m.dataset.spawnIndex);
@@ -155,6 +186,11 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
 // 🏷️ LABELS
 // =========================
 
+/**
+ * Repositionne verticalement les labels de lieux pour éviter les chevauchements.
+ * Trie les labels par position verticale et décale vers le haut ceux qui se superposent.
+ * @returns {void}
+ */
 function repositionLabels() {
     const labels = [...document.querySelectorAll(".place-label")];
     labels.forEach(l => {
@@ -174,6 +210,10 @@ function repositionLabels() {
     }
 }
 
+/**
+ * Recadre horizontalement les labels qui débordent du conteneur `#map-inner`.
+ * @returns {void}
+ */
 function clampLabels() {
     const containerRect = inner.getBoundingClientRect();
     document.querySelectorAll(".place-label").forEach(l => {
@@ -191,6 +231,12 @@ function clampLabels() {
 // 🔍 ZOOM + PAN
 // =========================
 
+/**
+ * Applique la transformation CSS courante (`zoom`, `panX`, `panY`) à `#map-inner`,
+ * recadre le pan pour éviter de sortir des limites, et ajuste la taille des marqueurs
+ * et labels en fonction du zoom.
+ * @returns {void}
+ */
 function applyTransform() {
     const mapW = 675;
     const mapH = 674;
@@ -222,6 +268,12 @@ function applyTransform() {
     });
 }
 
+/**
+ * Affiche ou masque les marqueurs de lieux selon le niveau de zoom courant.
+ * Les marqueurs de niveau 1 sont visibles en dessous de zoom 2,
+ * les marqueurs de niveau 2 au-dessus.
+ * @returns {void}
+ */
 function updateMarkerVisibility() {
     document.querySelectorAll(".place-marker").forEach(el => {
         const level = parseInt(el.dataset.level) || 1;
@@ -235,6 +287,7 @@ function updateMarkerVisibility() {
 // 🖱️ MOUSE EVENTS
 // =========================
 
+// Zoom à la molette centré sur la position du curseur
 container.addEventListener("wheel", function(e) {
     e.preventDefault();
     const rect = container.getBoundingClientRect();
@@ -250,6 +303,7 @@ container.addEventListener("wheel", function(e) {
     setTimeout(() => { repositionLabels(); clampLabels(); }, 50);
 }, { passive: false });
 
+// Pan au clic droit maintenu
 container.addEventListener("mousedown", function(e) {
     if (e.button !== 2) return;
     isPanning = true;
@@ -261,26 +315,26 @@ container.addEventListener("mousedown", function(e) {
 
 container.addEventListener("contextmenu", function(e) {
     e.preventDefault();
-    // Le clic droit sert au pan, on ne quitte pas collectiblePlacementMode
 });
 
+// Placement de collectible au clic gauche (si mode actif)
 container.addEventListener("click", function(e) {
     if (collectiblePlacementMode) {
         const rect = container.getBoundingClientRect();
         const x = Math.round(((e.clientX - rect.left - panX) / (container.offsetWidth * zoom)) * 10000) / 100;
         const y = Math.round(((e.clientY - rect.top - panY) / (container.offsetHeight * zoom)) * 10000) / 100;
+        // ⚠️ Mutation en place de currentCollectible.spawns
         currentCollectible.spawns.push({ x, y });
         localStorage.setItem("collectibles", JSON.stringify(collectibles));
         const spawnIndex = currentCollectible.spawns.length - 1;
         createCollectibleMarker(x, y, currentCollectible.type, currentCollectible.name, spawnIndex, currentCollectible.color || "#e67e22");
         return;
     }
-    // Création de lieux désactivée
 });
 
 document.addEventListener("mousemove", function(e) {
     const rect = container.getBoundingClientRect();
-    // Drag lieux désactivé
+    // Déplacement d'un marqueur collectible en mode admin
     if (draggingCollectible && mode === "admin") {
         let x = ((e.clientX - rect.left - panX) / (rect.width * zoom)) * 100;
         let y = ((e.clientY - rect.top - panY) / (rect.height * zoom)) * 100;
@@ -297,7 +351,6 @@ document.addEventListener("mousemove", function(e) {
 });
 
 document.addEventListener("mouseup", function() {
-    // Drag lieux désactivé
     if (draggingCollectible && mode === "admin") {
         const name = draggingCollectible.dataset.collectibleName;
         const idx = parseInt(draggingCollectible.dataset.spawnIndex);
@@ -305,6 +358,7 @@ document.addEventListener("mouseup", function() {
         const y = Math.round(parseFloat(draggingCollectible.style.top) * 100) / 100;
         const collectible = collectibles.find(c => (Array.isArray(c.name) ? c.name[0] : c.name) === name);
         if (collectible) {
+            // ⚠️ Mutation en place de collectible.spawns[idx]
             collectible.spawns[idx] = { x, y };
             localStorage.setItem("collectibles", JSON.stringify(collectibles));
         }
@@ -327,6 +381,7 @@ let touchStartTime = 0;
 let touchStartPos = { x: 0, y: 0 };
 let touchMoved = false;
 
+// Pinch-to-zoom et pan tactile
 container.addEventListener("touchstart", e => {
     if (e.touches.length === 2) {
         lastTouchDist = Math.hypot(

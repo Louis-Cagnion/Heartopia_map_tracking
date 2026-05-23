@@ -3,21 +3,41 @@
 // =========================
 
 // ---- État local ----
+/** @type {string|null} Clé de la section admin actuellement ouverte ("ajouter"|"modifier"|"supprimer"|"importexport"). */
 let adminSectionActive = null;
+/** @type {string|null} Type de l'élément actuellement sélectionné dans un panneau admin. */
 let adminPanneauActif = null;
+/** @type {boolean} Vrai si la carte inline admin est affichée. */
 let adminCarteVisible = false;
+/** @type {string|null} Clé de la section admin qui a ouvert la carte inline. */
 let adminCarteSection = null;
+/** @type {boolean} Non utilisé activement, conservé pour compatibilité. */
 let adminModeEdition = false;
+/**
+ * Référence à l'élément de faune/collectible/recette en cours de modification.
+ * Partagé avec les formulaires de sauvegarde.
+ * @type {Object|null}
+ */
 let adminElementEdite = null;
 
 const adminTypes = ["poisson", "insecte", "oiseau", "collectible", "ingredient", "recette"];
 
+/**
+ * Initialise la page admin en construisant son DOM depuis zéro.
+ * @returns {void}
+ */
 function initAdminUI() {
     const page = document.getElementById("adminPage");
     if (!page) return;
     renderAdminPage();
 }
 
+/**
+ * Crée et retourne l'élément DOM de carte inline pour une section admin donnée.
+ * La carte inline contient un header avec titre/fermeture et un wrapper pour `#map-container`.
+ * @param {string} sectionKey - Clé de la section parente ("ajouter"|"modifier"|"supprimer").
+ * @returns {HTMLDivElement} Élément `.admin-carte-inline` prêt à être inséré dans le DOM.
+ */
 function creerCarteInline(sectionKey) {
     const carteInline = document.createElement("div");
     carteInline.id = "adminCarteInline-" + sectionKey;
@@ -43,6 +63,13 @@ function creerCarteInline(sectionKey) {
     return carteInline;
 }
 
+/**
+ * Reconstruit entièrement le DOM de la page admin :
+ * 4 sections accordéon (ajouter, modifier, supprimer, import/export)
+ * avec leur carte inline respective pour les 3 premières.
+ * Remet `#map-container` dans `#mapColumn` s'il avait été déplacé.
+ * @returns {void}
+ */
 function renderAdminPage() {
     const page = document.getElementById("adminPage");
     const mapContainer = document.getElementById("map-container");
@@ -81,6 +108,13 @@ function renderAdminPage() {
     });
 }
 
+/**
+ * Bascule l'ouverture/fermeture d'une section accordéon admin.
+ * Ferme toutes les autres sections et leurs cartes inline.
+ * Déclenche le rendu du contenu si la section s'ouvre.
+ * @param {"ajouter"|"modifier"|"supprimer"|"importexport"} key - Clé de la section à toggler.
+ * @returns {void}
+ */
 function toggleAdminSection(key) {
     const body = document.getElementById("adminSectionBody-" + key);
     const arrow = document.querySelector("#adminSection-" + key + " .admin-section-arrow");
@@ -101,6 +135,12 @@ function toggleAdminSection(key) {
     }
 }
 
+/**
+ * Délègue le rendu du corps d'une section admin à la fonction appropriée.
+ * @param {"ajouter"|"modifier"|"supprimer"|"importexport"} key - Clé de la section.
+ * @param {HTMLElement} body - Conteneur DOM du corps de la section.
+ * @returns {void}
+ */
 function renderAdminSectionBody(key, body) {
     body.innerHTML = "";
     if (key === "ajouter")       renderGrilleTypes(body, "ajouter");
@@ -109,6 +149,13 @@ function renderAdminSectionBody(key, body) {
     else if (key === "importexport") renderImportExport(body);
 }
 
+/**
+ * Crée la grille de boutons de type (poisson, insecte, oiseau, collectible,
+ * ingrédient, recette) et la zone de panneau dynamique pour un mode donné.
+ * @param {HTMLElement} body - Conteneur DOM dans lequel injecter la grille.
+ * @param {"ajouter"|"modifier"|"supprimer"} mode - Mode d'action.
+ * @returns {void}
+ */
 function renderGrilleTypes(body, mode) {
     const grid = document.createElement("div");
     grid.className = "admin-type-grid";
@@ -140,6 +187,15 @@ function renderGrilleTypes(body, mode) {
     body.appendChild(panneauZone);
 }
 
+/**
+ * Bascule l'affichage du formulaire associé à un type dans un mode donné.
+ * Si le panneau était déjà actif, le ferme. Sinon, l'ouvre et rend le formulaire.
+ * @param {"ajouter"|"modifier"|"supprimer"} mode - Mode d'action.
+ * @param {string} type - Type d'élément ("poisson"|"insecte"|"oiseau"|"collectible"|"ingredient"|"recette").
+ * @param {HTMLElement} btn - Bouton cliqué (pour le style `active`).
+ * @param {HTMLElement} body - Conteneur parent du panneau.
+ * @returns {void}
+ */
 function toggleAdminPanneau(mode, type, btn, body) {
     const panneauZone = document.getElementById("adminPanneauZone-" + mode);
     const alreadyOpen = btn.classList.contains("active");
@@ -158,6 +214,17 @@ function toggleAdminPanneau(mode, type, btn, body) {
     else if (mode === "supprimer") renderFormulaireSupprimer(type, panneauZone);
 }
 
+/**
+ * Rend le formulaire de création pour un type d'élément donné.
+ * Les champs varient selon le type :
+ * - faune (poisson/insecte/oiseau) : nom FR/EN, lieu, heures, météo, niveau hobby.
+ * - collectible : nom FR/EN, catégorie, couleur, bouton d'ajout de positions sur la carte.
+ * - ingrédient : nom FR/EN, catégorie FR/EN, prix.
+ * - recette : nom FR/EN, énergie, prix de vente, paliers, slots d'ingrédients.
+ * @param {string} type - Type d'élément à créer.
+ * @param {HTMLElement} zone - Conteneur DOM dans lequel injecter le formulaire.
+ * @returns {void}
+ */
 function renderFormulaireAjouter(type, zone) {
     zone.innerHTML = "";
     const form = document.createElement("div");
@@ -195,6 +262,7 @@ function renderFormulaireAjouter(type, zone) {
             const name = nomEn ? [nomFr, nomEn] : nomFr;
             let col = collectibles.find(c => (Array.isArray(c.name) ? c.name[0] : c.name) === nomFr);
             if (!col) {
+                // ⚠️ Mutation en place du tableau global collectibles
                 col = { name, type: typeVal, color, spawns: [] };
                 collectibles.push(col);
                 localStorage.setItem("collectibles", JSON.stringify(collectibles));
@@ -230,6 +298,14 @@ function renderFormulaireAjouter(type, zone) {
     zone.appendChild(form);
 }
 
+/**
+ * Rend le formulaire de sélection + modification pour un type d'élément.
+ * Affiche un `<select>` de tous les éléments existants du type ;
+ * au changement, injecte le formulaire pré-rempli via `renderFormulaireModifierRempli`.
+ * @param {string} type - Type d'élément à modifier.
+ * @param {HTMLElement} zone - Conteneur DOM dans lequel injecter le formulaire.
+ * @returns {void}
+ */
 function renderFormulaireModifier(type, zone) {
     zone.innerHTML = "";
     const data = getDataPourType(type);
@@ -274,6 +350,14 @@ function renderFormulaireModifier(type, zone) {
     });
 }
 
+/**
+ * Rend le formulaire de modification pré-rempli avec les données de l'élément sélectionné.
+ * Les champs sont identiques à `renderFormulaireAjouter` mais initialisés avec les valeurs existantes.
+ * @param {string} type - Type de l'élément.
+ * @param {Object} el - Objet élément à modifier (référence partagée avec `adminElementEdite`).
+ * @param {HTMLElement} zone - Conteneur DOM dans lequel injecter le formulaire.
+ * @returns {void}
+ */
 function renderFormulaireModifierRempli(type, el, zone) {
     zone.innerHTML = "";
     const form = document.createElement("div");
@@ -336,6 +420,13 @@ function renderFormulaireModifierRempli(type, el, zone) {
     zone.appendChild(form);
 }
 
+/**
+ * Rend le formulaire de suppression pour un type d'élément.
+ * Pour les collectibles, propose aussi la suppression d'une position individuelle via la carte.
+ * @param {string} type - Type d'élément à supprimer.
+ * @param {HTMLElement} zone - Conteneur DOM dans lequel injecter le formulaire.
+ * @returns {void}
+ */
 function renderFormulaireSupprimer(type, zone) {
     zone.innerHTML = "";
     const data = getDataPourType(type);
@@ -434,6 +525,13 @@ function renderFormulaireSupprimer(type, zone) {
     zone.appendChild(form);
 }
 
+/**
+ * Rend l'interface d'import/export dans le corps d'une section admin.
+ * Import : champ fichier multiple JSON → appelle `importElements`.
+ * Export : cases à cocher par fichier + bouton d'export sélectif.
+ * @param {HTMLElement} body - Conteneur DOM dans lequel injecter l'interface.
+ * @returns {void}
+ */
 function renderImportExport(body) {
     const zone = document.createElement("div");
     zone.className = "admin-form";
@@ -492,6 +590,13 @@ function renderImportExport(body) {
     body.appendChild(zone);
 }
 
+/**
+ * Exporte les fichiers JSON cochés dans `checkZone` sous forme de téléchargements.
+ * Chaque fichier coché génère un `Blob` JSON avec BOM UTF-8 et déclenche un téléchargement.
+ * Les coordonnées de lieux et spawns sont arrondies.
+ * @param {HTMLElement} checkZone - Conteneur contenant les `<input type="checkbox" data-export-key="...">`.
+ * @returns {void}
+ */
 function exportSelectionne(checkZone) {
     checkZone.querySelectorAll("input[type='checkbox']").forEach(cb => {
         if (!cb.checked) return;
@@ -514,6 +619,17 @@ function exportSelectionne(checkZone) {
     });
 }
 
+/**
+ * Lit les valeurs du formulaire et sauvegarde l'élément (création ou modification)
+ * dans le tableau global correspondant et dans le localStorage.
+ * Affiche une alerte de confirmation. En mode création, réinitialise le formulaire.
+ * En mode modification, actualise le `<select>` si le nom a changé.
+ * @param {string} type - Type d'élément ("poisson"|"insecte"|"oiseau"|"collectible"|"ingredient"|"recette").
+ * @param {HTMLElement} form - Formulaire DOM dont on lit les champs `[data-field]` et `[data-group]`.
+ * @param {boolean} estModification - `true` si on modifie un élément existant, `false` si création.
+ *   En modification, `adminElementEdite` est muté en place (⚠️ référence partagée).
+ * @returns {void}
+ */
 function sauvegarderElement(type, form, estModification) {
     const get = (id) => { const el = form.querySelector("[data-field=\"" + id + "\"]"); return el ? el.value.trim() : ""; };
     const getChecked = (name) => [...form.querySelectorAll("[data-group=\"" + name + "\"] input:checked")].map(cb => cb.value);
@@ -536,7 +652,6 @@ function sauvegarderElement(type, form, estModification) {
         }
         const clef = type === "poisson" ? "poissons" : type === "insecte" ? "insectes" : "oiseaux";
         localStorage.setItem(clef, JSON.stringify(type === "poisson" ? poissons : type === "insecte" ? insectes : oiseaux));
-
         localStorage.setItem("collectibles", JSON.stringify(collectibles));
         afficherLegende();
 
@@ -571,13 +686,10 @@ function sauvegarderElement(type, form, estModification) {
         const selMod = document.getElementById("modifierSelect-" + type);
         const zoneForm = document.getElementById("modifierFormZone-" + type);
         if (selMod && zoneForm) {
-            // Actualiser la liste déroulante si le nom a changé
             const nouvNomFr = Array.isArray(adminElementEdite.name) ? adminElementEdite.name[0] : adminElementEdite.name;
             const optExist = [...selMod.options].find(o => o.value === nouvNomFr);
             if (!optExist) {
-                // Reconstruire toutes les options
                 const data = getDataPourType(type);
-                const valeurPrecedente = selMod.value;
                 while (selMod.options.length > 1) selMod.remove(1);
                 [...data].sort((a, b) => {
                     const na = Array.isArray(a.name) ? a.name[0] : a.name;
@@ -597,12 +709,28 @@ function sauvegarderElement(type, form, estModification) {
     }
 }
 
+/**
+ * Remplace les propriétés d'un élément existant dans le tableau de faune correspondant.
+ * ⚠️ Mute le tableau global en place (`poissons`, `insectes` ou `oiseaux`).
+ * @param {"poisson"|"insecte"|"oiseau"} type - Type de faune.
+ * @param {Object} original - Référence à l'objet original dans le tableau (trouvé par `indexOf`).
+ * @param {Object} nouveau - Nouvelles propriétés à fusionner sur l'original.
+ * @returns {void}
+ */
 function modifierDansTableau(type, original, nouveau) {
     const tableau = type === "poisson" ? poissons : type === "insecte" ? insectes : oiseaux;
     const idx = tableau.indexOf(original);
     if (idx !== -1) tableau[idx] = { ...original, ...nouveau };
 }
 
+/**
+ * Supprime un élément par son nom FR du tableau global correspondant et du localStorage.
+ * ⚠️ Mute le tableau global en place.
+ * @param {string} type - Type d'élément ("poisson"|"insecte"|"oiseau"|"ingredient"|"recette").
+ *   Note : la suppression de collectibles entiers est gérée dans `renderFormulaireSupprimer`.
+ * @param {string} nom - Nom français de l'élément à supprimer.
+ * @returns {void}
+ */
 function supprimerElementAdmin(type, nom) {
     const filtre = arr => arr.filter(x => (Array.isArray(x.name)?x.name[0]:x.name) !== nom);
     if (type === "poisson") { poissons = filtre(poissons); localStorage.setItem("poissons", JSON.stringify(poissons)); }
@@ -612,6 +740,16 @@ function supprimerElementAdmin(type, nom) {
     else if (type === "recette") { recettes = filtre(recettes); localStorage.setItem("recettes", JSON.stringify(recettes)); }
 }
 
+/**
+ * Ouvre la carte inline admin pour placer ou supprimer des positions de collectible.
+ * Déplace `#map-container` dans le wrapper de la carte inline.
+ * Active `collectiblePlacementMode` ou `suppressionCollectibleMode` selon `modeAction`.
+ * ⚠️ `collectible` est stocké dans `currentCollectible` (référence partagée).
+ * @param {"ajouter"|"modifier"|"supprimer"} modeAction - Action à effectuer sur la carte.
+ * @param {{ name: string|[string,string], spawns: Array<{x:number,y:number}> }} collectible - Collectible cible.
+ * @param {string} sectionKey - Clé de la section admin propriétaire de la carte inline.
+ * @returns {void}
+ */
 function ouvrirCarteAdmin(modeAction, collectible, sectionKey) {
     document.querySelectorAll(".admin-carte-inline").forEach(el => el.classList.add("hidden"));
     const carteInline = document.getElementById("adminCarteInline-" + sectionKey);
@@ -639,6 +777,12 @@ function ouvrirCarteAdmin(modeAction, collectible, sectionKey) {
     }, 80);
 }
 
+/**
+ * Ferme une ou toutes les cartes inline admin.
+ * Remet `#map-container` dans `#mapColumn`, désactive les modes de placement/suppression.
+ * @param {string} [sectionKey] - Clé de la section à fermer. Si absent, ferme toutes les cartes.
+ * @returns {void}
+ */
 function fermerCarteAdmin(sectionKey) {
     if (sectionKey) {
         const ci = document.getElementById("adminCarteInline-" + sectionKey);
@@ -653,6 +797,15 @@ function fermerCarteAdmin(sectionKey) {
     if (mapContainer) mapContainer.style.cursor = "crosshair";
 }
 
+/**
+ * Crée le composant de gestion des slots d'ingrédients pour le formulaire recette.
+ * Contient N slots (2 par défaut ou selon `existingSlots`), chaque slot ayant :
+ * un filtre de catégorie, un `<select multiple>` d'items groupés par catégorie,
+ * un bouton de duplication et un handle de drag-and-drop pour réordonner les slots.
+ * @param {string[][]} existingSlots - Tableau de slots existants (chaque slot = tableau de valeurs `"type:nomFr"`).
+ *   Initialise les sélections si fourni ; 4 slots vides sinon.
+ * @returns {HTMLDivElement} Wrapper `.admin-slots-wrapper` prêt à être inséré.
+ */
 function renderSlotsIngredients(existingSlots) {
     const wrapper = document.createElement("div");
     wrapper.className = "admin-slots-wrapper";
@@ -691,10 +844,23 @@ function renderSlotsIngredients(existingSlots) {
     return wrapper;
 }
 
+/**
+ * Met à jour les numéros affichés dans les labels de slot après ajout, suppression ou réordonnancement.
+ * @param {HTMLElement} container - Conteneur `.admin-slots-container` contenant les `.admin-slot`.
+ * @returns {void}
+ */
 function mettreAJourNumeroSlots(container) {
     container.querySelectorAll(".admin-slot-label").forEach((lbl, i) => { lbl.textContent = t("adminSlot") + " " + (i+1); });
 }
 
+/**
+ * Crée et ajoute un slot d'ingrédients dans un conteneur de slots.
+ * Le slot contient un filtre de catégorie, un `<select multiple>` avec optgroups,
+ * un bouton de duplication et un handle de drag-and-drop.
+ * @param {HTMLElement} container - Conteneur `.admin-slots-container` dans lequel ajouter le slot.
+ * @param {string[]} selectedItems - Valeurs pré-sélectionnées au format `"type:nomFr"`.
+ * @returns {void}
+ */
 function ajouterSlot(container, selectedItems) {
     const slotIdx = container.querySelectorAll(".admin-slot").length + 1;
     const slot = document.createElement("div");
@@ -743,6 +909,11 @@ function ajouterSlot(container, selectedItems) {
     select.className = "admin-slot-select";
     select.multiple = true; select.size = 7;
 
+    /**
+     * (Closure) Reconstruit les options du `<select>` multiple selon le filtre de catégorie actif.
+     * @param {string} filter - Catégorie à filtrer (chaîne vide = toutes catégories).
+     * @returns {void}
+     */
     const buildAll = (filter) => {
         select.innerHTML = "";
         const allItems = [
@@ -758,6 +929,7 @@ function ajouterSlot(container, selectedItems) {
     filterSel.addEventListener("change", () => buildAll(filterSel.value));
     slot.appendChild(select);
 
+    // Drag-and-drop de réordonnancement entre slots
     slotLabel.addEventListener("mousedown", (e) => {
         e.preventDefault();
         slotLabel.style.cursor = "grabbing";
@@ -784,6 +956,14 @@ function ajouterSlot(container, selectedItems) {
     container.appendChild(slot);
 }
 
+/**
+ * Peuple un `<select>` avec des `<optgroup>` groupés par catégorie,
+ * en pré-sélectionnant les items dont la valeur est dans `selectedItems`.
+ * @param {HTMLSelectElement} select - Élément `<select>` à remplir.
+ * @param {Array<{value: string, label: string, category: string}>} items - Liste d'items à afficher.
+ * @param {string[]} selectedItems - Valeurs à pré-sélectionner.
+ * @returns {void}
+ */
 function buildOptgroup(select, items, selectedItems) {
     const grouped = {};
     items.forEach(item => { const cat = item.category || "\u2014"; if (!grouped[cat]) grouped[cat]=[]; grouped[cat].push(item); });
@@ -800,6 +980,11 @@ function buildOptgroup(select, items, selectedItems) {
     });
 }
 
+/**
+ * Lit les sélections de tous les slots d'ingrédients dans un formulaire.
+ * @param {HTMLElement} form - Formulaire contenant des éléments `.admin-slot`.
+ * @returns {string[][]} Tableau de slots, chaque slot étant un tableau de valeurs `"type:nomFr"`.
+ */
 function lireSlots(form) {
     return [...form.querySelectorAll(".admin-slot")].map(slot => {
         const sel = slot.querySelector(".admin-slot-select");
@@ -811,6 +996,13 @@ function lireSlots(form) {
 // 🍳 PALIERS DE CUISINE
 // =========================
 
+/**
+ * Crée un conteneur flex 3 colonnes pour les champs énergie, prix de vente et paliers d'une recette.
+ * @param {HTMLElement} el1 - Premier élément (énergie).
+ * @param {HTMLElement} el2 - Deuxième élément (prix de vente).
+ * @param {HTMLElement} el3 - Troisième élément (paliers).
+ * @returns {HTMLDivElement} Conteneur `.admin-recette-row3`.
+ */
 function recetteRow3Cols(el1, el2, el3) {
     const row = document.createElement("div");
     row.className = "admin-recette-row3";
@@ -820,8 +1012,13 @@ function recetteRow3Cols(el1, el2, el3) {
     return row;
 }
 
+/**
+ * Crée le champ de saisie du palier 1 avec prévisualisation automatique des paliers 2 et 3
+ * (×3 et ×6 du palier 1). Initialise la valeur si des paliers existants sont fournis.
+ * @param {(number|null)[]} existingPaliers - Tableau de 3 valeurs `[p1, p2, p3]` (peut contenir `null`).
+ * @returns {HTMLDivElement} Conteneur `.admin-champ` avec le champ et la prévisualisation.
+ */
 function renderPaliers(existingPaliers) {
-    // existingPaliers = [p1, p2, p3] — on n'affiche que palier1, les 2 autres sont calculés
     const wrapper = document.createElement("div");
     wrapper.className = "admin-champ";
     wrapper.dataset.field = "paliers";
@@ -831,7 +1028,6 @@ function renderPaliers(existingPaliers) {
     titre.textContent = t("adminPaliersLabel");
     wrapper.appendChild(titre);
 
-    // Un seul champ : palier 1 (les paliers 2 et 3 = ×3 et ×6)
     const row = document.createElement("div");
     row.className = "admin-paliers-single-row";
 
@@ -878,6 +1074,12 @@ function renderPaliers(existingPaliers) {
     return wrapper;
 }
 
+/**
+ * Lit la valeur du palier 1 dans un formulaire et calcule les 3 paliers.
+ * @param {HTMLElement} form - Formulaire contenant `[data-field="palier1"]`.
+ * @returns {[number|null, number|null, number|null]} Tableau `[p1, p2=p1*3, p3=p1*6]`,
+ *   ou `[null, null, null]` si la valeur est absente ou invalide.
+ */
 function lirePaliers(form) {
     const input = form.querySelector('[data-field="palier1"]');
     const p1 = input ? parseInt(input.value) : NaN;
@@ -885,6 +1087,17 @@ function lirePaliers(form) {
     return [p1, p1 * 3, p1 * 6];
 }
 
+// =========================
+// 🧱 HELPERS CHAMPS FORMULAIRE
+// =========================
+
+/**
+ * Crée un champ texte labelisé pour un formulaire admin.
+ * @param {string} field - Valeur de `data-field` sur l'input.
+ * @param {string} label - Texte du label.
+ * @param {string} [valeur=""] - Valeur initiale.
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champTexte(field, label, valeur = "") {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
@@ -892,6 +1105,15 @@ function champTexte(field, label, valeur = "") {
     div.appendChild(lbl); div.appendChild(input); return div;
 }
 
+/**
+ * Crée un champ numérique (`<input type="number">`) labelisé.
+ * @param {string} field - Valeur de `data-field`.
+ * @param {string} label - Texte du label.
+ * @param {number} min - Valeur minimale.
+ * @param {number} max - Valeur maximale.
+ * @param {number} valeur - Valeur initiale.
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champNombre(field, label, min, max, valeur) {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
@@ -899,6 +1121,14 @@ function champNombre(field, label, min, max, valeur) {
     div.appendChild(lbl); div.appendChild(input); return div;
 }
 
+/**
+ * Crée un champ numérique saisie texte (filtre les caractères non numériques à la saisie).
+ * Utilisé pour les champs énergie et prix de vente des recettes.
+ * @param {string} field - Valeur de `data-field`.
+ * @param {string} label - Texte du label.
+ * @param {number} [valeur=0] - Valeur initiale.
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champTexteNombre(field, label, valeur = 0) {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
@@ -907,6 +1137,13 @@ function champTexteNombre(field, label, valeur = 0) {
     div.appendChild(lbl); div.appendChild(input); return div;
 }
 
+/**
+ * Crée un champ de sélection de couleur (`<input type="color">`).
+ * @param {string} field - Valeur de `data-field`.
+ * @param {string} label - Texte du label.
+ * @param {string} [valeur="#e67e22"] - Couleur initiale en hexadécimal.
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champCouleur(field, label, valeur = "#e67e22") {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
@@ -914,6 +1151,14 @@ function champCouleur(field, label, valeur = "#e67e22") {
     div.appendChild(lbl); div.appendChild(input); return div;
 }
 
+/**
+ * Crée un `<select>` avec des options prédéfinies.
+ * @param {string} field - Valeur de `data-field`.
+ * @param {string} label - Texte du label.
+ * @param {Array<{value: string, text: string, disabled?: boolean}>} options - Options du select.
+ * @param {string} [valeurSelectionnee=""] - Valeur à pré-sélectionner.
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champSelect(field, label, options, valeurSelectionnee = "") {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
@@ -926,13 +1171,20 @@ function champSelect(field, label, options, valeurSelectionnee = "") {
     div.appendChild(lbl); div.appendChild(sel); return div;
 }
 
+/**
+ * Crée un select de catégorie pour les collectibles, avec option "Nouvelle catégorie"
+ * déclenchant l'affichage d'un champ texte libre. Un `<input type="hidden">` porte la valeur finale.
+ * @param {string} field - Valeur de `data-field` sur l'input caché.
+ * @param {string} label - Texte du label.
+ * @param {string} [valeurSelectionnee=""] - Valeur FR pré-sélectionnée dans le select.
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champSelectCategorie(field, label, valeurSelectionnee = "") {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label;
     const row = document.createElement("div"); row.style.cssText = "display:flex;gap:8px;align-items:center;";
     const sel = document.createElement("select"); sel.className = "admin-select";
     const optNew = document.createElement("option"); optNew.value = "__new__"; optNew.textContent = "\u2795 " + t("adminNouvelleCategorie"); sel.appendChild(optNew);
-    // Construire la liste {valueFr, label traduit}
     const typesMap = {};
     collectibles.forEach(c => {
         const fr = Array.isArray(c.type) ? c.type[0] : c.type;
@@ -949,6 +1201,15 @@ function champSelectCategorie(field, label, valeurSelectionnee = "") {
     div.appendChild(lbl); div.appendChild(row); div.appendChild(hiddenField); return div;
 }
 
+/**
+ * Crée un groupe de cases à cocher labelisées.
+ * @param {string} field - Valeur de `data-group` sur le conteneur (utilisé par `getChecked`).
+ * @param {string} label - Texte du label du groupe.
+ * @param {Array<{val: string, label: string}>} options - Options avec valeur et libellé.
+ * @param {boolean} [toutCoche=false] - Si `true`, toutes les cases sont cochées par défaut.
+ * @param {string[]} [cochesInitiales=[]] - Valeurs à cocher initialement (prioritaire sur `toutCoche` si non vide).
+ * @returns {HTMLDivElement} Conteneur `.admin-champ`.
+ */
 function champCheckboxes(field, label, options, toutCoche = false, cochesInitiales = []) {
     const div = document.createElement("div"); div.className = "admin-champ";
     const lbl = document.createElement("label"); lbl.className = "admin-label"; lbl.textContent = label; div.appendChild(lbl);
@@ -961,6 +1222,11 @@ function champCheckboxes(field, label, options, toutCoche = false, cochesInitial
     div.appendChild(group); return div;
 }
 
+/**
+ * Retourne le tableau de données global correspondant à un type d'élément.
+ * @param {"poisson"|"insecte"|"oiseau"|"collectible"|"ingredient"|"recette"} type
+ * @returns {Object[]} Référence directe au tableau global (⚠️ non copié).
+ */
 function getDataPourType(type) {
     if (type === "poisson") return poissons; if (type === "insecte") return insectes;
     if (type === "oiseau") return oiseaux; if (type === "collectible") return collectibles;
@@ -968,6 +1234,12 @@ function getDataPourType(type) {
     return [];
 }
 
+/**
+ * Retourne la liste des options de lieux disponibles pour un type de faune donné.
+ * Filtre les lieux génériques et les lieux spécifiques selon le type (poisson/oiseau/insecte).
+ * @param {"poisson"|"insecte"|"oiseau"} type - Type de faune.
+ * @returns {Array<{value: string, text: string, disabled?: boolean}>} Options pour un `<select>`.
+ */
 function getLieuxPourType(type) {
     const options = [];
     let generiques = [...lieuxGeneriques];
@@ -983,6 +1255,11 @@ function getLieuxPourType(type) {
     return options;
 }
 
+/**
+ * Met à jour les textes de l'interface admin (headers de sections, boutons de types)
+ * dans la langue courante, et redessine le corps de la section active si elle est ouverte.
+ * @returns {void}
+ */
 function mettreAJourAdminUI() {
     if (mode !== "admin") return;
     if (adminSectionActive) {

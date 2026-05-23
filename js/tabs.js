@@ -5,8 +5,14 @@
 let currentTab = "map";
 const tabs = ["map", "tab2", "recettes"];
 
+/**
+ * Bascule vers l'onglet principal spécifié.
+ * Réinitialise le zoom de la carte si on quitte l'onglet "map".
+ * Initialise l'onglet recettes à la première ouverture.
+ * @param {"map" | "tab2" | "recettes"} tabName - Identifiant de l'onglet cible.
+ * @returns {void}
+ */
 function switchTab(tabName) {
-    // Reset zoom carte si on quitte l'onglet map
     if (currentTab === "map" && tabName !== "map") {
         zoom = 1; panX = 0; panY = 0;
         applyTransform();
@@ -20,7 +26,7 @@ function switchTab(tabName) {
     if (tabName === "recettes") initOngletRecettes();
 }
 
-// Flèches clavier + A/D
+// Navigation clavier : flèches gauche/droite et touches A/D
 document.addEventListener("keydown", (e) => {
     const idx = tabs.indexOf(currentTab);
     if ((e.key === "ArrowRight" || e.key === "d") && idx < tabs.length - 1) switchTab(tabs[idx + 1]);

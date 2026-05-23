@@ -4,6 +4,11 @@
 
 let themeMode = localStorage.getItem("themeMode") || "dark";
 
+/**
+ * Applique le thème clair ou sombre au document selon la valeur de `themeMode`.
+ * Met également à jour le texte du bouton `#btnTheme`.
+ * @returns {void}
+ */
 function applyTheme() {
     if (themeMode === "light") {
         document.body.classList.add("light-mode");
@@ -14,6 +19,11 @@ function applyTheme() {
     }
 }
 
+/**
+ * Bascule le thème entre clair et sombre, persiste le choix dans le localStorage
+ * et applique immédiatement le changement.
+ * @returns {void}
+ */
 function toggleTheme() {
     themeMode = themeMode === "dark" ? "light" : "dark";
     localStorage.setItem("themeMode", themeMode);
@@ -102,7 +112,6 @@ const UI = {
         wildlifeOiseau: "🪶 Oiseaux",
         wildlifeInsecte: "🐛 Insectes",
         niveauLabel: "Niveau",
-        // === ADMIN REFONTE ===
         adminSectionAjouter: "➕ Ajouter un élément",
         adminSectionModifier: "✏️ Modifier un élément",
         adminSectionSupprimer: "🗑️ Supprimer un élément",
@@ -215,7 +224,6 @@ const UI = {
         wildlifeOiseau: "🪶 Birds",
         wildlifeInsecte: "🐛 Insects",
         niveauLabel: "Level",
-        // === ADMIN REFONTE ===
         adminSectionAjouter: "➕ Add an element",
         adminSectionModifier: "✏️ Modify an element",
         adminSectionSupprimer: "🗑️ Delete an element",
@@ -256,6 +264,11 @@ const UI = {
     }
 };
 
+/**
+ * Retourne la chaîne de l'interface utilisateur correspondant à une clé, dans la langue courante.
+ * @param {string} key - Clé présente dans l'objet `UI`.
+ * @returns {string} Texte traduit, ou la clé elle-même si introuvable.
+ */
 function t(key) {
     return UI[langue][key] || key;
 }
@@ -264,6 +277,11 @@ function t(key) {
 // 🌍 LANGUE
 // =========================
 
+/**
+ * Bascule la langue entre français et anglais, met à jour le bouton de langue,
+ * puis rafraîchit l'intégralité de l'interface (UI, carte, fenêtres de faune).
+ * @returns {void}
+ */
 function toggleLangue() {
     langue = langue === "fr" ? "en" : "fr";
     document.getElementById("btnLangue").textContent = langue === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
@@ -278,6 +296,12 @@ function toggleLangue() {
 // 🖊️ MISE A JOUR UI
 // =========================
 
+/**
+ * Met à jour tous les textes statiques de l'interface dans la langue courante :
+ * titre de page, boutons, labels, onglets, placeholder de recherche, etc.
+ * Rafraîchit aussi l'interface admin si active, et le sous-onglet recettes si ouvert.
+ * @returns {void}
+ */
 function mettreAJourUI() {
     document.title = t("titreWebsite");
     document.getElementById("btnUser").textContent = t("modeUser");
@@ -319,7 +343,6 @@ function mettreAJourUI() {
     document.getElementById("labelHeureModeOu").textContent = t("heureModeOu");
     document.getElementById("labelHeureModeEt").textContent = t("heureModeEt");
 
-    // Onglets (seulement en mode user, les éléments existent dans le DOM)
     const btnTabMap = document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]");
     const btnTabFaune = document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]");
     const btnTabRecettes = document.querySelector(".tab-btn[onclick=\"switchTab('recettes')\"]");
@@ -336,7 +359,6 @@ function mettreAJourUI() {
 
     setFilterToggleText();
 
-    // Mettre à jour le placeholder de la recherche faune
     const fauneInput = document.getElementById("fauneSearchInput");
     if (fauneInput) fauneInput.placeholder = langue === "fr" ? "Filtrer la faune..." : "Filter wildlife...";
 
@@ -344,15 +366,12 @@ function mettreAJourUI() {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }
 
-    // Mettre à jour l'interface admin si active
     if (mode === "admin") {
         mettreAJourAdminUI();
     }
-    // Rafraîchir l'onglet recettes si actif — sans reconstruire tout le DOM
     if (currentTab === "recettes") {
         const subZone = document.getElementById("recettes-sub-" + currentRecettesSubTab);
         if (subZone) {
-            // Mettre à jour les labels des boutons sans recréer la structure
             document.querySelectorAll(".tab-btn-recettes").forEach(btn => {
                 const key = btn.dataset.sub;
                 const labels = {
@@ -363,7 +382,6 @@ function mettreAJourUI() {
                 };
                 if (labels[key]) btn.textContent = labels[key][langue] || labels[key].fr;
             });
-            // Re-render le contenu du sous-onglet actif (textes traduits)
             renderRecettesSubTab(currentRecettesSubTab);
         } else {
             initOngletRecettes();
@@ -371,6 +389,13 @@ function mettreAJourUI() {
     }
 }
 
+/**
+ * Met à jour les libellés du panneau de saisie admin pour un type de faune donné
+ * (poisson, insecte ou oiseau) en fonction de la langue courante.
+ * @param {string} prefix - Préfixe inutilisé (paramètre historique conservé pour compatibilité).
+ * @param {"poisson" | "insecte" | "oiseau"} type - Type de faune dont les labels sont à traduire.
+ * @returns {void}
+ */
 function traduirePanneauFaune(prefix, type) {
     const suffixes = { poisson: "Poisson", insecte: "Insecte", oiseau: "Oiseau" };
     const s = suffixes[type] || type;
@@ -398,6 +423,11 @@ function traduirePanneauFaune(prefix, type) {
 // 🔲 FILTER TOGGLE
 // =========================
 
+/**
+ * Met à jour le texte du bouton `#filterToggle` avec le label traduit
+ * et l'indicateur d'état ouvert/fermé (▼ ou ▶).
+ * @returns {void}
+ */
 function setFilterToggleText() {
     const hobbyPanel = document.getElementById("hobbyPanel");
     const filterToggle = document.getElementById("filterToggle");

@@ -2,6 +2,12 @@
 // 🔲 APPLIQUER FILTRES
 // =========================
 
+/**
+ * Applique les filtres de catégorie (poissons/oiseaux/insectes/collectibles) :
+ * masque/affiche les marqueurs collectibles sur la carte, met à jour la légende,
+ * et rafraîchit le panneau du lieu sélectionné et le panneau des lieux spéciaux si ouverts.
+ * @returns {void}
+ */
 function appliquerFiltres() {
     const filtres = {};
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
@@ -24,6 +30,11 @@ function appliquerFiltres() {
     }
 }
 
+/**
+ * Recharge le contenu du panneau des localisations spéciales
+ * en reconstruisant les listes de faune pour chaque lieu spécial.
+ * @returns {void}
+ */
 function rafraichirSpeciaux() {
     const list = document.getElementById("speciauxList");
     list.innerHTML = "";
@@ -47,6 +58,12 @@ function rafraichirSpeciaux() {
 // 📋 AFFICHER ELEMENTS LIEU
 // =========================
 
+/**
+ * Affiche dans `#elementsList` la faune associée à un lieu (et ses sous-zones),
+ * groupée par lieu/sous-lieu avec leurs titres.
+ * @param {string} nomLieu - Nom français du lieu à afficher.
+ * @returns {void}
+ */
 function afficherElementsLieu(nomLieu) {
     const { estZoneNiv1, sousZones, resultats } = getElementsPourLieu(nomLieu);
     const list = document.getElementById("elementsList");
@@ -97,6 +114,14 @@ function afficherElementsLieu(nomLieu) {
 // 📋 AFFICHER GROUPE
 // =========================
 
+/**
+ * Construit et ajoute une liste `<ul>` d'éléments de faune dans un conteneur,
+ * en appliquant tous les filtres actifs (catégorie, niveau hobby, météo, heure,
+ * décalage serveur, cacher obtenus, recherche textuelle).
+ * @param {string[]} elements - Tableau de noms français de faune à afficher.
+ * @param {HTMLElement} container - Élément DOM dans lequel injecter la liste.
+ * @returns {boolean} `true` si au moins un élément a été affiché, `false` sinon.
+ */
 function afficherGroupeElements(elements, container) {
     const filtres = {};
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
@@ -118,6 +143,11 @@ function afficherGroupeElements(elements, container) {
     );
     const tranchesOrdre = ["matin", "après-midi", "soir", "nuit"];
 
+    /**
+     * Décale une tranche horaire selon le décalage serveur (multiples de 6h).
+     * @param {string} h - Tranche horaire FR ("matin", "après-midi", "soir", "nuit").
+     * @returns {string} Tranche horaire décalée.
+     */
     function decalerHeure(h) {
         const idx = tranchesOrdre.indexOf(h);
         if (idx === -1) return h;
@@ -163,7 +193,6 @@ function afficherGroupeElements(elements, container) {
 
         if (!visible && !afficherNonDebloques) return;
         if (obtenu && cacherObtenus && !afficherNonDebloques) return;
-        // Filtre barre de recherche (uniquement quand un lieu est sélectionné)
         if (typeof fauneSearchQuery !== "undefined" && fauneSearchQuery.length > 0 && selectedPlace) {
             if (!matchSearch(name, fauneSearchQuery)) return;
         }
@@ -210,6 +239,11 @@ function afficherGroupeElements(elements, container) {
 // ⭐ PANEL SPECIAUX
 // =========================
 
+/**
+ * Bascule l'affichage du panneau des localisations spéciales.
+ * Si ouvert, reconstruit son contenu ; si fermé, affiche à nouveau le bouton.
+ * @returns {void}
+ */
 function toggleSpeciaux() {
     const panel = document.getElementById("panelSpeciaux");
     const btn = document.getElementById("btnSpeciaux");
@@ -236,6 +270,11 @@ function toggleSpeciaux() {
     }
 }
 
+/**
+ * Bascule l'affichage du sous-panneau d'éléments du lieu sélectionné.
+ * Ne fait rien si aucun lieu n'est sélectionné.
+ * @returns {void}
+ */
 function toggleElementsPanel() {
     if (!selectedPlace) return;
     document.getElementById("elementsPanel").classList.toggle("hidden");
@@ -245,6 +284,12 @@ function toggleElementsPanel() {
 // 🍄 LEGENDE COLLECTIBLES
 // =========================
 
+/**
+ * Reconstruit et affiche la légende des collectibles,
+ * groupée par type (ex. champignon, fruit), triée alphabétiquement.
+ * Masque le panneau s'il n'y a aucun collectible avec des spawns.
+ * @returns {void}
+ */
 function afficherLegende() {
     const list = document.getElementById("legendeList");
     list.innerHTML = "";
@@ -256,6 +301,10 @@ function afficherLegende() {
     }
     panel.classList.remove("hidden");
     const i = langIndex[langue];
+    /**
+     * Collectibles regroupés par type traduit.
+     * @type {Object.<string, Array<{name: [string,string], type: [string,string], color: string, spawns: Array<{x:number,y:number}>}>>}
+     */
     const grouped = {};
     visibles.forEach(c => {
         const typeKey = c.type[i] || c.type[0];
@@ -288,6 +337,13 @@ function afficherLegende() {
 // 🔄 RAFRAICHIR AFFICHAGE
 // =========================
 
+/**
+ * Rafraîchit l'ensemble de l'affichage dépendant de la langue ou des données :
+ * labels des marqueurs, légende, titre et liste du lieu sélectionné,
+ * panneau des lieux spéciaux.
+ * Si un élément était sélectionné, tente de le re-sélectionner après rendu.
+ * @returns {void}
+ */
 function rafraichirAffichage() {
     const elementOuvert = selectedElement;
     document.querySelectorAll(".place-marker").forEach(el => {
@@ -319,25 +375,6 @@ function rafraichirAffichage() {
     if (!panelSpeciaux.classList.contains("hidden")) {
         rafraichirSpeciaux();
     }
-}
-
-function rafraichirSpeciaux() {
-    const list = document.getElementById("speciauxList");
-    list.innerHTML = "";
-    lieuxSpeciaux.forEach(lieu => {
-        const elements = [
-            ...poissons.filter(p => (Array.isArray(p.lieu) ? p.lieu[0] : p.lieu) === lieu).map(p => Array.isArray(p.name) ? p.name[0] : p.name),
-            ...oiseaux.filter(o => (Array.isArray(o.lieu) ? o.lieu[0] : o.lieu) === lieu).map(o => Array.isArray(o.name) ? o.name[0] : o.name),
-            ...insectes.filter(i => (Array.isArray(i.lieu) ? i.lieu[0] : i.lieu) === lieu).map(i => Array.isArray(i.name) ? i.name[0] : i.name)
-        ];
-        if (elements.length > 0) {
-            const div = document.createElement("div");
-            div.className = "elements-lieu";
-            div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
-            afficherGroupeElements(elements, div);
-            list.appendChild(div);
-        }
-    });
 }
 
 // =========================

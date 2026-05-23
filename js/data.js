@@ -32,6 +32,10 @@ let recettes = [];
 
 const checkedFaune = JSON.parse(localStorage.getItem("checkedFaune") || "{}");
 
+/**
+ * Persiste l'objet `checkedFaune` dans le localStorage.
+ * @returns {void}
+ */
 function saveCheckedFaune() {
     localStorage.setItem("checkedFaune", JSON.stringify(checkedFaune));
 }
@@ -83,6 +87,13 @@ const langIndex = {
 // 💾 CHARGEMENT BDD
 // =========================
 
+/**
+ * Charge les données depuis le localStorage (prioritaire) ou les fichiers JSON du dossier `database/`.
+ * Peuple les tableaux globaux `poissons`, `insectes`, `oiseaux`, `collectibles`, `places`,
+ * `ingredients`, `recettes` et synchronise le localStorage.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function loadDatabaseAuto() {
     const keys = [
         { key: "poissons",    file: "poissons.json" },
@@ -123,6 +134,10 @@ async function loadDatabaseAuto() {
     });
 }
 
+/**
+ * Persiste le tableau global `places` dans le localStorage.
+ * @returns {void}
+ */
 function savePlaces() {
     localStorage.setItem("places", JSON.stringify(places));
 }
@@ -131,22 +146,42 @@ function savePlaces() {
 // 🔤 HELPERS NOMS
 // =========================
 
+/**
+ * Retourne l'index de langue courant (0 = FR, 1 = EN).
+ * @returns {number} 0 ou 1
+ */
 function li() {
     return langIndex[langue];
 }
 
+/**
+ * Retourne le nom affiché d'un élément de faune/recette/ingrédient selon la langue courante.
+ * @param {{ name: string | [string, string] }} element - Objet possédant une propriété `name`.
+ * @returns {string} Nom dans la langue courante, ou chaîne vide si absent.
+ */
 function getNom(element) {
     if (!element || !element.name) return "";
     if (Array.isArray(element.name)) return element.name[li()];
     return element.name;
 }
 
+/**
+ * Retourne le lieu affiché d'un élément de faune selon la langue courante.
+ * @param {{ lieu: string | [string, string] }} element - Objet possédant une propriété `lieu`.
+ * @returns {string} Lieu dans la langue courante, ou chaîne vide si absent.
+ */
 function getLieu(element) {
     if (!element || !element.lieu) return "";
     if (Array.isArray(element.lieu)) return element.lieu[li()];
     return element.lieu;
 }
 
+/**
+ * Traduit un nom de lieu du français vers la langue courante.
+ * Cherche d'abord dans le tableau `places`, puis dans les noms génériques.
+ * @param {string} nomFr - Nom français du lieu.
+ * @returns {string} Nom traduit, ou `nomFr` si aucune traduction trouvée.
+ */
 function getNomLieu(nomFr) {
     if (langue === "fr") return nomFr;
     const place = places.find(p => (Array.isArray(p.name) ? p.name[0] : p.name) === nomFr);
@@ -154,14 +189,30 @@ function getNomLieu(nomFr) {
     return generiquesEN[nomFr] || nomFr;
 }
 
+/**
+ * Traduit une tranche horaire du français vers l'anglais.
+ * @param {string} h - Tranche horaire en français (ex. "matin").
+ * @returns {string} Traduction anglaise ou valeur originale si langue courante est FR.
+ */
 function traduireHeure(h) {
     return langue === "fr" ? h : (traductionsHeures[h] || h);
 }
 
+/**
+ * Traduit une météo du français vers l'anglais.
+ * @param {string} m - Météo en français (ex. "soleil").
+ * @returns {string} Traduction anglaise ou valeur originale si langue courante est FR.
+ */
 function traduireMeteo(m) {
     return langue === "fr" ? m : (traductionsMeteos[m] || m);
 }
 
+/**
+ * Formate un nom de lieu pour l'affichage sur le marqueur de carte,
+ * en découpant sur plusieurs lignes si le nom dépasse 19 caractères.
+ * @param {string | [string, string]} name - Nom du lieu (chaîne ou tableau bilingue ; utilise l'index 0).
+ * @returns {string} Nom formaté avec retours à la ligne `\n`.
+ */
 function formatPlaceName(name) {
     if (Array.isArray(name)) name = name[0];
     const max = 19;
@@ -181,6 +232,13 @@ function formatPlaceName(name) {
     return lines.join("\n");
 }
 
+/**
+ * Remplit des éléments `<select>` avec des options numérotées de 1 à `max`.
+ * N'ajoute des options que si le select est encore vide.
+ * @param {string[]} selectIds - Tableau d'identifiants HTML des `<select>` à remplir.
+ * @param {number} [max=10] - Nombre maximum de niveaux à générer.
+ * @returns {void}
+ */
 function remplirSelectNiveaux(selectIds, max = 10) {
     const valeurDefaut = max;
     const options = `
@@ -203,6 +261,13 @@ function remplirSelectNiveaux(selectIds, max = 10) {
 // 🗺️ RECHERCHE LIEUX
 // =========================
 
+/**
+ * Retourne l'ensemble des noms de lieux à interroger pour un lieu donné,
+ * en ajoutant automatiquement les catégories génériques correspondantes
+ * (Lacs, Rivières, Mers, Bord de l'eau).
+ * @param {string} nomLieu - Nom français du lieu de départ.
+ * @returns {Set<string>} Ensemble de noms de lieux (français) à utiliser pour la recherche de faune.
+ */
 function getLieuxPourRecherche(nomLieu) {
     const lieuxARechercher = new Set([nomLieu]);
     const nom = nomLieu.toLowerCase();
@@ -220,6 +285,19 @@ function getLieuxPourRecherche(nomLieu) {
     return lieuxARechercher;
 }
 
+/**
+ * Retourne tous les éléments de faune (poissons, insectes, oiseaux) associés à un lieu,
+ * en incluant ses sous-zones si c'est une zone de niveau 1.
+ * @param {string} nomLieu - Nom français du lieu.
+ * @returns {{
+ *   estZoneNiv1: boolean,
+ *   sousZones: string[],
+ *   resultats: Object.<string, string[]>
+ * }} Objet contenant :
+ *   - `estZoneNiv1` : vrai si le lieu est une zone parente dans `zoneParent`.
+ *   - `sousZones` : liste des noms français des sous-zones (vide si pas de zone parente).
+ *   - `resultats` : dictionnaire `{ nomLieu: [nomFauneA, nomFauneB, ...] }` (noms en français).
+ */
 function getElementsPourLieu(nomLieu) {
     const estZoneNiv1 = zoneParent.hasOwnProperty(nomLieu);
     const sousZones = estZoneNiv1 ? zoneParent[nomLieu] : [];
@@ -238,6 +316,10 @@ function getElementsPourLieu(nomLieu) {
     return { estZoneNiv1, sousZones, resultats };
 }
 
+/**
+ * Crée et retourne un élément `<hr>` avec la classe CSS `hobby-separator`.
+ * @returns {HTMLHRElement}
+ */
 function createSeparator() {
     const hr = document.createElement("hr");
     hr.className = "hobby-separator";

@@ -2,20 +2,35 @@
 // 🍳 ONGLET RECETTES
 // =========================
 
+/** @type {string} Clé du sous-onglet recettes actif ("liste" | "profit" | "energie" | "calc"). */
 let currentRecettesSubTab = "liste";
+/** @type {string} Nom FR de la recette sélectionnée dans le calculateur. */
 let calcSelectedRecette = "";
+/** @type {string} Valeur brute du champ "déjà cuisiné" dans le calculateur. */
 let calcDejaCooked = "0";
 
+// =========================
+// 🔢 HELPERS
+// =========================
 
-// Formate un nombre avec séparateur de milliers selon la langue
+/**
+ * Formate un entier avec séparateur de milliers selon la langue courante
+ * (espace en FR, virgule en EN).
+ * @param {number} n - Nombre entier à formater.
+ * @returns {string} Nombre formaté.
+ */
 function formatNombre(n) {
-    if (langue === "fr") return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    if (langue === "fr") return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// ---- Helpers ----
-
-// Coût récursif : pour une rec:, on calcule le coût de ses ingrédients
+/**
+ * Retourne le prix unitaire d'un item de slot identifié par sa valeur `type:nomFr`.
+ * Pour les sous-recettes (`rec:`), calcule récursivement le coût total de leurs ingrédients.
+ * Pour les poissons (`poi:`) et collectibles (`col:`), retourne 0 (pas de prix d'achat).
+ * @param {string} valeurSlot - Valeur du slot au format `"type:nomFr"` (ex. `"ing:Lait"`, `"rec:Sauce tomate"`).
+ * @returns {number} Prix unitaire en monnaie du jeu (0 si introuvable ou non acheté).
+ */
 function getPrixIngredient(valeurSlot) {
     const [type, ...rest] = valeurSlot.split(":");
     const nomFr = rest.join(":");
@@ -33,6 +48,11 @@ function getPrixIngredient(valeurSlot) {
     return 0;
 }
 
+/**
+ * Retourne le nom affiché (dans la langue courante) d'un item de slot.
+ * @param {string} valeurSlot - Valeur du slot au format `"type:nomFr"`.
+ * @returns {string} Nom traduit, ou `nomFr` si l'item est introuvable.
+ */
 function getNomSlotItem(valeurSlot) {
     const [type, ...rest] = valeurSlot.split(":");
     const nomFr = rest.join(":");
@@ -56,6 +76,12 @@ function getNomSlotItem(valeurSlot) {
     return nomFr;
 }
 
+/**
+ * Retourne la catégorie affichée (dans la langue courante) d'un item de slot.
+ * Gère un cas particulier pour le magasin de chance de Doris (reformule le libellé).
+ * @param {string} valeurSlot - Valeur du slot au format `"type:nomFr"`.
+ * @returns {string|null} Catégorie traduite, ou `null` si l'item est introuvable.
+ */
 function getCategorieSlotItem(valeurSlot) {
     const [type, ...rest] = valeurSlot.split(":");
     const nomFr = rest.join(":");
@@ -78,9 +104,17 @@ function getCategorieSlotItem(valeurSlot) {
     return null;
 }
 
+/**
+ * Génère le label d'un slot d'ingrédients :
+ * - 1 item → nom exact.
+ * - Plusieurs items → regroupement par catégorie : affiche le nom de la catégorie
+ *   si ≥ 3 items dans la catégorie ET ≥ 3 items dans le slot, sinon les noms individuels.
+ *   Les catégories/noms sont séparés par ` | `.
+ * @param {string[]} slotItems - Tableau de valeurs de slot au format `"type:nomFr"`.
+ * @returns {string} Label affiché pour le slot.
+ */
 function labelSlot(slotItems) {
     if (!slotItems || slotItems.length === 0) return "—";
-    // Si le slot n'a qu'un seul item, toujours afficher son nom exact
     if (slotItems.length === 1) return getNomSlotItem(slotItems[0]);
     const parCat = {};
     slotItems.forEach(val => {
@@ -90,7 +124,6 @@ function labelSlot(slotItems) {
     });
     const parts = [];
     Object.entries(parCat).forEach(([cat, items]) => {
-        // Afficher la catégorie seulement si ≥3 items ET le total du slot est aussi ≥3
         if (items.length >= 3 && slotItems.length >= 3) {
             parts.push(cat);
         } else {
@@ -100,11 +133,24 @@ function labelSlot(slotItems) {
     return parts.join(" | ");
 }
 
+/**
+ * Calcule le prix de vente d'un plat selon son nombre d'étoiles.
+ * Multiplicateurs : ×1, ×1.5, ×2, ×4, ×8 (étoiles 1 à 5). Résultat arrondi.
+ * @param {number} base - Prix de vente à 1 étoile.
+ * @param {number} etoile - Nombre d'étoiles (1 à 5).
+ * @returns {number} Prix de vente arrondi à l'entier.
+ */
 function prixVenteEtoile(base, etoile) {
     const mult = [1, 1.5, 2, 4, 8];
     return Math.round(base * mult[etoile - 1]);
 }
 
+/**
+ * Calcule le coût total minimum des ingrédients d'une recette
+ * en prenant le prix le plus bas de chaque slot.
+ * @param {{ ingredients: string[][] }} recette - Objet recette avec son tableau de slots.
+ * @returns {number} Coût total en monnaie du jeu.
+ */
 function prixTotalIngredients(recette) {
     if (!recette.ingredients) return 0;
     return recette.ingredients.reduce((total, slot) => {
@@ -114,17 +160,25 @@ function prixTotalIngredients(recette) {
     }, 0);
 }
 
+/**
+ * Retourne le nom d'une recette dans la langue courante.
+ * @param {{ name: string | [string, string] }} r - Objet recette.
+ * @returns {string} Nom traduit.
+ */
 function getNomRecette(r) {
     const idx = langIndex[langue];
     return Array.isArray(r.name) ? r.name[idx] || r.name[0] : r.name;
 }
 
-// Regroupe une liste de noms par préfixe commun (mots entiers).
-// Ex: ["Gâteau roulé rouge","Gâteau roulé bleu","Café","Café latte"]
-// → ["Gâteau roulé rouge - bleu", "Café", "Café latte"]
-// Règle : deux noms se regroupent si l'un est un préfixe strict de l'autre
-//         OU s'ils partagent tous les mots sauf le dernier (suffixe différent ≥1 mot).
-// "Café" et "Café latte" ne se regroupent pas car "Café" n'a pas de mot après lui.
+/**
+ * Regroupe une liste de noms par préfixe commun (mots entiers) ou suffixe commun.
+ * Exemples :
+ * - `["Gâteau roulé rouge", "Gâteau roulé bleu"]` → `[{ label: "Gâteau roulé rouge - bleu", membres: [...] }]`
+ * - `["Café", "Café latte"]` → deux groupes séparés (car "Café" n'a pas de mot après lui)
+ * @param {string[]} noms - Tableau de noms à regrouper.
+ * @returns {Array<{ label: string, membres: string[] }>} Tableau de groupes, chacun avec
+ *   un label condensé et la liste des membres originaux.
+ */
 function grouperParPrefixe(noms) {
     function prefixCommun(a, b) {
         const wa = a.split(" ");
@@ -160,16 +214,6 @@ function grouperParPrefixe(noms) {
     const groupes = [];
     const used = new Array(noms.length).fill(false);
 
-    // Essaie de grouper par préfixe commun, puis par suffixe commun si préfixe échoue
-    function essayerGrouperAvec(candidats, typeFn) {
-        const commun = typeFn(candidats);
-        if (commun.length === 0) return null;
-        const wc = commun.split(" ").length;
-        const tousOk = candidats.every(s => s.split(" ").length > wc);
-        if (!tousOk) return null;
-        return commun;
-    }
-
     for (let i = 0; i < noms.length; i++) {
         if (used[i]) continue;
         const membres = [noms[i]];
@@ -188,7 +232,7 @@ function grouperParPrefixe(noms) {
             }
         }
 
-        // Si regroupement par préfixe n'a rien trouvé, tenter par suffixe
+        // Si rien trouvé par préfixe, tenter par suffixe
         if (membres.length === 1) {
             for (let j = i + 1; j < noms.length; j++) {
                 if (used[j]) continue;
@@ -208,7 +252,6 @@ function grouperParPrefixe(noms) {
         if (membres.length === 1) {
             groupes.push({ label: membres[0], membres });
         } else {
-            // Déterminer si regroupement par préfixe ou suffixe
             const pf = prefixCommuns(membres);
             const wpf = pf.length > 0 ? pf.split(" ").length : 0;
             const pfOk = pf.length > 0 && membres.every(s => s.split(" ").length > wpf);
@@ -231,6 +274,11 @@ function grouperParPrefixe(noms) {
 // 🔀 SWITCH SOUS-ONGLET
 // =========================
 
+/**
+ * Bascule vers le sous-onglet recettes spécifié et le rend.
+ * @param {"liste" | "profit" | "energie" | "calc"} subTab - Identifiant du sous-onglet cible.
+ * @returns {void}
+ */
 function switchTabRecettes(subTab) {
     document.querySelectorAll(".recettes-sub-content").forEach(el => el.classList.remove("active"));
     document.querySelectorAll(".tab-btn-recettes").forEach(b => b.classList.remove("active"));
@@ -240,6 +288,11 @@ function switchTabRecettes(subTab) {
     renderRecettesSubTab(subTab);
 }
 
+/**
+ * Délègue le rendu du sous-onglet actif à la fonction d'affichage correspondante.
+ * @param {"liste" | "profit" | "energie" | "calc"} subTab - Sous-onglet à rendre.
+ * @returns {void}
+ */
 function renderRecettesSubTab(subTab) {
     if (subTab === "liste")        renderRecettesListe();
     else if (subTab === "profit")  renderRecettesProfit();
@@ -251,6 +304,11 @@ function renderRecettesSubTab(subTab) {
 // 🏗️ INIT ONGLET RECETTES
 // =========================
 
+/**
+ * Initialise (ou réinitialise) le DOM de l'onglet recettes :
+ * crée la barre de sous-onglets et les zones de contenu, puis rend le sous-onglet actif.
+ * @returns {void}
+ */
 function initOngletRecettes() {
     const container = document.getElementById("tab-recettes");
     if (!container) return;
@@ -291,6 +349,12 @@ function initOngletRecettes() {
 // 📖 SOUS-ONGLET 1 : LISTE
 // =========================
 
+/**
+ * Rend le sous-onglet "Infos" : liste triée alphabétiquement de toutes les recettes
+ * avec leurs détails (énergie, paliers, ingrédients, prix par étoile) en accordéon.
+ * Restaure les cartes ouvertes avant le rendu précédent.
+ * @returns {void}
+ */
 function renderRecettesListe() {
     const zone = document.getElementById("recettes-sub-liste");
     if (!zone) return;
@@ -342,7 +406,6 @@ function renderRecettesListe() {
         const details = document.createElement("div");
         details.className = "recette-card-details hidden";
 
-        // Restaurer l'état ouvert
         if (openedListe.has(nameFr)) {
             card.classList.add("opened");
             details.classList.remove("hidden");
@@ -368,14 +431,20 @@ function renderRecettesListe() {
     });
 }
 
-// Détails recette en 3 colonnes : ingrédients | paliers | prix par étoile
+/**
+ * Injecte dans `zone` les détails d'une recette en 4 colonnes :
+ * énergie | paliers de cuisine | ingrédients par slot | prix de vente par étoile.
+ * @param {{ name: [string,string], energy: number, paliers: (number|null)[], ingredients: string[][], sellPrice: number }} r - Objet recette.
+ * @param {HTMLElement} zone - Conteneur DOM dans lequel injecter le rendu.
+ * @returns {void}
+ */
 function renderDetailsRecette(r, zone) {
     zone.innerHTML = "";
 
     const cols = document.createElement("div");
     cols.className = "recette-details-4cols";
 
-    // --- COL 1 : Énergie ---
+    // COL 1 : Énergie
     const colEnergie = document.createElement("div");
     colEnergie.className = "recette-details-col recette-details-col-center";
     const titreEnergie = document.createElement("div");
@@ -387,7 +456,7 @@ function renderDetailsRecette(r, zone) {
     valEnergie.textContent = r.energy || "—";
     colEnergie.appendChild(valEnergie);
 
-    // --- COL 2 : Paliers ---
+    // COL 2 : Paliers
     const colPaliers = document.createElement("div");
     colPaliers.className = "recette-details-col recette-details-col-center";
     const paliers = r.paliers || [];
@@ -410,7 +479,7 @@ function renderDetailsRecette(r, zone) {
         colPaliers.appendChild(row);
     }
 
-    // --- COL 3 : Ingrédients ---
+    // COL 3 : Ingrédients
     const colIng = document.createElement("div");
     colIng.className = "recette-details-col recette-details-col-center";
     const titreIng = document.createElement("div");
@@ -431,7 +500,7 @@ function renderDetailsRecette(r, zone) {
         colIng.appendChild(row);
     }
 
-    // --- COL 4 : Prix par étoile ---
+    // COL 4 : Prix par étoile
     const colPrix = document.createElement("div");
     colPrix.className = "recette-details-col recette-details-col-center";
     const titrePrix = document.createElement("div");
@@ -464,6 +533,13 @@ function renderDetailsRecette(r, zone) {
 // 💰 SOUS-ONGLET 2 : PROFIT
 // =========================
 
+/**
+ * Rend le sous-onglet "Profit" : recettes triées par profit décroissant (étoile 1),
+ * regroupées quand elles ont le même profit et les mêmes coûts de slots,
+ * avec badge profit ×1→×5 étoiles et détail des coûts en accordéon.
+ * Restaure les cartes ouvertes avant le rendu précédent.
+ * @returns {void}
+ */
 function renderRecettesProfit() {
     const zone = document.getElementById("recettes-sub-profit");
     if (!zone) return;
@@ -475,7 +551,18 @@ function renderRecettesProfit() {
         return;
     }
 
-    // Calculer profit (étoile 1) pour chaque recette
+    /**
+     * @typedef {{
+     *   r: Object,
+     *   vente: number,
+     *   couts: Array<{label: string, prix: number}>,
+     *   totalCout: number,
+     *   profit: number,
+     *   profit1: number,
+     *   profit5: number
+     * }} RecetteAvecProfit
+     */
+    /** @type {RecetteAvecProfit[]} */
     const withProfit = recettes.map(r => {
         const vente = r.sellPrice || 0;
         const couts = (r.ingredients || []).map(slot => {
@@ -491,11 +578,11 @@ function renderRecettesProfit() {
 
     withProfit.sort((a, b) => b.profit - a.profit);
 
-    // Regrouper par profit identique ET coûts slots identiques ET préfixe de nom
-    // On construit d'abord les groupes par (profit, totalCout, coûts par slot)
+    // Clé de regroupement : profit | coût total | coûts par slot
     const cle = (item) => item.profit + "|" + item.totalCout + "|" + item.couts.map(c => c.prix).join(",");
 
-    const profitGroups = []; // [{cle, items:[...withProfit]}]
+    /** @type {Array<{cle: string, items: RecetteAvecProfit[]}>} */
+    const profitGroups = [];
     const cleMap = {};
     withProfit.forEach(item => {
         const k = cle(item);
@@ -516,21 +603,16 @@ function renderRecettesProfit() {
     zone.appendChild(barreProfit);
     zone.appendChild(profitContent);
 
-    // Trier les groupes par profit décroissant (déjà dans l'ordre car withProfit est trié)
-    // Renuméroter par rang absolu
     let rankCourant = 1;
     profitGroups.forEach(({ items }) => {
-        // Regrouper les noms par préfixe à l'intérieur du groupe
         const noms = items.map(item => getNomRecette(item.r));
         const groupesNoms = grouperParPrefixe(noms);
 
-        // Pour chaque groupe de noms, créer une card
         groupesNoms.forEach(gn => {
-            // Items correspondant aux membres du groupe de noms
             const membresItems = gn.membres.map(nom => items.find(it => getNomRecette(it.r) === nom)).filter(Boolean);
             const item = membresItems[0];
             const { vente, totalCout, profit1, profit5 } = item;
-            // Fusionner les labels de slots : regrouper par position, puis grouperParPrefixe sur les labels
+            // Fusion des labels de slots pour les recettes groupées
             const nbSlots = item.couts.length;
             const couts = [];
             for (let si = 0; si < nbSlots; si++) {
@@ -555,7 +637,6 @@ function renderRecettesProfit() {
             gauche.className = "recette-card-nom";
             gauche.textContent = gn.label;
 
-            // Badge : +(profit1)-(profit5) 🪙
             const p1str = (profit1 >= 0 ? "+" : "") + formatNombre(profit1);
             const p5str = (profit5 >= 0 ? "+" : "") + formatNombre(profit5);
             const droite = document.createElement("span");
@@ -580,14 +661,12 @@ function renderRecettesProfit() {
 
             function renderContenuProfit() {
                 details.innerHTML = "";
-
                 const cols = document.createElement("div");
                 cols.className = "recette-profit-cols";
 
-                // Colonne vente : prix par étoile
+                // Colonne vente : prix et profit par étoile
                 const colVente = document.createElement("div");
                 colVente.className = "recette-profit-col";
-                // En-tête des 3 colonnes
                 const colHeader = document.createElement("div");
                 colHeader.className = "recette-profit-ing-row recette-profit-col-header";
                 colHeader.innerHTML = `<span style="text-align:left">${langue === "fr" ? "Étoiles" : "Stars"}</span><span style="text-align:center">${langue === "fr" ? "Prix de vente" : "Sell price"}</span><span style="text-align:right">${langue === "fr" ? "Profit" : "Profit"}</span>`;
@@ -629,7 +708,6 @@ function renderRecettesProfit() {
                 details.appendChild(cols);
             }
 
-            // Restaurer l'état ouvert
             if (openedProfit.has(nameFrProfit)) {
                 card.classList.add("opened");
                 details.classList.remove("hidden");
@@ -661,6 +739,11 @@ function renderRecettesProfit() {
 // ⚡ SOUS-ONGLET 3 : ÉNERGIE
 // =========================
 
+/**
+ * Rend le sous-onglet "Énergie" : recettes triées par valeur d'énergie décroissante,
+ * regroupées par valeur identique avec condensation des noms par préfixe/suffixe.
+ * @returns {void}
+ */
 function renderRecettesEnergie() {
     const zone = document.getElementById("recettes-sub-energie");
     if (!zone) return;
@@ -677,6 +760,10 @@ function renderRecettesEnergie() {
         return;
     }
 
+    /**
+     * Regroupement des recettes par valeur d'énergie.
+     * @type {Object.<number, Object[]>}
+     */
     const groups = {};
     withEnergy.forEach(r => {
         const e = r.energy;
@@ -704,7 +791,6 @@ function renderRecettesEnergie() {
         const recettesGroupe = groups[energie].slice().sort((a, b) => getNomRecette(a).localeCompare(getNomRecette(b), "fr"));
         const noms = recettesGroupe.map(r => getNomRecette(r));
         const groupesNoms = grouperParPrefixe(noms);
-        // Une seule card par niveau d'énergie, tous les noms sur la même ligne séparés par |
         const labelFinal = groupesNoms.map(gn => gn.label).join(" | ");
 
         const card = document.createElement("div");
@@ -731,7 +817,7 @@ function renderRecettesEnergie() {
         card.appendChild(header);
         energieContent.appendChild(card);
 
-        rank++; // rang par pas de 1
+        rank++;
     });
 }
 
@@ -739,13 +825,21 @@ function renderRecettesEnergie() {
 // 🧮 SOUS-ONGLET 4 : CALCULATEUR DE MAÎTRISE
 // =========================
 
-// Retourne un objet { nomFr => quantité } récursif pour une recette
-// (développe les sous-recettes en leurs ingrédients de base)
+/**
+ * Calcule récursivement les ingrédients de base (non-recette) nécessaires
+ * pour préparer `multiplicateur` fois une recette donnée.
+ * Les sous-recettes sont développées en leurs propres ingrédients de base.
+ * Pour chaque slot, choisit l'item avec le prix minimum.
+ * @param {{ ingredients: string[][] }} recette - Objet recette à analyser.
+ * @param {number} multiplicateur - Nombre de fois qu'on prépare la recette.
+ * @returns {Object.<string, { nom: string, prix: number, quantite: number }>}
+ *   Dictionnaire `{ nomFr: { nom: string, prix: number, quantite: number } }`
+ *   des ingrédients de base agrégés.
+ */
 function getIngredientsBase(recette, multiplicateur) {
-    const totaux = {}; // nomFr -> { nom affiché, prix, quantite }
+    const totaux = {};
     (recette.ingredients || []).forEach(slot => {
         if (!slot || slot.length === 0) return;
-        // Choisir l'item du slot avec le prix minimum
         let bestVal = null;
         let bestPrix = Infinity;
         slot.forEach(v => {
@@ -758,7 +852,6 @@ function getIngredientsBase(recette, multiplicateur) {
         const nomFr = rest.join(":");
 
         if (type === "rec") {
-            // Développer récursivement
             const sousRecette = recettes.find(r => (Array.isArray(r.name) ? r.name[0] : r.name) === nomFr);
             if (sousRecette) {
                 const sub = getIngredientsBase(sousRecette, multiplicateur);
@@ -770,7 +863,6 @@ function getIngredientsBase(recette, multiplicateur) {
             }
         }
 
-        // Ingrédient de base (ing, poi, col)
         const nomAff = getNomSlotItem(bestVal);
         const prix = getPrixIngredient(bestVal);
         if (!totaux[nomFr]) totaux[nomFr] = { nom: nomAff, prix, quantite: 0 };
@@ -779,6 +871,13 @@ function getIngredientsBase(recette, multiplicateur) {
     return totaux;
 }
 
+/**
+ * Rend le sous-onglet "Calculateur de maîtrise" :
+ * sélection d'une recette + nombre de plats déjà cuisinés,
+ * affichage des 3 paliers en colonnes avec les ingrédients et coûts nécessaires.
+ * Restaure la sélection précédente.
+ * @returns {void}
+ */
 function renderRecettesCalc() {
     const zone = document.getElementById("recettes-sub-calc");
     if (!zone) return;
@@ -809,7 +908,6 @@ function renderRecettesCalc() {
         opt.textContent = getNomRecette(r);
         sel.appendChild(opt);
     });
-    // Restaurer la sélection précédente
     if (calcSelectedRecette) sel.value = calcSelectedRecette;
 
     const dejaCuisinéLabel = document.createElement("label");
@@ -821,7 +919,6 @@ function renderRecettesCalc() {
     dejaCuisiné.inputMode = "numeric";
     dejaCuisiné.className = "recette-calc-input";
     dejaCuisiné.value = calcDejaCooked;
-    // Bloquer les flèches clavier pour éviter changement d'onglet
     dejaCuisiné.addEventListener("keydown", e => { e.stopPropagation(); });
     dejaCuisiné.addEventListener("input", () => {
         dejaCuisiné.value = dejaCuisiné.value.replace(/[^0-9]/g, "");
@@ -839,7 +936,6 @@ function renderRecettesCalc() {
     resultZone.id = "recette-calc-result";
     zone.appendChild(resultZone);
 
-    // Si une recette était sélectionnée, afficher le résultat immédiatement
     if (calcSelectedRecette) afficherCalcResultat();
 
     sel.addEventListener("change", () => {
@@ -847,6 +943,11 @@ function renderRecettesCalc() {
         afficherCalcResultat();
     });
 
+    /**
+     * (Closure) Calcule et affiche dans `#recette-calc-result` les paliers de maîtrise
+     * pour la recette sélectionnée, en tenant compte du nombre de plats déjà cuisinés.
+     * @returns {void}
+     */
     function afficherCalcResultat() {
         const nomFr = sel.value;
         const deja = parseInt(dejaCuisiné.value) || 0;
@@ -869,7 +970,6 @@ function renderRecettesCalc() {
             return;
         }
 
-        // Afficher les 3 paliers en 3 colonnes
         const paliersGrid = document.createElement("div");
         paliersGrid.className = "recette-calc-paliers-grid";
 
@@ -907,7 +1007,6 @@ function renderRecettesCalc() {
 
                 let prixTotalPalier = 0;
 
-                // Affichage par slot (avec label groupé)
                 slots.forEach((slot, si) => {
                     if (!slot || slot.length === 0) return;
                     const prixMin = Math.min(...slot.map(v => getPrixIngredient(v)));
@@ -929,8 +1028,6 @@ function renderRecettesCalc() {
                     ingDiv.appendChild(row);
                 });
 
-                // Total agrégé des ingrédients de base
-                // N'afficher que si au moins un ingrédient apparaît dans plusieurs slots
                 const totaux = getIngredientsBase(r, nbAPreparer);
                 const totalIngredients = Object.values(totaux);
                 const aDesDoublons = totalIngredients.some(v => v.quantite > nbAPreparer);

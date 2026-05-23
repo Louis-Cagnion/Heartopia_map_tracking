@@ -2,6 +2,14 @@
 // 🔐 MODE MANAGEMENT
 // =========================
 
+/**
+ * Bascule entre le mode utilisateur et le mode administrateur.
+ * En mode admin, demande un mot de passe, masque les onglets utilisateur
+ * et affiche la page admin. En mode utilisateur, effectue l'inverse.
+ * Réinitialise toujours le zoom et la sélection de lieu.
+ * @param {"user" | "admin"} newMode - Mode cible.
+ * @returns {void}
+ */
 function setMode(newMode) {
     zoom = 1; panX = 0; panY = 0;
     applyTransform();
@@ -55,6 +63,11 @@ function setMode(newMode) {
     mettreAJourUI();
 }
 
+/**
+ * Met à jour l'état désactivé/activé des boutons de sélection de mode
+ * selon le mode courant.
+ * @returns {void}
+ */
 function updateModeButtons() {
     document.getElementById("btnUser").disabled = mode === "user";
     document.getElementById("btnAdmin").disabled = mode === "admin";
@@ -64,6 +77,16 @@ function updateModeButtons() {
 // 📥 IMPORT
 // =========================
 
+/**
+ * Importe un ou plusieurs fichiers JSON sélectionnés par l'utilisateur
+ * et met à jour les données globales correspondantes ainsi que le localStorage.
+ * Fichiers reconnus : `lieux.json`, `poissons.json`, `insectes.json`,
+ * `oiseaux.json`, `collectibles.json`, `ingredients.json`, `recettes.json`.
+ * Affiche une alerte d'erreur pour tout fichier non reconnu ou malformé.
+ * @param {Event} event - Événement `change` d'un `<input type="file" multiple>`.
+ *   `event.target.files` est un `FileList` d'objets `File`.
+ * @returns {void}
+ */
 function importElements(event) {
     const files = [...event.target.files];
     files.forEach(file => {
@@ -116,4 +139,3 @@ function importElements(event) {
     event.target.value = "";
     setTimeout(() => alert("Import termine !"), 200);
 }
-

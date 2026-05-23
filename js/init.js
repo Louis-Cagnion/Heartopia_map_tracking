@@ -2,6 +2,17 @@
 // 🚀 INITIALISATION
 // =========================
 
+/**
+ * Point d'entrée principal de l'application.
+ * Exécuté au chargement du DOM :
+ * 1. Remplit les selects de niveaux de hobby.
+ * 2. Charge toutes les données (localStorage ou fichiers JSON).
+ * 3. Construit les fenêtres "faune obtenue" pour chaque type.
+ * 4. Crée les marqueurs de lieux et de collectibles sur la carte.
+ * 5. Applique la transformation initiale et rafraîchit l'affichage.
+ * @listens DOMContentLoaded
+ * @returns {Promise<void>}
+ */
 window.addEventListener("DOMContentLoaded", async () => {
     remplirSelectNiveaux(["hobbyPoisson", "hobbyOiseau", "hobbyInsecte"]);
     await loadDatabaseAuto();

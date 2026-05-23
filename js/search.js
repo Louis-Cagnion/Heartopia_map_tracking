@@ -3,6 +3,15 @@
 // =========================
 // Utilisée dans : faune obtenue, recettes, panneaux modifier admin
 
+/**
+ * Crée et retourne un composant barre de recherche (wrapper div contenant
+ * une icône, un input texte et un bouton d'effacement).
+ * @param {string} placeholder - Texte affiché dans le champ vide.
+ * @param {function(string): void} onSearch - Callback appelé à chaque saisie
+ *   avec la valeur en minuscules et sans espaces superflus.
+ *   Appelé avec `""` lors d'un effacement.
+ * @returns {HTMLDivElement} Élément wrapper prêt à être inséré dans le DOM.
+ */
 function creerBarreRecherche(placeholder, onSearch) {
     const wrapper = document.createElement("div");
     wrapper.className = "search-wrapper";
@@ -43,7 +52,12 @@ function creerBarreRecherche(placeholder, onSearch) {
     return wrapper;
 }
 
-// Filtre un texte selon la recherche
+/**
+ * Teste si un texte contient la chaîne de recherche (insensible à la casse).
+ * @param {string} texte - Texte dans lequel chercher.
+ * @param {string} recherche - Terme à rechercher (déjà en minuscules).
+ * @returns {boolean} `true` si `texte` contient `recherche`, ou si `recherche` est vide.
+ */
 function matchSearch(texte, recherche) {
     if (!recherche) return true;
     return texte.toLowerCase().includes(recherche);
@@ -53,8 +67,16 @@ function matchSearch(texte, recherche) {
 // 🔍 RECHERCHE FAUNE CARTE
 // =========================
 
+/** @type {string} Requête de recherche courante pour le filtre de faune sur la carte. */
 let fauneSearchQuery = "";
 
+/**
+ * Initialise la barre de recherche de faune sur la carte (`#fauneSearchInput`).
+ * Branche les événements `input` et clic sur le bouton d'effacement.
+ * En cas de saisie, affiche les résultats groupés par lieu dans le panneau de droite ;
+ * en cas d'effacement, restaure l'affichage du lieu sélectionné ou vide le panneau.
+ * @returns {void}
+ */
 function initFauneSearch() {
     const input = document.getElementById("fauneSearchInput");
     const btnClear = document.getElementById("fauneSearchClear");
@@ -68,7 +90,6 @@ function initFauneSearch() {
         fauneSearchQuery = input.value.trim().toLowerCase();
         btnClear.classList.toggle("hidden", fauneSearchQuery.length === 0);
         if (fauneSearchQuery.length === 0) {
-            // Vider le panneau si aucun lieu sélectionné
             if (!selectedPlace) {
                 document.getElementById("placeTitle").textContent = t("aucunLieu");
                 document.getElementById("elementsPanel").classList.add("hidden");
@@ -94,7 +115,13 @@ function initFauneSearch() {
     });
 }
 
-// Affiche dans le panneau de droite tous les éléments correspondant à la recherche, groupés par lieu
+/**
+ * Affiche dans le panneau de droite (`#elementsList`) tous les éléments de faune
+ * correspondant à la requête `q`, groupés par lieu.
+ * Respecte les filtres de catégorie (poissons/oiseaux/insectes) actifs dans `.filters`.
+ * @param {string} q - Terme de recherche (en minuscules).
+ * @returns {void}
+ */
 function afficherFauneRecherche(q) {
     const filtres = {};
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
@@ -121,6 +148,7 @@ function afficherFauneRecherche(q) {
     }
 
     // Grouper par lieu (FR)
+    /** @type {Object.<string, Array<{el: Object, emoji: string}>>} */
     const parLieu = {};
     trouves.forEach(({ el, emoji }) => {
         const lieuFr = Array.isArray(el.lieu) ? el.lieu[0] : el.lieu;
