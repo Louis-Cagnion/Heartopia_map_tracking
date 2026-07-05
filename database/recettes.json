@@ -2132,5 +2132,378 @@
       360,
       720
     ]
+  },
+  {
+    "name": [
+      "Milkshake",
+      "Milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait",
+        "ing:Poudre de matcha",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "ing:Cacao",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ],
+      [
+        "ing:Lait",
+        "ing:Poudre de matcha",
+        "ing:Ananas",
+        "ing:Fraise",
+        "ing:Raisin",
+        "ing:Cacao",
+        "col:Pommes",
+        "col:Oranges",
+        "col:Framboises",
+        "col:Myrtilles"
+      ]
+    ],
+    "energy": 12,
+    "sellPrice": 400,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake aux framboises",
+      "Raspberry milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "col:Framboises"
+      ],
+      [
+        "col:Framboises"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 440,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake à l'ananas",
+      "Pineapple Milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Ananas"
+      ],
+      [
+        "ing:Ananas"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 440,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake à l'orange",
+      "Mandarin milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "col:Oranges"
+      ],
+      [
+        "col:Oranges"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 450,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake aux raisins",
+      "Grape milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Raisin"
+      ],
+      [
+        "ing:Raisin"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 1300,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake à la pomme",
+      "Apple Milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "col:Pommes"
+      ],
+      [
+        "col:Pommes"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 450,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake à la fraise",
+      "Strawberry milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Fraise"
+      ],
+      [
+        "ing:Fraise"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 1090,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake aux myrtilles",
+      "Blueberry milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "col:Myrtilles"
+      ],
+      [
+        "col:Myrtilles"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 400,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake au matcha",
+      "Matcha milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Poudre de matcha"
+      ],
+      [
+        "ing:Poudre de matcha"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 840,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Thé noir parfumé",
+      "Mellow black tea"
+    ],
+    "ingredients": [
+      [
+        "ing:Thé noir"
+      ],
+      [
+        "ing:Thé noir"
+      ],
+      [
+        "ing:Lait",
+        "ing:Thé noir",
+        "ing:Cacao"
+      ],
+      [
+        "ing:Lait",
+        "ing:Thé noir",
+        "ing:Cacao"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 840,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Thé au lait parfumé",
+      "Mellow milk tea"
+    ],
+    "ingredients": [
+      [
+        "ing:Thé noir"
+      ],
+      [
+        "ing:Thé noir"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 840,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Thé au lait au cacao",
+      "Cocoa milk tea"
+    ],
+    "ingredients": [
+      [
+        "ing:Thé noir"
+      ],
+      [
+        "ing:Thé noir"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Cacao"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 840,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
+  },
+  {
+    "name": [
+      "Milkshake au cacao",
+      "Cocoa milkshake"
+    ],
+    "ingredients": [
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Lait"
+      ],
+      [
+        "ing:Cacao"
+      ],
+      [
+        "ing:Cacao"
+      ]
+    ],
+    "energy": 0,
+    "sellPrice": 1300,
+    "paliers": [
+      60,
+      180,
+      360
+    ]
   }
 ]
