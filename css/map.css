@@ -72,9 +72,9 @@
 }
 
 /* couleurs types */
-.poisson { background: #3498db; }
-.oiseau  { background: #f1c40f; }
-.insecte { background: #2ecc71; }
+.poisson { background: #4fa8e8; }
+.oiseau  { background: #f2c94c; }
+.insecte { background: #6fcf52; }
 .collectible { background: #e67e22; }
 
 /* ========================= */
