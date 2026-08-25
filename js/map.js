@@ -1,14 +1,14 @@
-// =========================
-// 🗺️ RÉFÉRENCES DOM MAP
-// =========================
+/* =========================
+   🗺️ RÉFÉRENCES DOM MAP
+   ========================= */
 
 const inner = document.getElementById("map-inner");
 const container = document.getElementById("map-container");
 container.classList.add("add-mode");
 
-// =========================
-// 🖱️ DRAG COLLECTIBLES
-// =========================
+/* =========================
+   🖱️ DRAG COLLECTIBLES
+   ========================= */
 
 /** @type {HTMLElement|null} Marqueur collectible en cours de déplacement. */
 let draggingCollectible = null;
@@ -20,11 +20,11 @@ let collectiblePlacementMode = false;
  */
 let currentCollectible = null;
 /** @type {boolean} Vrai si le mode suppression de position de collectible est actif. */
-let suppressionCollectibleMode = false;
+let collectibleDeletionMode = false;
 
-// =========================
-// 📍 CREATE PLACE MARKER
-// =========================
+/* =========================
+   📍 CREATE PLACE MARKER
+   ========================= */
 
 /**
  * Crée et ajoute dans `#map-inner` un marqueur de lieu avec son label.
@@ -97,10 +97,10 @@ function createPlaceMarker(name, x, y, level = 1) {
         const title = document.getElementById("placeTitle");
         if (title) {
             const place = places.find(p => (Array.isArray(p.name) ? p.name[0] : p.name) === name);
-            title.textContent = place ? getNom(place) : name;
+            title.textContent = place ? getName(place) : name;
         }
         document.getElementById("elementsPanel").classList.remove("hidden");
-        afficherElementsLieu(name);
+        showPlaceElements(name);
     };
 
     el.onclick = handleClick;
@@ -112,22 +112,18 @@ function createPlaceMarker(name, x, y, level = 1) {
     el.onmousedown = handleMousedown;
     hitArea.onmousedown = handleMousedown;
 
-    el.oncontextmenu = function(e) {
-        // Suppression désactivée en admin
-    };
-
     el.appendChild(hitArea);
     inner.appendChild(el);
 }
 
-// =========================
-// 🍄 CREATE COLLECTIBLE MARKER
-// =========================
+/* =========================
+   🍄 CREATE COLLECTIBLE MARKER
+   ========================= */
 
 /**
  * Crée et ajoute dans `#map-inner` un marqueur de position de collectible.
  * En mode admin avec `draggingCollectible`, peut être déplacé à la souris.
- * En mode admin avec `suppressionCollectibleMode`, un clic supprime la position
+ * En mode admin avec `collectibleDeletionMode`, un clic supprime la position
  * du tableau `collectibles[].spawns` (mutation en place) et du DOM.
  * @param {number} x - Position horizontale en pourcentage (0–100).
  * @param {number} y - Position verticale en pourcentage (0–100).
@@ -155,7 +151,7 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
     };
 
     el.onclick = function(e) {
-        if (mode !== "admin" || !suppressionCollectibleMode) return;
+        if (mode !== "admin" || !collectibleDeletionMode) return;
         e.stopPropagation();
         const currentName = currentCollectible ? (Array.isArray(currentCollectible.name) ? currentCollectible.name[0] : currentCollectible.name) : null;
         if (!currentName || el.dataset.collectibleName !== currentName) return;
@@ -174,7 +170,7 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
                 }
             });
             localStorage.setItem("collectibles", JSON.stringify(collectibles));
-            afficherLegende();
+            showLegend();
         }
         el.remove();
     };
@@ -182,9 +178,9 @@ function createCollectibleMarker(x, y, type, collectibleName, spawnIndex, color 
     inner.appendChild(el);
 }
 
-// =========================
-// 🏷️ LABELS
-// =========================
+/* =========================
+   🏷️ LABELS
+   ========================= */
 
 /**
  * Repositionne verticalement les labels de lieux pour éviter les chevauchements.
@@ -227,9 +223,9 @@ function clampLabels() {
     });
 }
 
-// =========================
-// 🔍 ZOOM + PAN
-// =========================
+/* =========================
+   🔍 ZOOM + PAN
+   ========================= */
 
 /**
  * Applique la transformation CSS courante (`zoom`, `panX`, `panY`) à `#map-inner`,
@@ -283,9 +279,9 @@ function updateMarkerVisibility() {
     });
 }
 
-// =========================
-// 🖱️ MOUSE EVENTS
-// =========================
+/* =========================
+   🖱️ MOUSE EVENTS
+   ========================= */
 
 // Zoom à la molette centré sur la position du curseur
 container.addEventListener("wheel", function(e) {
@@ -372,9 +368,9 @@ document.addEventListener("mouseup", function() {
     }
 });
 
-// =========================
-// 📱 TOUCH EVENTS
-// =========================
+/* =========================
+   📱 TOUCH EVENTS
+   ========================= */
 
 let lastTouchDist = null;
 let touchStartTime = 0;

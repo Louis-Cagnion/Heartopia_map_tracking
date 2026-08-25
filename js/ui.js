@@ -1,6 +1,6 @@
-// =========================
-// ☀️ THEME
-// =========================
+/* =========================
+   ☀️ THEME
+   ========================= */
 
 let themeMode = localStorage.getItem("themeMode") || "dark";
 
@@ -12,10 +12,10 @@ let themeMode = localStorage.getItem("themeMode") || "dark";
 function applyTheme() {
     if (themeMode === "light") {
         document.body.classList.add("light-mode");
-        document.getElementById("btnTheme").textContent = langue === "fr" ? "🌙 Mode sombre" : "🌙 Dark mode";
+        document.getElementById("btnTheme").textContent = language === "fr" ? "🌙 Mode sombre" : "🌙 Dark mode";
     } else {
         document.body.classList.remove("light-mode");
-        document.getElementById("btnTheme").textContent = langue === "fr" ? "☀️ Mode clair" : "☀️ Light mode";
+        document.getElementById("btnTheme").textContent = language === "fr" ? "☀️ Mode clair" : "☀️ Light mode";
     }
 }
 
@@ -33,9 +33,9 @@ function toggleTheme() {
 // Appliquer au chargement
 document.addEventListener("DOMContentLoaded", () => { applyTheme(); });
 
-// =========================
-// 🌍 UI STRINGS
-// =========================
+/* =========================
+   🌍 UI STRINGS
+   ========================= */
 
 const UI = {
     fr: {
@@ -59,7 +59,7 @@ const UI = {
         suppressionCollectible: "🗑️ Mode suppression actif",
         legendeTitre: "🍄 Collectibles ▶",
         meteoActuelle: "☁️ Météo actuelle",
-        langue: "🌐 Langue",
+        language: "🌐 Langue",
         serveur: "🌍 Serveur",
         meteoSoleil: "Soleil",
         meteoPluie: "Pluie",
@@ -171,7 +171,7 @@ const UI = {
         suppressionCollectible: "🗑️ Delete mode active",
         legendeTitre: "🍄 Collectibles ▶",
         meteoActuelle: "☁️ Current weather",
-        langue: "🌐 Language",
+        language: "🌐 Language",
         serveur: "🌍 Server",
         meteoSoleil: "Sunny",
         meteoPluie: "Rainy",
@@ -270,31 +270,31 @@ const UI = {
  * @returns {string} Texte traduit, ou la clé elle-même si introuvable.
  */
 function t(key) {
-    return UI[langue][key] || key;
+    return UI[language][key] || key;
 }
 
-// =========================
-// 🌍 LANGUE
-// =========================
+/* =========================
+   🌍 LANGUE
+   ========================= */
 
 /**
  * Bascule la langue entre français et anglais, met à jour le bouton de langue,
  * puis rafraîchit l'intégralité de l'interface (UI, carte, fenêtres de faune).
  * @returns {void}
  */
-function toggleLangue() {
-    langue = langue === "fr" ? "en" : "fr";
-    document.getElementById("btnLangue").textContent = langue === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
-    mettreAJourUI();
-    rafraichirAffichage();
-    construireFenetreObtenu("poisson", "ObtenuPoisson");
-    construireFenetreObtenu("oiseau", "ObtenuOiseau");
-    construireFenetreObtenu("insecte", "ObtenuInsecte");
+function toggleLanguage() {
+    language = language === "fr" ? "en" : "fr";
+    document.getElementById("btnLangue").textContent = language === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
+    updateUI();
+    refreshDisplay();
+    buildObtainedPanel("poisson", "ObtenuPoisson");
+    buildObtainedPanel("oiseau", "ObtenuOiseau");
+    buildObtainedPanel("insecte", "ObtenuInsecte");
 }
 
-// =========================
-// 🖊️ MISE A JOUR UI
-// =========================
+/* =========================
+   🖊️ MISE A JOUR UI
+   ========================= */
 
 /**
  * Met à jour tous les textes statiques de l'interface dans la langue courante :
@@ -302,7 +302,7 @@ function toggleLangue() {
  * Rafraîchit aussi l'interface admin si active, et le sous-onglet recettes si ouvert.
  * @returns {void}
  */
-function mettreAJourUI() {
+function updateUI() {
     document.title = t("titreWebsite");
     document.getElementById("btnUser").textContent = t("modeUser");
     document.getElementById("btnAdmin").textContent = t("modeAdmin");
@@ -327,7 +327,7 @@ function mettreAJourUI() {
     document.getElementById("titrePage").textContent = t("mapTitle");
     document.getElementById("labelMeteo").textContent = t("meteoActuelle");
     document.getElementById("labelServeur").textContent = t("serveur");
-    document.getElementById("labelLangue").textContent = t("langue");
+    document.getElementById("labelLangue").textContent = t("language");
 
     document.querySelectorAll(".meteo-label-soleil").forEach(el => el.textContent = t("meteoSoleil"));
     document.querySelectorAll(".meteo-label-pluie").forEach(el => el.textContent = t("meteoPluie"));
@@ -345,7 +345,7 @@ function mettreAJourUI() {
 
     const btnTabMap = document.querySelector(".tab-btn[onclick=\"switchTab('map')\"]");
     const btnTabFaune = document.querySelector(".tab-btn[onclick=\"switchTab('tab2')\"]");
-    const btnTabRecettes = document.querySelector(".tab-btn[onclick=\"switchTab('recettes')\"]");
+    const btnTabRecettes = document.querySelector(".tab-btn[onclick=\"switchTab('recipes')\"]");
     if (btnTabMap) btnTabMap.textContent = t("ongletCarte");
     if (btnTabFaune) btnTabFaune.textContent = t("ongletTab2");
     if (btnTabRecettes) btnTabRecettes.textContent = t("ongletRecettes");
@@ -360,17 +360,17 @@ function mettreAJourUI() {
     setFilterToggleText();
 
     const fauneInput = document.getElementById("fauneSearchInput");
-    if (fauneInput) fauneInput.placeholder = langue === "fr" ? "Filtrer la faune..." : "Filter wildlife...";
+    if (fauneInput) fauneInput.placeholder = language === "fr" ? "Filtrer la faune..." : "Filter wildlife...";
 
     if (!selectedPlace) {
         document.getElementById("placeTitle").textContent = t("aucunLieu");
     }
 
     if (mode === "admin") {
-        mettreAJourAdminUI();
+        updateAdminUI();
     }
-    if (currentTab === "recettes") {
-        const subZone = document.getElementById("recettes-sub-" + currentRecettesSubTab);
+    if (currentTab === "recipes") {
+        const subZone = document.getElementById("recipes-sub-" + currentRecipeSubTab);
         if (subZone) {
             document.querySelectorAll(".tab-btn-recettes").forEach(btn => {
                 const key = btn.dataset.sub;
@@ -380,48 +380,18 @@ function mettreAJourUI() {
                     energie: { fr: "⚡ Classement d'énergie",               en: "⚡ Energy ranking" },
                     calc:    { fr: "🧮 Calculateur de maîtrise de cuisine",  en: "🧮 Cooking mastery calculator" }
                 };
-                if (labels[key]) btn.textContent = labels[key][langue] || labels[key].fr;
+                if (labels[key]) btn.textContent = labels[key][language] || labels[key].fr;
             });
-            renderRecettesSubTab(currentRecettesSubTab);
+            renderRecipeSubTab(currentRecipeSubTab);
         } else {
-            initOngletRecettes();
+            initRecipeTab();
         }
     }
 }
 
-/**
- * Met à jour les libellés du panneau de saisie admin pour un type de faune donné
- * (poisson, insecte ou oiseau) en fonction de la langue courante.
- * @param {string} prefix - Préfixe inutilisé (paramètre historique conservé pour compatibilité).
- * @param {"poisson" | "insecte" | "oiseau"} type - Type de faune dont les labels sont à traduire.
- * @returns {void}
- */
-function traduirePanneauFaune(prefix, type) {
-    const suffixes = { poisson: "Poisson", insecte: "Insecte", oiseau: "Oiseau" };
-    const s = suffixes[type] || type;
-    const el = id => document.getElementById(id + s);
-    const safe = (id, key) => { const e = el(id); if (e) e.textContent = t(key); };
-    safe("adminTitre", "adminTitre" + s.charAt(0).toUpperCase() + s.slice(1).toLowerCase());
-    safe("adminNomFr", "adminNomFr");
-    safe("adminNomEn", "adminNomEn");
-    safe("adminLieu", "adminLieu");
-    safe("adminHeures", "adminHeures");
-    safe("adminMatin", "matin");
-    safe("adminApresMidi", "apresMidi");
-    safe("adminSoir", "soir");
-    safe("adminNuit", "nuit");
-    safe("adminMeteo", "adminMeteo");
-    safe("adminSoleil", "meteoSoleil");
-    safe("adminPluie", "meteoPluie");
-    safe("adminArc", "meteoArc");
-    safe("adminNiveau", "adminNiveauHobby");
-    safe("adminSauvegarder", "adminSauvegarder");
-    safe("adminFermer", "adminFermer");
-}
-
-// =========================
-// 🔲 FILTER TOGGLE
-// =========================
+/* =========================
+   🔲 FILTER TOGGLE
+   ========================= */
 
 /**
  * Met à jour le texte du bouton `#filterToggle` avec le label traduit

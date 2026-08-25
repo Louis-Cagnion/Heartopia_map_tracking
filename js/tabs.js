@@ -1,9 +1,9 @@
-// =========================
-// 🗂️ TABS
-// =========================
+/* =========================
+   🗂️ TABS
+   ========================= */
 
 let currentTab = "map";
-const tabs = ["map", "tab2", "recettes"];
+const tabs = ["map", "tab2", "recipes"];
 
 /**
  * Bascule vers l'onglet principal spécifié.
@@ -23,7 +23,7 @@ function switchTab(tabName) {
     document.getElementById("tab-" + tabName).classList.add("active");
     document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add("active");
     currentTab = tabName;
-    if (tabName === "recettes") initOngletRecettes();
+    if (tabName === "recipes") initRecipeTab();
 }
 
 // Navigation clavier : flèches gauche/droite et touches A/D

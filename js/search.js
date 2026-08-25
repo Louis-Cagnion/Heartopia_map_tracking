@@ -1,6 +1,6 @@
-// =========================
-// 🔍 BARRE DE RECHERCHE GLOBALE
-// =========================
+/* =========================
+   🔍 BARRE DE RECHERCHE GLOBALE
+   ========================= */
 // Utilisée dans : faune obtenue, recettes, panneaux modifier admin
 
 /**
@@ -12,7 +12,7 @@
  *   Appelé avec `""` lors d'un effacement.
  * @returns {HTMLDivElement} Élément wrapper prêt à être inséré dans le DOM.
  */
-function creerBarreRecherche(placeholder, onSearch) {
+function createSearchBar(placeholder, onSearch) {
     const wrapper = document.createElement("div");
     wrapper.className = "search-wrapper";
 
@@ -23,7 +23,7 @@ function creerBarreRecherche(placeholder, onSearch) {
     const input = document.createElement("input");
     input.type = "text";
     input.className = "search-input";
-    input.placeholder = placeholder || (langue === "fr" ? "Rechercher..." : "Search...");
+    input.placeholder = placeholder || (language === "fr" ? "Rechercher..." : "Search...");
 
     const btnClear = document.createElement("button");
     btnClear.className = "search-clear hidden";
@@ -63,12 +63,12 @@ function matchSearch(texte, recherche) {
     return texte.toLowerCase().includes(recherche);
 }
 
-// =========================
-// 🔍 RECHERCHE FAUNE CARTE
-// =========================
+/* =========================
+   🔍 RECHERCHE FAUNE CARTE
+   ========================= */
 
 /** @type {string} Requête de recherche courante pour le filtre de faune sur la carte. */
-let fauneSearchQuery = "";
+let wildlifeSearchQuery = "";
 
 /**
  * Initialise la barre de recherche de faune sur la carte (`#fauneSearchInput`).
@@ -77,39 +77,39 @@ let fauneSearchQuery = "";
  * en cas d'effacement, restaure l'affichage du lieu sélectionné ou vide le panneau.
  * @returns {void}
  */
-function initFauneSearch() {
+function initWildlifeSearch() {
     const input = document.getElementById("fauneSearchInput");
     const btnClear = document.getElementById("fauneSearchClear");
     if (!input) return;
 
-    input.placeholder = langue === "fr" ? "Filtrer la faune..." : "Filter wildlife...";
+    input.placeholder = language === "fr" ? "Filtrer la faune..." : "Filter wildlife...";
 
     input.addEventListener("keydown", e => e.stopPropagation());
 
     input.addEventListener("input", () => {
-        fauneSearchQuery = input.value.trim().toLowerCase();
-        btnClear.classList.toggle("hidden", fauneSearchQuery.length === 0);
-        if (fauneSearchQuery.length === 0) {
+        wildlifeSearchQuery = input.value.trim().toLowerCase();
+        btnClear.classList.toggle("hidden", wildlifeSearchQuery.length === 0);
+        if (wildlifeSearchQuery.length === 0) {
             if (!selectedPlace) {
                 document.getElementById("placeTitle").textContent = t("aucunLieu");
                 document.getElementById("elementsPanel").classList.add("hidden");
             } else {
-                afficherElementsLieu(selectedPlace);
+                showPlaceElements(selectedPlace);
             }
         } else {
-            afficherFauneRecherche(fauneSearchQuery);
+            showWildlifeSearchResults(wildlifeSearchQuery);
         }
     });
 
     btnClear.addEventListener("click", () => {
         input.value = "";
-        fauneSearchQuery = "";
+        wildlifeSearchQuery = "";
         btnClear.classList.add("hidden");
         if (!selectedPlace) {
             document.getElementById("placeTitle").textContent = t("aucunLieu");
             document.getElementById("elementsPanel").classList.add("hidden");
         } else {
-            afficherElementsLieu(selectedPlace);
+            showPlaceElements(selectedPlace);
         }
         input.focus();
     });
@@ -122,27 +122,27 @@ function initFauneSearch() {
  * @param {string} q - Terme de recherche (en minuscules).
  * @returns {void}
  */
-function afficherFauneRecherche(q) {
+function showWildlifeSearchResults(q) {
     const filtres = {};
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
         filtres[cb.value] = cb.checked;
     });
 
     const tous = [
-        ...(filtres["poisson"] ? poissons.map(p => ({ el: p, emoji: "🐟" })) : []),
-        ...(filtres["oiseau"]  ? oiseaux.map(o  => ({ el: o, emoji: "🪶" })) : []),
-        ...(filtres["insecte"] ? insectes.map(i  => ({ el: i, emoji: "🐛" })) : [])
+        ...(filtres["poisson"] ? fish.map(p => ({ el: p, emoji: "🐟" })) : []),
+        ...(filtres["oiseau"]  ? birds.map(o  => ({ el: o, emoji: "🪶" })) : []),
+        ...(filtres["insecte"] ? insects.map(i  => ({ el: i, emoji: "🐛" })) : [])
     ];
 
-    const trouves = tous.filter(({ el }) => matchSearch(getNom(el), q));
+    const trouves = tous.filter(({ el }) => matchSearch(getName(el), q));
 
     const title = document.getElementById("placeTitle");
     const panel = document.getElementById("elementsPanel");
     const list  = document.getElementById("elementsList");
 
     if (trouves.length === 0) {
-        title.textContent = langue === "fr" ? "Aucun résultat" : "No results";
-        list.innerHTML = `<div style="color:#666;font-size:14px">${langue === "fr" ? "Aucune faune trouvée." : "No wildlife found."}</div>`;
+        title.textContent = language === "fr" ? "Aucun résultat" : "No results";
+        list.innerHTML = `<div style="color:#666;font-size:14px">${language === "fr" ? "Aucune faune trouvée." : "No wildlife found."}</div>`;
         panel.classList.remove("hidden");
         return;
     }
@@ -156,7 +156,7 @@ function afficherFauneRecherche(q) {
         parLieu[lieuFr].push({ el, emoji });
     });
 
-    title.textContent = langue === "fr" ? "Résultats de recherche" : "Search results";
+    title.textContent = language === "fr" ? "Résultats de recherche" : "Search results";
     list.innerHTML = "";
 
     Object.entries(parLieu).forEach(([lieuFr, items]) => {
@@ -165,7 +165,7 @@ function afficherFauneRecherche(q) {
 
         const titreLieu = document.createElement("div");
         titreLieu.className = "elements-lieu-titre";
-        titreLieu.textContent = getNomLieu(lieuFr);
+        titreLieu.textContent = getPlaceName(lieuFr);
         div.appendChild(titreLieu);
 
         const ul = document.createElement("ul");
@@ -174,7 +174,7 @@ function afficherFauneRecherche(q) {
         items.forEach(({ el, emoji }) => {
             const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
             const li = document.createElement("li");
-            li.textContent = emoji + " " + getNom(el);
+            li.textContent = emoji + " " + getName(el);
             li.dataset.nameFr = nameFr;
             li.onclick = function(e) {
                 e.stopPropagation();
@@ -191,11 +191,9 @@ function afficherFauneRecherche(q) {
                 });
                 const details = document.createElement("div");
                 details.className = "element-details";
-                details.innerHTML = `
-                    <div class="element-details-row">${t("detailsHeures")} : ${heuresDecalees.map(h => traduireHeure(h)).join(", ")}</div>
-                    <div class="element-details-row">${t("detailsMeteo")} : ${(el.meteos || []).map(m => traduireMeteo(m)).join(", ")}</div>
-                    <div class="element-details-row">${t("detailsHobby")} : ${el.niveau_hobby || "?"}</div>
-                `;
+                details.appendChild(createDetailRow(t("detailsHeures"), heuresDecalees.map(h => translateTime(h)).join(", ")));
+                details.appendChild(createDetailRow(t("detailsMeteo"), (el.meteos || []).map(m => translateWeather(m)).join(", ")));
+                details.appendChild(createDetailRow(t("detailsHobby"), el.niveau_hobby || "?"));
                 li.insertAdjacentElement("afterend", details);
             };
             ul.appendChild(li);
@@ -209,4 +207,4 @@ function afficherFauneRecherche(q) {
 }
 
 // Appeler à l'init et au changement de langue
-document.addEventListener("DOMContentLoaded", () => { initFauneSearch(); });
+document.addEventListener("DOMContentLoaded", () => { initWildlifeSearch(); });

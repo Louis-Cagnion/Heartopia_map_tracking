@@ -1,6 +1,6 @@
-// =========================
-// 🔲 APPLIQUER FILTRES
-// =========================
+/* =========================
+   🔲 APPLIQUER FILTRES
+   ========================= */
 
 /**
  * Applique les filtres de catégorie (poissons/oiseaux/insectes/collectibles) :
@@ -8,7 +8,7 @@
  * et rafraîchit le panneau du lieu sélectionné et le panneau des lieux spéciaux si ouverts.
  * @returns {void}
  */
-function appliquerFiltres() {
+function applyFilters() {
     const filtres = {};
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
         filtres[cb.value] = cb.checked;
@@ -21,12 +21,12 @@ function appliquerFiltres() {
     document.getElementById("legendeCollectibles").style.display = filtres["collectible"] ? "" : "none";
 
     if (selectedPlace) {
-        afficherElementsLieu(selectedPlace);
+        showPlaceElements(selectedPlace);
     }
 
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
-        rafraichirSpeciaux();
+        refreshSpecialLocations();
     }
 }
 
@@ -35,28 +35,28 @@ function appliquerFiltres() {
  * en reconstruisant les listes de faune pour chaque lieu spécial.
  * @returns {void}
  */
-function rafraichirSpeciaux() {
+function refreshSpecialLocations() {
     const list = document.getElementById("speciauxList");
     list.innerHTML = "";
-    lieuxSpeciaux.forEach(lieu => {
+    specialPlaces.forEach(lieu => {
         const elements = [
-            ...poissons.filter(p => (Array.isArray(p.lieu) ? p.lieu[0] : p.lieu) === lieu).map(p => Array.isArray(p.name) ? p.name[0] : p.name),
-            ...oiseaux.filter(o => (Array.isArray(o.lieu) ? o.lieu[0] : o.lieu) === lieu).map(o => Array.isArray(o.name) ? o.name[0] : o.name),
-            ...insectes.filter(i => (Array.isArray(i.lieu) ? i.lieu[0] : i.lieu) === lieu).map(i => Array.isArray(i.name) ? i.name[0] : i.name)
+            ...fish.filter(p => (Array.isArray(p.lieu) ? p.lieu[0] : p.lieu) === lieu).map(p => Array.isArray(p.name) ? p.name[0] : p.name),
+            ...birds.filter(o => (Array.isArray(o.lieu) ? o.lieu[0] : o.lieu) === lieu).map(o => Array.isArray(o.name) ? o.name[0] : o.name),
+            ...insects.filter(i => (Array.isArray(i.lieu) ? i.lieu[0] : i.lieu) === lieu).map(i => Array.isArray(i.name) ? i.name[0] : i.name)
         ];
         if (elements.length > 0) {
             const div = document.createElement("div");
             div.className = "elements-lieu";
-            div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
-            afficherGroupeElements(elements, div);
+            div.appendChild(createPlaceTitleDiv(getPlaceName(lieu)));
+            showElementGroup(elements, div);
             list.appendChild(div);
         }
     });
 }
 
-// =========================
-// 📋 AFFICHER ELEMENTS LIEU
-// =========================
+/* =========================
+   📋 AFFICHER ELEMENTS LIEU
+   ========================= */
 
 /**
  * Affiche dans `#elementsList` la faune associée à un lieu (et ses sous-zones),
@@ -64,8 +64,8 @@ function rafraichirSpeciaux() {
  * @param {string} nomLieu - Nom français du lieu à afficher.
  * @returns {void}
  */
-function afficherElementsLieu(nomLieu) {
-    const { estZoneNiv1, sousZones, resultats } = getElementsPourLieu(nomLieu);
+function showPlaceElements(nomLieu) {
+    const { estZoneNiv1, sousZones, resultats } = getElementsForPlace(nomLieu);
     const list = document.getElementById("elementsList");
     list.innerHTML = "";
 
@@ -74,17 +74,17 @@ function afficherElementsLieu(nomLieu) {
         return;
     }
 
-    const lieuxPropres = getLieuxPourRecherche(nomLieu);
+    const lieuxPropres = getPlacesForSearch(nomLieu);
     let premierLieu = true;
     lieuxPropres.forEach(lieu => {
         if (resultats[lieu]) {
             const div = document.createElement("div");
             div.className = "elements-lieu";
             if (!premierLieu) {
-                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
+                div.appendChild(createPlaceTitleDiv(getPlaceName(lieu)));
             }
             premierLieu = false;
-            if (afficherGroupeElements(resultats[lieu], div)) {
+            if (showElementGroup(resultats[lieu], div)) {
                 list.appendChild(div);
             }
         }
@@ -95,24 +95,24 @@ function afficherElementsLieu(nomLieu) {
             if (resultats[sz]) {
                 const div = document.createElement("div");
                 div.className = "elements-lieu";
-                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} :</div>`;
-                if (afficherGroupeElements(resultats[sz], div)) list.appendChild(div);
+                div.appendChild(createPlaceTitleDiv(getPlaceName(sz)));
+                if (showElementGroup(resultats[sz], div)) list.appendChild(div);
             }
-            getLieuxPourRecherche(sz).forEach(lieu => {
+            getPlacesForSearch(sz).forEach(lieu => {
                 if (lieu !== sz && resultats[lieu]) {
                     const div = document.createElement("div");
                     div.className = "elements-lieu";
-                    div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(sz)} (${getNomLieu(lieu)}) :</div>`;
-                    if (afficherGroupeElements(resultats[lieu], div)) list.appendChild(div);
+                    div.appendChild(createPlaceTitleDiv(`${getPlaceName(sz)} (${getPlaceName(lieu)})`));
+                    if (showElementGroup(resultats[lieu], div)) list.appendChild(div);
                 }
             });
         });
     }
 }
 
-// =========================
-// 📋 AFFICHER GROUPE
-// =========================
+/* =========================
+   📋 AFFICHER GROUPE
+   ========================= */
 
 /**
  * Construit et ajoute une liste `<ul>` d'éléments de faune dans un conteneur,
@@ -122,7 +122,7 @@ function afficherElementsLieu(nomLieu) {
  * @param {HTMLElement} container - Élément DOM dans lequel injecter la liste.
  * @returns {boolean} `true` si au moins un élément a été affiché, `false` sinon.
  */
-function afficherGroupeElements(elements, container) {
+function showElementGroup(elements, container) {
     const filtres = {};
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
         filtres[cb.value] = cb.checked;
@@ -158,16 +158,16 @@ function afficherGroupeElements(elements, container) {
     ul.className = "elements-lieu-liste";
 
     const tousElements = [
-        ...(filtres["poisson"] ? poissons.filter(p => elements.includes(Array.isArray(p.name) ? p.name[0] : p.name)).map(p => ({
-            name: getNom(p), emoji: "🐟", niveau: p.niveau_hobby, hobbyUser: hobbyPoisson,
+        ...(filtres["poisson"] ? fish.filter(p => elements.includes(Array.isArray(p.name) ? p.name[0] : p.name)).map(p => ({
+            name: getName(p), emoji: "🐟", niveau: p.niveau_hobby, hobbyUser: hobbyPoisson,
             heures: p.heures || [], meteos: p.meteos || [], element: p
         })) : []),
-        ...(filtres["oiseau"] ? oiseaux.filter(o => elements.includes(Array.isArray(o.name) ? o.name[0] : o.name)).map(o => ({
-            name: getNom(o), emoji: "🪶", niveau: o.niveau_hobby, hobbyUser: hobbyOiseau,
+        ...(filtres["oiseau"] ? birds.filter(o => elements.includes(Array.isArray(o.name) ? o.name[0] : o.name)).map(o => ({
+            name: getName(o), emoji: "🪶", niveau: o.niveau_hobby, hobbyUser: hobbyOiseau,
             heures: o.heures || [], meteos: o.meteos || [], element: o
         })) : []),
-        ...(filtres["insecte"] ? insectes.filter(i => elements.includes(Array.isArray(i.name) ? i.name[0] : i.name)).map(i => ({
-            name: getNom(i), emoji: "🐛", niveau: i.niveau_hobby, hobbyUser: hobbyInsecte,
+        ...(filtres["insecte"] ? insects.filter(i => elements.includes(Array.isArray(i.name) ? i.name[0] : i.name)).map(i => ({
+            name: getName(i), emoji: "🐛", niveau: i.niveau_hobby, hobbyUser: hobbyInsecte,
             heures: i.heures || [], meteos: i.meteos || [], element: i
         })) : [])
     ];
@@ -189,12 +189,12 @@ function afficherGroupeElements(elements, container) {
             ? heuresDecalees.some(h => heuresCochees.has(h))
             : heuresDecalees.length === heuresCochees.size && heuresDecalees.every(h => heuresCochees.has(h));
         const visible = debloque && meteoOk && heureOk;
-        const obtenu = !!checkedFaune[nameFr];
+        const obtenu = !!checkedWildlife[nameFr];
 
         if (!visible && !afficherNonDebloques) return;
         if (obtenu && cacherObtenus && !afficherNonDebloques) return;
-        if (typeof fauneSearchQuery !== "undefined" && fauneSearchQuery.length > 0 && selectedPlace) {
-            if (!matchSearch(name, fauneSearchQuery)) return;
+        if (typeof wildlifeSearchQuery !== "undefined" && wildlifeSearchQuery.length > 0 && selectedPlace) {
+            if (!matchSearch(name, wildlifeSearchQuery)) return;
         }
 
         auMoinsUn = true;
@@ -218,13 +218,11 @@ function afficherGroupeElements(elements, container) {
             li.classList.add("selected");
             const details = document.createElement("div");
             details.className = "element-details";
-            const heuresAffichees = heuresDecalees.map(h => traduireHeure(h)).join(", ");
-            const meteosAffichees = meteos.map(m => traduireMeteo(m)).join(", ");
-            details.innerHTML = `
-                <div class="element-details-row">${t("detailsHeures")} : ${heuresAffichees}</div>
-                <div class="element-details-row">${t("detailsMeteo")} : ${meteosAffichees}</div>
-                <div class="element-details-row">${t("detailsHobby")} : ${niveau || "?"}</div>
-            `;
+            const heuresAffichees = heuresDecalees.map(h => translateTime(h)).join(", ");
+            const meteosAffichees = meteos.map(m => translateWeather(m)).join(", ");
+            details.appendChild(createDetailRow(t("detailsHeures"), heuresAffichees));
+            details.appendChild(createDetailRow(t("detailsMeteo"), meteosAffichees));
+            details.appendChild(createDetailRow(t("detailsHobby"), niveau || "?"));
             li.insertAdjacentElement("afterend", details);
         };
 
@@ -235,38 +233,23 @@ function afficherGroupeElements(elements, container) {
     return auMoinsUn;
 }
 
-// =========================
-// ⭐ PANEL SPECIAUX
-// =========================
+/* =========================
+   ⭐ PANEL SPECIAUX
+   ========================= */
 
 /**
  * Bascule l'affichage du panneau des localisations spéciales.
  * Si ouvert, reconstruit son contenu ; si fermé, affiche à nouveau le bouton.
  * @returns {void}
  */
-function toggleSpeciaux() {
+function toggleSpecialLocations() {
     const panel = document.getElementById("panelSpeciaux");
     const btn = document.getElementById("btnSpeciaux");
     panel.classList.toggle("hidden");
     btn.style.display = panel.classList.contains("hidden") ? "" : "none";
 
     if (!panel.classList.contains("hidden")) {
-        const list = document.getElementById("speciauxList");
-        list.innerHTML = "";
-        lieuxSpeciaux.forEach(lieu => {
-            const elements = [
-                ...poissons.filter(p => (Array.isArray(p.lieu) ? p.lieu[0] : p.lieu) === lieu).map(p => Array.isArray(p.name) ? p.name[0] : p.name),
-                ...oiseaux.filter(o => (Array.isArray(o.lieu) ? o.lieu[0] : o.lieu) === lieu).map(o => Array.isArray(o.name) ? o.name[0] : o.name),
-                ...insectes.filter(i => (Array.isArray(i.lieu) ? i.lieu[0] : i.lieu) === lieu).map(i => Array.isArray(i.name) ? i.name[0] : i.name)
-            ];
-            if (elements.length > 0) {
-                const div = document.createElement("div");
-                div.className = "elements-lieu";
-                div.innerHTML = `<div class="elements-lieu-titre">${getNomLieu(lieu)} :</div>`;
-                afficherGroupeElements(elements, div);
-                list.appendChild(div);
-            }
-        });
+        refreshSpecialLocations();
     }
 }
 
@@ -280,9 +263,9 @@ function toggleElementsPanel() {
     document.getElementById("elementsPanel").classList.toggle("hidden");
 }
 
-// =========================
-// 🍄 LEGENDE COLLECTIBLES
-// =========================
+/* =========================
+   🍄 LEGENDE COLLECTIBLES
+   ========================= */
 
 /**
  * Reconstruit et affiche la légende des collectibles,
@@ -290,7 +273,7 @@ function toggleElementsPanel() {
  * Masque le panneau s'il n'y a aucun collectible avec des spawns.
  * @returns {void}
  */
-function afficherLegende() {
+function showLegend() {
     const list = document.getElementById("legendeList");
     list.innerHTML = "";
     const panel = document.getElementById("legendeCollectibles");
@@ -300,7 +283,7 @@ function afficherLegende() {
         return;
     }
     panel.classList.remove("hidden");
-    const i = langIndex[langue];
+    const i = langIndex[language];
     /**
      * Collectibles regroupés par type traduit.
      * @type {Object.<string, Array<{name: [string,string], type: [string,string], color: string, spawns: Array<{x:number,y:number}>}>>}
@@ -312,7 +295,7 @@ function afficherLegende() {
         grouped[typeKey].push(c);
     });
     Object.keys(grouped).forEach(type => {
-        const idx = langIndex[langue];
+        const idx = langIndex[language];
         list.appendChild(createSeparator());
         const title = document.createElement("div");
         title.className = "legende-type-title";
@@ -322,20 +305,14 @@ function afficherLegende() {
         grouped[type]
             .sort((a, b) => (a.name[idx] || a.name[0]).localeCompare(b.name[idx] || b.name[0], 'fr', { sensitivity: 'base' }))
             .forEach(c => {
-                const div = document.createElement("div");
-                div.className = "legende-item";
-                div.innerHTML = `
-                    <div class="legende-pastille" style="background:${c.color || "#e67e22"}"></div>
-                    <span>${c.name[idx] || c.name[0]}</span>
-                `;
-                list.appendChild(div);
+                list.appendChild(createLegendItem(c.name[idx] || c.name[0], c.color));
             });
     });
 }
 
-// =========================
-// 🔄 RAFRAICHIR AFFICHAGE
-// =========================
+/* =========================
+   🔄 RAFRAICHIR AFFICHAGE
+   ========================= */
 
 /**
  * Rafraîchit l'ensemble de l'affichage dépendant de la langue ou des données :
@@ -344,22 +321,22 @@ function afficherLegende() {
  * Si un élément était sélectionné, tente de le re-sélectionner après rendu.
  * @returns {void}
  */
-function rafraichirAffichage() {
+function refreshDisplay() {
     const elementOuvert = selectedElement;
     document.querySelectorAll(".place-marker").forEach(el => {
         const name = el.dataset.name;
         const place = places.find(p => Array.isArray(p.name) ? p.name[0] === name : p.name === name);
         if (place) {
             const label = el.querySelector(".place-label");
-            if (label) label.textContent = formatPlaceName(getNom(place));
+            if (label) label.textContent = formatPlaceName(getName(place));
         }
     });
-    afficherLegende();
+    showLegend();
     if (selectedPlace) {
         const place = places.find(p => (Array.isArray(p.name) ? p.name[0] : p.name) === selectedPlace);
         const title = document.getElementById("placeTitle");
-        if (title && place) title.textContent = getNom(place);
-        afficherElementsLieu(selectedPlace);
+        if (title && place) title.textContent = getName(place);
+        showPlaceElements(selectedPlace);
         if (elementOuvert) {
             setTimeout(() => {
                 const liEl = [...document.querySelectorAll(".elements-lieu-liste li")]
@@ -373,28 +350,28 @@ function rafraichirAffichage() {
     }
     const panelSpeciaux = document.getElementById("panelSpeciaux");
     if (!panelSpeciaux.classList.contains("hidden")) {
-        rafraichirSpeciaux();
+        refreshSpecialLocations();
     }
 }
 
-// =========================
-// 🎛️ LISTENERS FILTRES
-// =========================
+/* =========================
+   🎛️ LISTENERS FILTRES
+   ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".filters input[type='checkbox']").forEach(cb => {
         cb.addEventListener("change", function() {
             if (mode !== "user") return;
-            appliquerFiltres();
+            applyFilters();
         });
     });
-    document.querySelectorAll(".meteo-cb").forEach(cb => cb.addEventListener("change", appliquerFiltres));
-    document.querySelectorAll(".heure-cb").forEach(cb => cb.addEventListener("change", appliquerFiltres));
-    document.querySelectorAll("input[name='meteoMode']").forEach(r => r.addEventListener("change", appliquerFiltres));
-    document.querySelectorAll("input[name='heureMode']").forEach(r => r.addEventListener("change", appliquerFiltres));
+    document.querySelectorAll(".meteo-cb").forEach(cb => cb.addEventListener("change", applyFilters));
+    document.querySelectorAll(".heure-cb").forEach(cb => cb.addEventListener("change", applyFilters));
+    document.querySelectorAll("input[name='meteoMode']").forEach(r => r.addEventListener("change", applyFilters));
+    document.querySelectorAll("input[name='heureMode']").forEach(r => r.addEventListener("change", applyFilters));
 
     ["hobbyPoisson", "hobbyOiseau", "hobbyInsecte", "afficherNonDebloques", "cacherObtenus"].forEach(id => {
-        document.getElementById(id).addEventListener("change", appliquerFiltres);
+        document.getElementById(id).addEventListener("change", applyFilters);
     });
 
     // Légende collectibles toggle

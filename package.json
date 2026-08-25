@@ -1,0 +1,24 @@
+{
+  "name": "heartopia",
+  "version": "1.0.0",
+  "description": "You can access to the website here : https://louis-cagnion.github.io/Heartopia_map_tracking/",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Louis-Cagnion/Heartopia_map_tracking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Louis-Cagnion/Heartopia_map_tracking/issues"
+  },
+  "homepage": "https://github.com/Louis-Cagnion/Heartopia_map_tracking#readme",
+  "devDependencies": {
+    "jsdom": "^30.0.1",
+    "vitest": "^4.1.11"
+  }
+}

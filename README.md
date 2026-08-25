@@ -2,6 +2,8 @@
 
 You can access to the website here : https://louis-cagnion.github.io/Heartopia_map_tracking/
 
+An interactive map-based wiki for the game **Heartopia**, letting players locate collectibles and wildlife, track their progress, browse recipes, and (in admin mode) manage the underlying JSON databases directly from the browser.
+
 ## 📋 Table of Contents
 - [Description](#description)
 - [Overview](#overview)
@@ -16,6 +18,7 @@ You can access to the website here : https://louis-cagnion.github.io/Heartopia_m
   - [Technical improvements](#technical-improvements)
   - [Important note](#important-note)
 - [Technical Stack](#technical-stack)
+- [AI Usage](#ai-usage)
 - [Author](#author)
 
 ---
@@ -59,19 +62,24 @@ It focuses on:
 
 ```text
 Heartopia/
+├── css/                  # One stylesheet per feature area (map, filters, panels, admin, recipes...)
+├── js/                   # One module per feature area (data, map, filters, admin-*, recipes-*...)
 ├── database/
 │   ├── collectibles.json
 │   ├── lieux.json
 │   ├── poissons.json
 │   ├── insectes.json
-│   └── oiseaux.json
-│
+│   ├── oiseaux.json
+│   ├── ingredients.json
+│   ├── recettes.json
+│   └── tutoriels/        # French-language written guides (basics + 100% completion)
+├── tests/                # Vitest unit tests for pure/testable logic
 ├── map/
 │   └── map.jpg
-│
+├── icone/
 ├── index.html
-├── script.js
-├── style.css
+├── package.json
+├── vitest.config.js
 └── README.md
 ```
 
@@ -130,6 +138,7 @@ Heartopia/
 - Recipes composed of 2 to 4 ingredients
 - Ingredient filtering system
 - Multi-selection support (Ctrl + click / Shift + click)
+- Profit ranking, energy ranking, and cooking-mastery calculator sub-tabs
 - Dedicated databases for:
   - ingredients
   - recipes
@@ -151,12 +160,13 @@ Heartopia/
 ---
 
 ### 🧠 Technical improvements <a id="technical-improvements"></a>
-- Modular refactor of JS and CSS files (partial but improved architecture)
+- Modular refactor of JS and CSS files, one file per responsibility, each kept under 750 lines
 - Separation of concerns between UI / data / logic
 - Dynamic filtering engine for map rendering
 - Hierarchical zone aggregation logic
 - Improved data structure for fauna, recipes, and collectibles
 - Support for dynamic and non-static map entities
+- Unit-tested pure logic (price calculations, name grouping, data registry) via Vitest
 
 ---
 
@@ -171,6 +181,13 @@ Heartopia/
 - CSS3
 - Vanilla JavaScript (ES6+)
 - Python HTTP server (local development)
+- Vitest (unit tests for pure logic, run with `npm test`)
+
+---
+
+# 🤖 AI Usage <a id="ai-usage"></a>
+
+AI assistance (Claude Code) is used throughout this project's development: implementing features, refactoring and splitting large files, writing unit tests, fixing bugs found during code review, and drafting documentation. All AI-assisted changes are reviewed before being kept. Game data (collectibles, wildlife, recipes) is entered manually by the author through the admin panel.
 
 ---
 

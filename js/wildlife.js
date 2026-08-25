@@ -1,12 +1,12 @@
-// =========================
-// 🐟 SWITCH TAB WILDLIFE
-// =========================
+/* =========================
+   🐟 SWITCH TAB WILDLIFE
+   ========================= */
 
 /**
  * Mémorise les niveaux réduits (repliés) par type de faune.
  * @type {{ poisson: Set<number>, oiseau: Set<number>, insecte: Set<number> }}
  */
-const niveauxReduits = { poisson: new Set(), oiseau: new Set(), insecte: new Set() };
+const collapsedLevels = { poisson: new Set(), oiseau: new Set(), insecte: new Set() };
 
 /**
  * Bascule l'affichage vers le sous-onglet faune spécifié.
@@ -20,29 +20,29 @@ function switchTabWildlife(type) {
     document.querySelector(`.tab-btn-wildlife[onclick="switchTabWildlife('${type}')"]`).classList.add("active");
 }
 
-// =========================
-// 🐟 CONSTRUIRE FENETRE
-// =========================
+/* =========================
+   🐟 CONSTRUIRE FENETRE
+   ========================= */
 
 /**
  * Construit et injecte dans le DOM le panneau "faune obtenue" pour un type donné.
  * Crée une barre de recherche, puis des blocs par niveau de hobby, chacun contenant
- * une grille de cases à cocher. L'état coché/décoché est persisté dans `checkedFaune`.
- * L'état réduit/déplié des niveaux est restauré depuis `niveauxReduits`.
+ * une grille de cases à cocher. L'état coché/décoché est persisté dans `checkedWildlife`.
+ * L'état réduit/déplié des niveaux est restauré depuis `collapsedLevels`.
  *
  * @param {"poisson" | "oiseau" | "insecte"} type - Type de faune à afficher.
  * @param {string} containerId - Identifiant HTML du conteneur cible.
  * @returns {void}
  */
-function construireFenetreObtenu(type, containerId) {
+function buildObtainedPanel(type, containerId) {
     const containerEl = document.getElementById(containerId);
     containerEl.innerHTML = "";
 
-    const data = type === "poisson" ? poissons : type === "oiseau" ? oiseaux : insectes;
+    const data = type === "poisson" ? fish : type === "oiseau" ? birds : insects;
 
     // Barre de recherche
-    const barre = creerBarreRecherche(
-        langue === "fr" ? "Rechercher..." : "Search...",
+    const barre = createSearchBar(
+        language === "fr" ? "Rechercher..." : "Search...",
         (q) => {
             containerEl.querySelectorAll(".faune-item").forEach(item => {
                 item.style.display = matchSearch(item.textContent, q) ? "" : "none";
@@ -82,25 +82,20 @@ function construireFenetreObtenu(type, containerId) {
 
         const allChecked = elements.every(el => {
             const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-            return checkedFaune[nameFr];
+            return checkedWildlife[nameFr];
         });
         cbNiveau.checked = allChecked;
 
         cbNiveau.addEventListener("change", (e) => {
             e.stopPropagation();
-            if (cbNiveau.checked) {
-                elements.forEach(el => {
-                    const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-                    checkedFaune[nameFr] = true;
-                });
-            } else {
-                elements.forEach(el => {
-                    const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-                    delete checkedFaune[nameFr];
-                });
-            }
-            saveCheckedFaune();
-            construireFenetreObtenu(type, containerId);
+            const nowChecked = cbNiveau.checked;
+            elements.forEach(el => {
+                const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
+                if (nowChecked) checkedWildlife[nameFr] = true;
+                else delete checkedWildlife[nameFr];
+            });
+            saveCheckedWildlife();
+            grid.querySelectorAll("input[type='checkbox']").forEach(cb => { cb.checked = nowChecked; });
         });
 
         cbNiveau.addEventListener("click", (e) => { e.stopPropagation(); });
@@ -108,7 +103,7 @@ function construireFenetreObtenu(type, containerId) {
 
         const toggleBtn = document.createElement("span");
         toggleBtn.className = "niveau-toggle";
-        toggleBtn.textContent = (niveauxReduits[type] && niveauxReduits[type].has(parseInt(niv))) ? "▶" : "▼";
+        toggleBtn.textContent = (collapsedLevels[type] && collapsedLevels[type].has(parseInt(niv))) ? "▶" : "▼";
 
         const labelNiv = document.createElement("span");
         labelNiv.className = "niveau-label";
@@ -121,8 +116,8 @@ function construireFenetreObtenu(type, containerId) {
 
         const content = document.createElement("div");
         content.className = "niveau-content";
-        // Restaurer l'état réduit depuis niveauxReduits
-        if (niveauxReduits[type] && niveauxReduits[type].has(parseInt(niv))) {
+        // Restaurer l'état réduit depuis collapsedLevels
+        if (collapsedLevels[type] && collapsedLevels[type].has(parseInt(niv))) {
             content.classList.add("hidden");
         }
 
@@ -131,26 +126,26 @@ function construireFenetreObtenu(type, containerId) {
 
         elements.forEach(el => {
             const nameFr = Array.isArray(el.name) ? el.name[0] : el.name;
-            const nameAff = getNom(el);
+            const nameAff = getName(el);
 
             const label = document.createElement("label");
             label.className = "faune-item";
 
             const cb = document.createElement("input");
             cb.type = "checkbox";
-            cb.checked = !!checkedFaune[nameFr];
+            cb.checked = !!checkedWildlife[nameFr];
 
             cb.addEventListener("change", () => {
                 if (cb.checked) {
-                    checkedFaune[nameFr] = true;
+                    checkedWildlife[nameFr] = true;
                 } else {
-                    delete checkedFaune[nameFr];
+                    delete checkedWildlife[nameFr];
                 }
-                saveCheckedFaune();
+                saveCheckedWildlife();
                 // Mettre à jour la case de niveau
                 const allNowChecked = elements.every(e => {
                     const n = Array.isArray(e.name) ? e.name[0] : e.name;
-                    return checkedFaune[n];
+                    return checkedWildlife[n];
                 });
                 cbNiveau.checked = allNowChecked;
             });
@@ -169,8 +164,8 @@ function construireFenetreObtenu(type, containerId) {
             content.classList.toggle("hidden");
             const isHidden = content.classList.contains("hidden");
             toggleBtn.textContent = isHidden ? "▶" : "▼";
-            if (isHidden) niveauxReduits[type].add(parseInt(niv));
-            else niveauxReduits[type].delete(parseInt(niv));
+            if (isHidden) collapsedLevels[type].add(parseInt(niv));
+            else collapsedLevels[type].delete(parseInt(niv));
         });
 
         containerEl.appendChild(nivDiv);

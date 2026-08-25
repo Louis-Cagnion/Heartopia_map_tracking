@@ -1,50 +1,70 @@
-// =========================
-// 🌍 VARIABLES GLOBALES
-// =========================
+/* =========================
+   🌍 VARIABLES GLOBALES
+   ========================= */
 
 let selectedPlace = null;
-let draggingPlace = null;
 let selectedElement = null;
 let isPanning = false;
 let mode = "user";
-let langue = "fr";
+let language = "fr";
 let zoom = 1;
 let panX = 0;
 let panY = 0;
 let panStartX = 0;
 let panStartY = 0;
 
-// =========================
-// 🐟 DONNÉES
-// =========================
+/* =========================
+   🐟 DONNÉES
+   ========================= */
 
-let poissons = [];
-let insectes = [];
-let oiseaux = [];
+let fish = [];
+let insects = [];
+let birds = [];
 let collectibles = [];
 let places = [];
 let ingredients = [];
-let recettes = [];
+let recipes = [];
 
-// =========================
-// ✅ FAUNE OBTENUE
-// =========================
-
-const checkedFaune = JSON.parse(localStorage.getItem("checkedFaune") || "{}");
+/* =========================
+   📇 REGISTRE DES TYPES
+   ========================= */
 
 /**
- * Persiste l'objet `checkedFaune` dans le localStorage.
+ * Registre central des types d'éléments gérés par l'admin (faune, collectible,
+ * ingrédient, recette) : accès à leur tableau global, clé localStorage et fichier
+ * JSON associés. Point d'entrée unique pour éviter de dupliquer un dispatch
+ * par type à chaque nouvel usage (chargement, lecture, suppression...).
+ * `places` n'y figure pas : ce n'est pas un type gérable depuis les panneaux admin.
+ * @type {Object.<string, { get: function(): Object[], set: function(Object[]): void, jsonKey: string, file: string }>}
+ */
+const TYPE_REGISTRY = {
+    poisson:     { get: () => fish,     set: v => { fish = v; },     jsonKey: "poissons",     file: "poissons.json" },
+    insecte:     { get: () => insects,     set: v => { insects = v; },     jsonKey: "insectes",     file: "insectes.json" },
+    oiseau:      { get: () => birds,      set: v => { birds = v; },      jsonKey: "oiseaux",      file: "oiseaux.json" },
+    collectible: { get: () => collectibles, set: v => { collectibles = v; }, jsonKey: "collectibles", file: "collectibles.json" },
+    ingredient:  { get: () => ingredients,  set: v => { ingredients = v; },  jsonKey: "ingredients",  file: "ingredients.json" },
+    recette:     { get: () => recipes,     set: v => { recipes = v; },     jsonKey: "recettes",     file: "recettes.json" }
+};
+
+/* =========================
+   ✅ FAUNE OBTENUE
+   ========================= */
+
+const checkedWildlife = JSON.parse(localStorage.getItem("checkedWildlife") || "{}");
+
+/**
+ * Persiste l'objet `checkedWildlife` dans le localStorage.
  * @returns {void}
  */
-function saveCheckedFaune() {
-    localStorage.setItem("checkedFaune", JSON.stringify(checkedFaune));
+function saveCheckedWildlife() {
+    localStorage.setItem("checkedWildlife", JSON.stringify(checkedWildlife));
 }
 
-// =========================
-// 🗺️ ZONES ET SOUS-ZONES
-// =========================
+/* =========================
+   🗺️ ZONES ET SOUS-ZONES
+   ========================= */
 
-const zoneParent = {
+const parentZones = {
     "Village de pêcheurs": ["Phare", "Quai", "Événement : pêche en mer", "Événement : retour des oiseaux au nid", "Place du village de pêcheurs", "Quai oriental du village de pêcheurs"],
     "Forêt": ["Tour faon", "Île de la forêt", "Lac de la forêt", "Forêt de chênes spirituels", "Tremplin"],
     "Champ de fleurs": ["Montagne de baleine", "Lac de la prairie", "Champs de fleurs des moulins à vent", "Plage violette"],
@@ -52,23 +72,23 @@ const zoneParent = {
     "Banlieue": ["Lac de banlieue"]
 };
 
-const lieuxGeneriques = ["Lacs", "Rivières", "Mers", "Foyer", "Bord de l'eau", "Au sommet de la tête de Blanc", "Attracteur d'insectes"];
-const lieuxSpeciaux = ["Foyer", "Au sommet de la tête de Blanc", "Attracteur d'insectes"];
+const genericPlaces = ["Lacs", "Rivières", "Mers", "Foyer", "Bord de l'eau", "Au sommet de la tête de Blanc", "Attracteur d'insectes"];
+const specialPlaces = ["Foyer", "Au sommet de la tête de Blanc", "Attracteur d'insectes"];
 
-const traductionsHeures = {
+const timeTranslations = {
     "matin": "dawn",
     "après-midi": "day",
     "soir": "dusk",
     "nuit": "night"
 };
 
-const traductionsMeteos = {
+const weatherTranslations = {
     "soleil": "sunny",
     "pluie": "rainy",
     "arc-en-ciel": "rainbow"
 };
 
-const generiquesEN = {
+const genericPlaceNamesEN = {
     "Lacs": "Lakes",
     "Rivières": "Rivers",
     "Mers": "Seas",
@@ -83,9 +103,9 @@ const langIndex = {
     en: 1
 };
 
-// =========================
-// 💾 CHARGEMENT BDD
-// =========================
+/* =========================
+   💾 CHARGEMENT BDD
+   ========================= */
 
 /**
  * Charge les données depuis le localStorage (prioritaire) ou les fichiers JSON du dossier `database/`.
@@ -95,42 +115,32 @@ const langIndex = {
  * @returns {Promise<void>}
  */
 async function loadDatabaseAuto() {
-    const keys = [
-        { key: "poissons",    file: "poissons.json" },
-        { key: "insectes",    file: "insectes.json" },
-        { key: "oiseaux",     file: "oiseaux.json" },
-        { key: "collectibles",file: "collectibles.json" },
-        { key: "places",      file: "lieux.json" },
-        { key: "ingredients", file: "ingredients.json" },
-        { key: "recettes",    file: "recettes.json" }
+    const databaseKeys = [
+        ...Object.values(TYPE_REGISTRY).map(({ jsonKey, file, set }) => ({ key: jsonKey, file, set })),
+        { key: "places", file: "lieux.json", set: v => { places = v; } }
     ];
 
-    const promises = keys.map(async ({ key, file }) => {
+    const promises = databaseKeys.map(async ({ key, file, set }) => {
         const local = localStorage.getItem(key);
         if (local) {
-            return { key, data: JSON.parse(local) };
+            return { key, data: JSON.parse(local), set, failed: false };
         }
         try {
             const res = await fetch(`database/${file}`);
             const data = await res.json();
-            return { key, data };
+            return { key, data, set, failed: false };
         } catch (e) {
             console.warn(`Erreur chargement ${file}`, e);
-            return { key, data: [] };
+            return { key, data: [], set, failed: true };
         }
     });
 
     const results = await Promise.all(promises);
 
-    results.forEach(({ key, data }) => {
-        if (key === "poissons")     poissons    = data;
-        if (key === "insectes")     insectes    = data;
-        if (key === "oiseaux")      oiseaux     = data;
-        if (key === "collectibles") collectibles = data;
-        if (key === "places")       places      = data;
-        if (key === "ingredients") ingredients = data;
-        if (key === "recettes")    recettes    = data;
-        localStorage.setItem(key, JSON.stringify(data));
+    results.forEach(({ key, data, set, failed }) => {
+        set(data);
+        // Un fetch en échec ne doit jamais écraser un cache existant ni en créer un vide.
+        if (!failed) localStorage.setItem(key, JSON.stringify(data));
     });
 }
 
@@ -142,16 +152,16 @@ function savePlaces() {
     localStorage.setItem("places", JSON.stringify(places));
 }
 
-// =========================
-// 🔤 HELPERS NOMS
-// =========================
+/* =========================
+   🔤 HELPERS NOMS
+   ========================= */
 
 /**
  * Retourne l'index de langue courant (0 = FR, 1 = EN).
  * @returns {number} 0 ou 1
  */
 function li() {
-    return langIndex[langue];
+    return langIndex[language];
 }
 
 /**
@@ -159,7 +169,7 @@ function li() {
  * @param {{ name: string | [string, string] }} element - Objet possédant une propriété `name`.
  * @returns {string} Nom dans la langue courante, ou chaîne vide si absent.
  */
-function getNom(element) {
+function getName(element) {
     if (!element || !element.name) return "";
     if (Array.isArray(element.name)) return element.name[li()];
     return element.name;
@@ -170,7 +180,7 @@ function getNom(element) {
  * @param {{ lieu: string | [string, string] }} element - Objet possédant une propriété `lieu`.
  * @returns {string} Lieu dans la langue courante, ou chaîne vide si absent.
  */
-function getLieu(element) {
+function getPlace(element) {
     if (!element || !element.lieu) return "";
     if (Array.isArray(element.lieu)) return element.lieu[li()];
     return element.lieu;
@@ -182,11 +192,11 @@ function getLieu(element) {
  * @param {string} nomFr - Nom français du lieu.
  * @returns {string} Nom traduit, ou `nomFr` si aucune traduction trouvée.
  */
-function getNomLieu(nomFr) {
-    if (langue === "fr") return nomFr;
+function getPlaceName(nomFr) {
+    if (language === "fr") return nomFr;
     const place = places.find(p => (Array.isArray(p.name) ? p.name[0] : p.name) === nomFr);
     if (place && Array.isArray(place.name)) return place.name[1];
-    return generiquesEN[nomFr] || nomFr;
+    return genericPlaceNamesEN[nomFr] || nomFr;
 }
 
 /**
@@ -194,8 +204,8 @@ function getNomLieu(nomFr) {
  * @param {string} h - Tranche horaire en français (ex. "matin").
  * @returns {string} Traduction anglaise ou valeur originale si langue courante est FR.
  */
-function traduireHeure(h) {
-    return langue === "fr" ? h : (traductionsHeures[h] || h);
+function translateTime(h) {
+    return language === "fr" ? h : (timeTranslations[h] || h);
 }
 
 /**
@@ -203,8 +213,8 @@ function traduireHeure(h) {
  * @param {string} m - Météo en français (ex. "soleil").
  * @returns {string} Traduction anglaise ou valeur originale si langue courante est FR.
  */
-function traduireMeteo(m) {
-    return langue === "fr" ? m : (traductionsMeteos[m] || m);
+function translateWeather(m) {
+    return language === "fr" ? m : (weatherTranslations[m] || m);
 }
 
 /**
@@ -239,7 +249,7 @@ function formatPlaceName(name) {
  * @param {number} [max=10] - Nombre maximum de niveaux à générer.
  * @returns {void}
  */
-function remplirSelectNiveaux(selectIds, max = 10) {
+function fillLevelSelects(selectIds, max = 10) {
     const valeurDefaut = max;
     const options = `
         <option value="">—</option>
@@ -257,9 +267,9 @@ function remplirSelectNiveaux(selectIds, max = 10) {
     });
 }
 
-// =========================
-// 🗺️ RECHERCHE LIEUX
-// =========================
+/* =========================
+   🗺️ RECHERCHE LIEUX
+   ========================= */
 
 /**
  * Retourne l'ensemble des noms de lieux à interroger pour un lieu donné,
@@ -268,7 +278,7 @@ function remplirSelectNiveaux(selectIds, max = 10) {
  * @param {string} nomLieu - Nom français du lieu de départ.
  * @returns {Set<string>} Ensemble de noms de lieux (français) à utiliser pour la recherche de faune.
  */
-function getLieuxPourRecherche(nomLieu) {
+function getPlacesForSearch(nomLieu) {
     const lieuxARechercher = new Set([nomLieu]);
     const nom = nomLieu.toLowerCase();
     if (nom.includes("lac")) {
@@ -294,16 +304,16 @@ function getLieuxPourRecherche(nomLieu) {
  *   sousZones: string[],
  *   resultats: Object.<string, string[]>
  * }} Objet contenant :
- *   - `estZoneNiv1` : vrai si le lieu est une zone parente dans `zoneParent`.
+ *   - `estZoneNiv1` : vrai si le lieu est une zone parente dans `parentZones`.
  *   - `sousZones` : liste des noms français des sous-zones (vide si pas de zone parente).
  *   - `resultats` : dictionnaire `{ nomLieu: [nomFauneA, nomFauneB, ...] }` (noms en français).
  */
-function getElementsPourLieu(nomLieu) {
-    const estZoneNiv1 = zoneParent.hasOwnProperty(nomLieu);
-    const sousZones = estZoneNiv1 ? zoneParent[nomLieu] : [];
-    const tousLesLieux = new Set(getLieuxPourRecherche(nomLieu));
-    sousZones.forEach(sz => getLieuxPourRecherche(sz).forEach(l => tousLesLieux.add(l)));
-    const tous = [...poissons, ...insectes, ...oiseaux];
+function getElementsForPlace(nomLieu) {
+    const estZoneNiv1 = parentZones.hasOwnProperty(nomLieu);
+    const sousZones = estZoneNiv1 ? parentZones[nomLieu] : [];
+    const tousLesLieux = new Set(getPlacesForSearch(nomLieu));
+    sousZones.forEach(sz => getPlacesForSearch(sz).forEach(l => tousLesLieux.add(l)));
+    const tous = [...fish, ...insects, ...birds];
     const resultats = {};
     tous.forEach(el => {
         const lieuFr = Array.isArray(el.lieu) ? el.lieu[0] : el.lieu;
@@ -324,4 +334,8 @@ function createSeparator() {
     const hr = document.createElement("hr");
     hr.className = "hobby-separator";
     return hr;
+}
+
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = { loadDatabaseAuto, TYPE_REGISTRY };
 }

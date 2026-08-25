@@ -1,6 +1,6 @@
-// =========================
-// 🚀 INITIALISATION
-// =========================
+/* =========================
+   🚀 INITIALISATION
+   ========================= */
 
 /**
  * Point d'entrée principal de l'application.
@@ -14,13 +14,13 @@
  * @returns {Promise<void>}
  */
 window.addEventListener("DOMContentLoaded", async () => {
-    remplirSelectNiveaux(["hobbyPoisson", "hobbyOiseau", "hobbyInsecte"]);
+    fillLevelSelects(["hobbyPoisson", "hobbyOiseau", "hobbyInsecte"]);
     await loadDatabaseAuto();
 
     // Construire les fenêtres faune
-    construireFenetreObtenu("poisson", "ObtenuPoisson");
-    construireFenetreObtenu("oiseau",  "ObtenuOiseau");
-    construireFenetreObtenu("insecte", "ObtenuInsecte");
+    buildObtainedPanel("poisson", "ObtenuPoisson");
+    buildObtainedPanel("oiseau",  "ObtenuOiseau");
+    buildObtainedPanel("insecte", "ObtenuInsecte");
 
     // Créer les marqueurs lieux
     places.forEach(p => {
@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         updateMarkerVisibility();
         repositionLabels();
         clampLabels();
-        afficherLegende();
-        mettreAJourUI();
+        showLegend();
+        updateUI();
     }, 100);
 });

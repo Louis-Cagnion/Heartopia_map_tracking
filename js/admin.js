@@ -1,6 +1,6 @@
-// =========================
-// 🔐 MODE MANAGEMENT
-// =========================
+/* =========================
+   🔐 MODE MANAGEMENT
+   ========================= */
 
 /**
  * Bascule entre le mode utilisateur et le mode administrateur.
@@ -52,7 +52,7 @@ function setMode(newMode) {
     container.classList.remove("editor-mode");
     container.style.cursor = "default";
     collectiblePlacementMode = false;
-    suppressionCollectibleMode = false;
+    collectibleDeletionMode = false;
 
     selectedPlace = null;
     document.getElementById("placeTitle").textContent = t("aucunLieu");
@@ -60,7 +60,7 @@ function setMode(newMode) {
 
     updateModeButtons();
     setFilterToggleText();
-    mettreAJourUI();
+    updateUI();
 }
 
 /**
@@ -73,9 +73,9 @@ function updateModeButtons() {
     document.getElementById("btnAdmin").disabled = mode === "admin";
 }
 
-// =========================
-// 📥 IMPORT
-// =========================
+/* =========================
+   📥 IMPORT
+   ========================= */
 
 /**
  * Importe un ou plusieurs fichiers JSON sélectionnés par l'utilisateur
@@ -103,14 +103,14 @@ function importElements(event) {
                         createPlaceMarker(nameFr, p.x, p.y, p.level || 1);
                     });
                 } else if (file.name === "poissons.json") {
-                    poissons = data;
-                    localStorage.setItem("poissons", JSON.stringify(poissons));
+                    fish = data;
+                    localStorage.setItem("poissons", JSON.stringify(fish));
                 } else if (file.name === "insectes.json") {
-                    insectes = data;
-                    localStorage.setItem("insectes", JSON.stringify(insectes));
+                    insects = data;
+                    localStorage.setItem("insectes", JSON.stringify(insects));
                 } else if (file.name === "oiseaux.json") {
-                    oiseaux = data;
-                    localStorage.setItem("oiseaux", JSON.stringify(oiseaux));
+                    birds = data;
+                    localStorage.setItem("oiseaux", JSON.stringify(birds));
                 } else if (file.name === "collectibles.json") {
                     collectibles = data;
                     localStorage.setItem("collectibles", JSON.stringify(collectibles));
@@ -120,13 +120,13 @@ function importElements(event) {
                             createCollectibleMarker(s.x, s.y, c.type, c.name, i, c.color || "#e67e22");
                         });
                     });
-                    afficherLegende();
+                    showLegend();
                 } else if (file.name === "ingredients.json") {
                     ingredients = data;
                     localStorage.setItem("ingredients", JSON.stringify(ingredients));
                 } else if (file.name === "recettes.json") {
-                    recettes = data;
-                    localStorage.setItem("recettes", JSON.stringify(recettes));
+                    recipes = data;
+                    localStorage.setItem("recettes", JSON.stringify(recipes));
                 } else {
                     alert("Fichier non reconnu : " + file.name);
                 }
