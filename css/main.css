@@ -369,6 +369,10 @@ body.light-mode #userSettings .hobby-separator {
     margin-top: 4px;
 }
 
+body.light-mode .hobby-section-title {
+    color: var(--color-accent);
+}
+
 #tooltip {
     position: absolute;
     background: var(--bg-panel);
